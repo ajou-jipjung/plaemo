@@ -70,6 +70,7 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
             public void onClick(View view) {
                 Intent intent = new Intent(context,DocInfoActivity.class);
                 intent.putExtra("book_id",(item_book.get_id()));
+                intent.putExtra("book_name",(item_book.getBook_name()));
                 context.startActivity(intent);
             }
         });
