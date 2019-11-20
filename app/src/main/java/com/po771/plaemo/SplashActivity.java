@@ -32,7 +32,6 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
-
     private void initThing(){
         BaseHelper baseHelper = BaseHelper.getInstance(this);
         baseHelper.initDB();

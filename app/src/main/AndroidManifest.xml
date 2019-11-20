@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlemoDocActivity"></activity>
-        <activity
-            android:name=".PlemoMainActivity"/>
+        <activity android:name=".PlemoMemoListActivity"></activity>
+        <activity android:name=".PlemoDocActivity" />
+        <activity android:name=".PlemoMainActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
