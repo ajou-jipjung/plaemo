@@ -29,4 +29,7 @@ dependencies {
 
     //recyclerview
     implementation 'com.android.support:recyclerview-v7:27+'
+
+    //circular progressbar
+    implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
 }
