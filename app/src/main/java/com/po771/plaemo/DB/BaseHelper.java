@@ -178,7 +178,7 @@ public class BaseHelper extends SQLiteOpenHelper {
 
 
     public Item_book getBook(int id){
-        String query = "SELECT * FROM "+BookList.NAME +"WHERE _id="+id;
+        String query = "SELECT * FROM "+BookList.NAME +" WHERE _id="+id;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             Item_book item_book = new Item_book();
