@@ -92,6 +92,7 @@ public class BaseHelper extends SQLiteOpenHelper {
     }
 
    ///////////////////////////////api들 ////////////////////////////////
+//   public void initDB2(){ // 추가로 테스트해보고 싶으면.
 
     public void initDB(){ // 최초 설치시만 작동하도록
 

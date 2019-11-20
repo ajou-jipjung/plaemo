@@ -1,6 +1,9 @@
 package com.po771.plaemo;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -28,4 +31,26 @@ public class PlemoMainActivity extends AppCompatActivity {
         PlemoMainfolder_Adapter adapter = new PlemoMainfolder_Adapter(folderList);
         recyclerView.setAdapter(adapter);
     }
+
+
+    //알람 버튼 활성화
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.plemomain_action, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_alarm:
+                Intent intent = new Intent(getApplicationContext(), PlemoAlarmSetActivity.class);
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+
 }
