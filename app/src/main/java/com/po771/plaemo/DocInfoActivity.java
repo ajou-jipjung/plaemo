@@ -2,7 +2,10 @@ package com.po771.plaemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +18,8 @@ public class DocInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_info);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String book_name = getIntent().getStringExtra("book_name");
         int book_id = getIntent().getIntExtra("book_id",1);
@@ -35,5 +40,23 @@ public class DocInfoActivity extends AppCompatActivity {
         info_bookinfo.setText(item_book.getBook_info());
         imageView.setImageBitmap(item_book.getImage_bitmap());
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.plemomaindoc_action, menu);
+        return true;
+    }
+
+    //액션버튼을 클릭했을때의 동작
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

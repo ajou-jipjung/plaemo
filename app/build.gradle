@@ -32,4 +32,10 @@ dependencies {
 
     //circular progressbar
     implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
+
+    //pdfbox
+    implementation 'com.tom_roush:pdfbox-android:1.8.10.1'
+
+    //PdfViewer
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 }

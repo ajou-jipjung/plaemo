@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,26 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.plemomainfolder_action, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mainfolderaction_book:
+                Intent addDoc_intent = new Intent(this, AddDocActivity.class);
+                startActivity(addDoc_intent);
+                return true;
+            case R.id.mainfolderaction_alarm:
+                Intent alarmList_intent = new Intent(this, PlaemoAlarmListActivity.class);
+                startActivity(alarmList_intent);
+                return true;
+            case R.id.mainfolderaction_setting:
+                Intent setting_intent = new Intent(this, PlaemoMainSettingActivity.class);
+                startActivity(setting_intent);
+                return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
