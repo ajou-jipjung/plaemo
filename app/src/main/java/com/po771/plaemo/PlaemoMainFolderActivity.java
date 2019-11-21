@@ -1,8 +1,10 @@
 package com.po771.plaemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +15,12 @@ import java.util.List;
 import com.po771.plaemo.DB.BaseHelper;
 
 public class PlaemoMainFolderActivity extends AppCompatActivity {
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.plemomainfolder_action, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +38,4 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.plemomainfolder_action,menu);
-        return true;
-    }
 }

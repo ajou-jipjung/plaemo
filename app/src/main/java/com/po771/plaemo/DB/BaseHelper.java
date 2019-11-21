@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 import com.po771.plaemo.DB.DbSchema.*;
 import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_folder;
+import com.po771.plaemo.item.Item_memo;
 
 public class BaseHelper extends SQLiteOpenHelper {
 
@@ -101,6 +103,23 @@ public class BaseHelper extends SQLiteOpenHelper {
             if (count > 0) {
                 return false;
             } else {
+                //////////////////////////메모리스트////////////////////////////////
+                Item_memo memolist = new Item_memo();
+
+                memolist.setPage_start(789);
+                memolist.setContent("안녕하세요. 메모입니다.");
+                memolist.setDate("2019-11-12 10:00:35");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(123);
+                memolist.setContent("어려워요 ㅜㅜㅜ. 메모입니다.");
+                memolist.setDate("2019-11-20 09:24:00");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(456);
+                memolist.setContent("마지막. 메모입니다.");
+                memolist.setDate("2019-11-30 12:41:00");
+                baseHelper.insertMemoList(memolist);
                 return true;
             }
         }
@@ -114,6 +133,39 @@ public class BaseHelper extends SQLiteOpenHelper {
         values.put(Folder.Cols.BOOKID,item_folder.getBook_id());
         values.put(Folder.Cols.FOLDERNAME,item_folder.getFolder_name());
         db.insert(Folder.NAME,null,values);
+    }
+    public void insertMemoList(Item_memo memolist){
+        ContentValues values = new ContentValues();
+        values.put(BookMemo.Cols.PAGESTART,memolist.getPage_start());
+        values.put(BookMemo.Cols.CONTENT,memolist.getContent());
+        values.put(BookMemo.Cols.DATA, memolist.getDate());
+        db.insert(BookMemo.NAME,null,values);
+    }
+
+    public List<Item_memo> getMemos(){
+        List<Item_memo> memoList = new ArrayList<Item_memo>();
+        String query = "SELECT "+
+                BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+
+                " FROM "+BookMemo.NAME;
+        //String query = "SELECT * FROM "+BookMemo.NAME;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
+                // String pagestart = new String(cursor.getString(0));
+                //  String content = new String(cursor.getString(1));
+                // String date = new String(cursor.getString(2));
+                Item_memo item = new Item_memo();
+                item.setPage_start(cursor.getInt(0));
+                //  item.setPage_start(Integer.getInteger(cursor.getString(0)));
+                item.setContent(cursor.getString(1));
+                item.setDate(cursor.getString(2));
+                memoList.add(item);
+                //memoList.add(folder_name);
+            } while (cursor.moveToNext());
+        }
+
+        return memoList;
     }
 
     public List<String> getAllmemo(){

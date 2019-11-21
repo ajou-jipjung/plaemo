@@ -12,6 +12,7 @@
         <activity android:name=".DocInfoActivity"></activity>
         <activity android:name=".PlaemoMainDocActivity" />
         <activity android:name=".PlaemoMainFolderActivity" />
+        <activity android:name=".PlemoMemoListActivity"/>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
