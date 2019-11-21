@@ -1,10 +1,19 @@
 package com.po771.plaemo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.R;
+import com.po771.plaemo.item.Item_memo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlemoMemoListActivity extends AppCompatActivity {
 
@@ -20,5 +29,19 @@ public class PlemoMemoListActivity extends AppCompatActivity {
         //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        BaseHelper baseHelper = BaseHelper.getInstance(this);
+        List<Item_memo> memolistList= baseHelper.getMemos();
+
+        RecyclerView recyclerView = findViewById(R.id.plemomemolist_recylcerview);
+
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        //여기 밑에 PlemoMemoList_Adapter()안에 Arraylist안에 들어갈거를 넣어야지
+
+        PlemoMemoList_Adapter adapter = new PlemoMemoList_Adapter(memolistList);
+        recyclerView.setAdapter(adapter);
     }
 }

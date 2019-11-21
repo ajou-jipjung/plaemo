@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -48,7 +49,10 @@ public class PlemoMainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.plemofolder_recylcerview);
 //        int width =
         GridLayoutManager manager = new GridLayoutManager(this,5);
+        //LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
+        recyclerView.setHasFixedSize(true);
+
         PlemoMainfolder_Adapter adapter = new PlemoMainfolder_Adapter(folderList);
         recyclerView.setAdapter(adapter);
     }
