@@ -107,17 +107,20 @@ public class BaseHelper extends SQLiteOpenHelper {
                 Item_memo memolist = new Item_memo();
 
                 memolist.setPage_start(789);
-                memolist.setContent("안녕하세요. 메모입니다.");
+                memolist.setPage_end(987);
+                memolist.setContent("안녕하세요. 메모 리스트입니다.");
                 memolist.setDate("2019-11-12 10:00:35");
                 baseHelper.insertMemoList(memolist);
 
                 memolist.setPage_start(123);
-                memolist.setContent("어려워요 ㅜㅜㅜ. 메모입니다.");
+                memolist.setPage_end(321);
+                memolist.setContent("어려워요 ㅜㅜㅜ. 메모입니다. 여기에는 내용을 진짜 많이 입력할 수 있어요. 어디까지 입력을 받을 수 있는 지 볼까요??!!");
                 memolist.setDate("2019-11-20 09:24:00");
                 baseHelper.insertMemoList(memolist);
 
                 memolist.setPage_start(456);
-                memolist.setContent("마지막. 메모입니다.");
+                memolist.setPage_end(654);
+                memolist.setContent("마지막. 메모입니다. 내용이 초과되면 어디까지 출력되는지 보기위해서 내용을 많이 입력해보도록 하겠습니다. 내용이 초과될때는 한번 터치하면 전체를 출력하고 다시 터치하면 잘린 내용을 출력하도록 제가 한번 구현해보도록 하겠습니다.");
                 memolist.setDate("2019-11-30 12:41:00");
                 baseHelper.insertMemoList(memolist);
                 return true;
@@ -137,6 +140,7 @@ public class BaseHelper extends SQLiteOpenHelper {
     public void insertMemoList(Item_memo memolist){
         ContentValues values = new ContentValues();
         values.put(BookMemo.Cols.PAGESTART,memolist.getPage_start());
+        values.put(BookMemo.Cols.PAGEEND,memolist.getPage_end());
         values.put(BookMemo.Cols.CONTENT,memolist.getContent());
         values.put(BookMemo.Cols.DATA, memolist.getDate());
         db.insert(BookMemo.NAME,null,values);
@@ -145,7 +149,7 @@ public class BaseHelper extends SQLiteOpenHelper {
     public List<Item_memo> getMemos(){
         List<Item_memo> memoList = new ArrayList<Item_memo>();
         String query = "SELECT "+
-                BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+
+                BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+
                 " FROM "+BookMemo.NAME;
         //String query = "SELECT * FROM "+BookMemo.NAME;
         Cursor cursor = db.rawQuery(query, null);
@@ -157,9 +161,10 @@ public class BaseHelper extends SQLiteOpenHelper {
                 // String date = new String(cursor.getString(2));
                 Item_memo item = new Item_memo();
                 item.setPage_start(cursor.getInt(0));
+                item.setPage_end(cursor.getInt(1));
                 //  item.setPage_start(Integer.getInteger(cursor.getString(0)));
-                item.setContent(cursor.getString(1));
-                item.setDate(cursor.getString(2));
+                item.setContent(cursor.getString(2));
+                item.setDate(cursor.getString(3));
                 memoList.add(item);
                 //memoList.add(folder_name);
             } while (cursor.moveToNext());

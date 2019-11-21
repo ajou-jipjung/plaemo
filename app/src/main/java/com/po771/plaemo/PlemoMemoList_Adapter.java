@@ -1,6 +1,7 @@
 package com.po771.plaemo;
 
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,10 @@ import java.util.List;
 public class PlemoMemoList_Adapter extends RecyclerView.Adapter<PlemoMemoList_Adapter.ViewHolder> {
 
     private List<Item_memo> items;
+    // Item의 클릭 상태를 저장할 array 객체
+    private SparseBooleanArray selectedItems = new SparseBooleanArray();
+    // 직전에 클릭됐던 Item의 position
+    private int prePosition = -1;
 
     public PlemoMemoList_Adapter(List<Item_memo> items) {
         this.items = items;
@@ -36,7 +41,7 @@ public class PlemoMemoList_Adapter extends RecyclerView.Adapter<PlemoMemoList_Ad
     public void onBindViewHolder(@NonNull PlemoMemoList_Adapter.ViewHolder viewHolder, int position){
         Item_memo item = items.get(position);
         viewHolder.imageView.setImageResource(R.drawable.book1);
-        viewHolder.page_start.setText(String.valueOf(item.getPage_start()));
+        viewHolder.page_start.setText("p."+String.valueOf(item.getPage_start())+" ~ p."+String.valueOf(item.getPage_end()));
         viewHolder.content.setText(item.getContent());
         viewHolder.date.setText(item.getDate());
         //viewHolder.setItem(item);
