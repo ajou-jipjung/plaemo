@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -12,9 +13,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,6 +38,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     TextView tv_bookname;
     TextView tv_page;
     EditText et_bookinfo;
+    ImageView iv_bookimage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,15 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         tv_bookname=(TextView)findViewById(R.id.adddoc_title);
         tv_page=(TextView)findViewById(R.id.adddoc_pages);
         et_bookinfo=(EditText)findViewById(R.id.adddoc_info);
+        iv_bookimage=(ImageView)findViewById(R.id.adddoc_image);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+        int iv_width = (metrics.widthPixels-20)/3;
+        int iv_height = (int)(iv_width*1.5);
+        iv_bookimage.getLayoutParams().height=iv_height;
+
     }
 
     @Override
@@ -137,6 +150,8 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             pdfiumCore.renderPageBitmap(pdfDocument, bmp, pageNumber, 0, 0, width, height);
             item_book.setImage_bitmap(bmp);
+            iv_bookimage.setImageTintList(null);
+            iv_bookimage.setImageBitmap(bmp);
             pdfiumCore.closeDocument(pdfDocument); // important!
         } catch(Exception e) {
             //todo with exception

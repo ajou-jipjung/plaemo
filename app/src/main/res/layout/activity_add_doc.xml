@@ -23,6 +23,7 @@
             android:background="@drawable/dash_line"
             android:src="@drawable/ic_add_circle_48px"
             android:tint="@color/colorPrimary"
+            android:scaleType="centerInside"
             />
 
         <LinearLayout

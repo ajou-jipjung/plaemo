@@ -183,6 +183,8 @@ public class BaseHelper extends SQLiteOpenHelper {
         return folderList;
     }
 
+    ////////////////book
+
     public List<Item_book> getAllbookinfolder(String folder_name){
 
         List<Item_book> bookList = new ArrayList<Item_book>();
@@ -210,7 +212,6 @@ public class BaseHelper extends SQLiteOpenHelper {
         return  bookList;
     }
 
-    ////////////////book
     public void insertBook(Item_book item_book){
         ContentValues values = new ContentValues();
         values.put(BookList.Cols.BOOKNAME,item_book.getBook_name());
