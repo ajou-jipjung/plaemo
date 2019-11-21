@@ -12,6 +12,7 @@
         <activity android:name=".PlemoDocActivity"></activity>
         <activity
             android:name=".PlemoMainActivity"/>
+        <activity android:name=".PlemoAlarmListActivity"></activity>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

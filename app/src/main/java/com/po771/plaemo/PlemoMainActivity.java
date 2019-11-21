@@ -44,7 +44,7 @@ public class PlemoMainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm:
-                Intent intent = new Intent(getApplicationContext(), PlemoAlarmSetActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PlemoAlarmListActivity.class);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
