@@ -12,13 +12,13 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="150dp"
         >
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/adddoc_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:layout_weight="1"
             android:background="@drawable/dash_line"
             android:src="@drawable/ic_add_circle_48px"
@@ -66,7 +66,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="30dp">
@@ -90,6 +90,7 @@
     </LinearLayout>
 
     <TextView
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="File Info"
@@ -97,6 +98,7 @@
         />
 
     <EditText
+        android:layout_marginTop="5dp"
         android:id="@+id/adddoc_info"
         android:padding="10dp"
         android:layout_width="match_parent"

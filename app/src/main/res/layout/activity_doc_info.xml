@@ -36,20 +36,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp">
 
-                <TextView
-                    android:id="@+id/info_bookname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="left"
-                    android:text="말의 품격"
-                    android:textSize="25dp" />
-
                 <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_star_border_24px"
-                android:layout_toLeftOf="@+id/info_setting"/>
+                    android:id="@+id/info_star"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_star_border_24px"
+                    android:layout_toLeftOf="@+id/info_setting"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/info_setting"
@@ -58,6 +50,16 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/ic_settings_applications_24px"/>
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/info_bookname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:text="말의 품격"
+                android:textSize="25dp"
+                android:layout_toLeftOf="@id/info_star"/>
 
             <TextView
                 android:layout_width="match_parent"
