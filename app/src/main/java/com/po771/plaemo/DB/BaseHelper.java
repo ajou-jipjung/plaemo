@@ -113,7 +113,7 @@ public class BaseHelper extends SQLiteOpenHelper {
 
                 memolist.setPage_start(123);
                 memolist.setPage_end(321);
-                memolist.setContent("어려워요 ㅜㅜㅜ. 메모입니다. 여기에는 내용을 진짜 많이 입력할 수 있어요. 어디까지 입력을 받을 수 있는 지 볼까요??!!");
+                memolist.setContent("어려워요 ㅜㅜㅜ. 메모입니다. 어디까지 입력을 받을 수 있는 지 볼까요??!!");
                 memolist.setDate("2019-11-20 09:24:00");
                 baseHelper.insertMemoList(memolist);
 
