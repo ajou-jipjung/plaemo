@@ -123,6 +123,60 @@ public class BaseHelper extends SQLiteOpenHelper {
                 memolist.setContent("마지막. 메모입니다. 내용이 초과되면 어디까지 출력되는지 보기위해서 내용을 많이 입력해보도록 하겠습니다. 내용이 초과될때는 한번 터치하면 전체를 출력하고 다시 터치하면 잘린 내용을 출력하도록 제가 한번 구현해보도록 하겠습니다.");
                 memolist.setDate("2019-11-30 12:41:00");
                 baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(789);
+                memolist.setPage_end(987);
+                memolist.setContent("안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래에 있는 애만 이상하게 안되는 거 같더라구요. 왜그러는 걸까요 ㅜㅜ 저는 개발을 잘하고 싶어요~ 돈도 많이 벌고 싶어요. 그래서 이렇게 데이터를 집어넣는 중이랍니다.");
+                memolist.setDate("2019-11-12 10:00:35");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(123);
+                memolist.setPage_end(321);
+                memolist.setContent("어려워요 ㅜㅜㅜ. 메모입니다. 여기에는 내용을 진짜 많이 입력할 수 있어요. 어디까지 입력을 받을 수 있는 지 볼까요??!! 아마 여기까지는 전부다 보일겁니다~ 잘보이시죠? 문장을 길게 쓴다는 일은 참 어려운 거 같아요. 오늘 점심으로 저는 치즈돈까스를 먹었는데 너무 맛있었어요.");
+                memolist.setDate("2019-11-20 09:24:00");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(456);
+                memolist.setPage_end(654);
+                memolist.setContent("마지막. 메모입니다. 내용이 초과되면 어디까지 출력되는지 보기위해서 내용을 많이 입력해보도록 하겠습니다. 내용이 초과될때는 한번 터치하면 전체를 출력하고 다시 터치하면 잘린 내용을 출력하도록 제가 한번 구현해보도록 하겠습니다.");
+                memolist.setDate("2019-11-30 12:41:00");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(1);
+                memolist.setPage_end(2);
+                memolist.setContent("안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래에 있는 애만 이상하게 안되는 거 같더라구요. 왜그러는 걸까요 ㅜㅜ 저는 개발을 잘하고 싶어요~ 돈도 많이 벌고 싶어요. 그래서 이렇게 데이터를 집어넣는 중이랍니다.");
+                memolist.setDate("2019-11-12 10:00:35");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(3);
+                memolist.setPage_end(4);
+                memolist.setContent("어려워요 ㅜㅜㅜ. 메모입니다. 여기에는 내용을 진짜 많이 입력할 수 있어요. 어디까지 입력을 받을 수 있는 지 볼까요??!! 아마 여기까지는 전부다 보일겁니다~ 잘보이시죠? 문장을 길게 쓴다는 일은 참 어려운 거 같아요. 오늘 점심으로 저는 치즈돈까스를 먹었는데 너무 맛있었어요.");
+                memolist.setDate("2019-11-20 09:24:00");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(5);
+                memolist.setPage_end(6);
+                memolist.setContent("마지막. 메모입니다. 내용이 초과되면 어디까지 출력되는지 보기위해서 내용을 많이 입력해보도록 하겠습니다. 내용이 초과될때는 한번 터치하면 전체를 출력하고 다시 터치하면 잘린 내용을 출력하도록 제가 한번 구현해보도록 하겠습니다.");
+                memolist.setDate("2019-11-30 12:41:00");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(7);
+                memolist.setPage_end(8);
+                memolist.setContent("안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래에 있는 애만 이상하게 안되는 거 같더라구요. 왜그러는 걸까요 ㅜㅜ 저는 개발을 잘하고 싶어요~ 돈도 많이 벌고 싶어요. 그래서 이렇게 데이터를 집어넣는 중이랍니다.");
+                memolist.setDate("2019-11-12 10:00:35");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(11);
+                memolist.setPage_end(12);
+                memolist.setContent("어려워요 ㅜㅜㅜ. 메모입니다. 여기에는 내용을 진짜 많이 입력할 수 있어요. 어디까지 입력을 받을 수 있는 지 볼까요??!! 아마 여기까지는 전부다 보일겁니다~ 잘보이시죠? 문장을 길게 쓴다는 일은 참 어려운 거 같아요. 오늘 점심으로 저는 치즈돈까스를 먹었는데 너무 맛있었어요.");
+                memolist.setDate("2019-11-20 09:24:00");
+                baseHelper.insertMemoList(memolist);
+
+                memolist.setPage_start(43);
+                memolist.setPage_end(355);
+                memolist.setContent("마지막. 메모입니다. 내용이 초과되면 어디까지 출력되는지 보기위해서 내용을 많이 입력해보도록 하겠습니다. 내용이 초과될때는 한번 터치하면 전체를 출력하고 다시 터치하면 잘린 내용을 출력하도록 제가 한번 구현해보도록 하겠습니다.");
+                memolist.setDate("2019-11-30 12:41:00");
+                baseHelper.insertMemoList(memolist);
                 return true;
             }
         }
