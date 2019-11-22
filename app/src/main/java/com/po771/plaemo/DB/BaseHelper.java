@@ -62,8 +62,7 @@ public class BaseHelper extends SQLiteOpenHelper {
                 BookList.Cols.TOTALPAGE + ", " +
                 BookList.Cols.BOOKINFO + ", " +
                 BookList.Cols.STAR + "," +
-                BookList.Cols.FOLDER + "," +
-                BookList.Cols.BOOKIMAGE +
+                BookList.Cols.FOLDER +
                 ")"
         );
 
@@ -126,7 +125,7 @@ public class BaseHelper extends SQLiteOpenHelper {
 
                 memolist.setPage_start(789);
                 memolist.setPage_end(987);
-                memolist.setContent("안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래에 있는 애만 이상하게 안되는 거 같더라구요. 왜그러는 걸까요 ㅜㅜ 저는 개발을 잘하고 싶어요~ 돈도 많이 벌고 싶어요. 그래서 이렇게 데이터를 집어넣는 중이랍니다.");
+                memolist.setContent("안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래안녕하세요. 메모 리스트입니다. 이번에는 엄청 긴 글의 메모리스트를 만들어 볼 예정이에요. 맨 아래에 있는 애만 이상하게 안되는 거 같더라구요. 왜그러는 걸까요 ㅜㅜ 저는 개발을 잘하고 싶어요~ 돈도 많이 벌고 싶어요. 그래서 이렇게 데이터를 집어넣는 중이랍니다.");
                 memolist.setDate("2019-11-12 10:00:35");
                 baseHelper.insertMemoList(memolist);
 
@@ -242,11 +241,24 @@ public class BaseHelper extends SQLiteOpenHelper {
         return folderList;
     }
 
+    ////////////////book
+
     public List<Item_book> getAllbookinfolder(String folder_name){
 
         List<Item_book> bookList = new ArrayList<Item_book>();
-        String query = "select * from "+BookList.NAME+" WHERE "+BookList.NAME+"._id in (SELECT "+Folder.Cols.BOOKID+" FROM "+Folder.NAME +" WHERE "+Folder.Cols.FOLDERNAME+" = "+ "\""+folder_name+"\")";
-
+        String query1 = "SELECT * FROM "+BookList.NAME;
+        String query2 = "SELECT * FROM "+BookList.NAME +" WHERE book_star=1";
+        String query3 = "select * from "+BookList.NAME+" WHERE "+BookList.NAME+"._id in (SELECT "+Folder.Cols.BOOKID+" FROM "+Folder.NAME +" WHERE "+Folder.Cols.FOLDERNAME+" = "+ "\""+folder_name+"\")";
+        String query=null;
+        if(folder_name.equals("전체")){
+            query=query1;
+        }
+        else if(folder_name.equals("즐겨찾기")){
+            query=query2;
+        }
+        else{
+            query=query3;
+        }
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -260,17 +272,13 @@ public class BaseHelper extends SQLiteOpenHelper {
                 item_book.setBook_info(cursor.getString(5));
                 item_book.setBook_star(cursor.getInt(6));
                 item_book.setFolder(cursor.getString(7));
-                byte[] bytes = cursor.getBlob(8);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                item_book.setImage_bitmap(bitmap);
                 bookList.add(item_book);
             } while (cursor.moveToNext());
         }
         return  bookList;
     }
 
-    ////////////////book
-    public void insertBook(Item_book item_book){
+    public int insertBook(Item_book item_book){
         ContentValues values = new ContentValues();
         values.put(BookList.Cols.BOOKNAME,item_book.getBook_name());
         values.put(BookList.Cols.BOOKURI,item_book.getBook_uri());
@@ -279,14 +287,17 @@ public class BaseHelper extends SQLiteOpenHelper {
         values.put(BookList.Cols.BOOKINFO,item_book.getBook_info());
         values.put(BookList.Cols.STAR,item_book.getBook_star());
         values.put(BookList.Cols.FOLDER,item_book.getFolder());
-        Bitmap bitmap = item_book.getImage_bitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
-        byte[] data = stream.toByteArray();
-        values.put(BookList.Cols.BOOKIMAGE,data);
-        db.insert(BookList.NAME,null,values);
+        int id = (int)db.insert(BookList.NAME,null,values);
+        return id;
     }
 
+    public void changeStar(int id,int starState){
+//        String query = "UPDATE "+BookList.NAME+" SET "+BookList.Cols.STAR+" = "+starState+" WHERE _id="+id;
+//        db.rawQuery(query,null);
+        ContentValues values = new ContentValues();
+        values.put(BookList.Cols.STAR,starState);         // 바꿀값
+        db.update(BookList.NAME,values,"_id="+id,null);
+    }
 
     public Item_book getBook(int id){
         String query = "SELECT * FROM "+BookList.NAME +" WHERE _id="+id;
@@ -301,11 +312,69 @@ public class BaseHelper extends SQLiteOpenHelper {
             item_book.setBook_info(cursor.getString(5));
             item_book.setBook_star(cursor.getInt(6));
             item_book.setFolder(cursor.getString(7));
-            byte[] bytes = cursor.getBlob(8);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-            item_book.setImage_bitmap(bitmap);
             return item_book;
         }
         return null;
+    }
+
+    public List<Item_book> getAllBook(){
+        List<Item_book> bookList = new ArrayList<Item_book>();
+        String query = "SELECT * FROM "+BookList.NAME;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Item_book item_book = new Item_book();
+                item_book.set_id(cursor.getInt(0));
+                item_book.setBook_name(cursor.getString(1));
+                item_book.setBook_uri(cursor.getString(2));
+                item_book.setCurrent_page(cursor.getInt(3));
+                item_book.setTotal_page(cursor.getInt(4));
+                item_book.setBook_info(cursor.getString(5));
+                item_book.setBook_star(cursor.getInt(6));
+                item_book.setFolder(cursor.getString(7));
+                bookList.add(item_book);
+            } while (cursor.moveToNext());
+        }
+        return  bookList;
+    }
+
+    public List<Item_book> getStarBook(){
+        List<Item_book> bookList = new ArrayList<Item_book>();
+        String query = "SELECT * FROM "+BookList.NAME +" WHERE book_star=1";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Item_book item_book = new Item_book();
+                item_book.set_id(cursor.getInt(0));
+                item_book.setBook_name(cursor.getString(1));
+                item_book.setBook_uri(cursor.getString(2));
+                item_book.setCurrent_page(cursor.getInt(3));
+                item_book.setTotal_page(cursor.getInt(4));
+                item_book.setBook_info(cursor.getString(5));
+                item_book.setBook_star(cursor.getInt(6));
+                item_book.setFolder(cursor.getString(7));
+                bookList.add(item_book);
+            } while (cursor.moveToNext());
+        }
+        return  bookList;
+    }
+
+    public List<Item_folder> getAllFolder(){
+        List<Item_folder> folderList = new ArrayList<Item_folder>();
+        String query = "SELECT * FROM "+Folder.NAME;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Item_folder item_folder = new Item_folder();
+                item_folder.set_id(cursor.getInt(0));
+                item_folder.setFolder_name(cursor.getString(1));
+                item_folder.setBook_id(cursor.getInt(2));
+                folderList.add(item_folder);
+            } while (cursor.moveToNext());
+        }
+        return  folderList;
     }
 }

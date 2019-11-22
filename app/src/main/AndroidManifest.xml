@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PlaemoMainSettingActivity"></activity>
+        <activity android:name=".PlaemoAlarmListActivity" />
+        <activity android:name=".AddDocActivity" />
         <activity android:name=".DocInfoActivity" />
         <activity android:name=".PlaemoMainDocActivity" />
         <activity android:name=".PlaemoMainFolderActivity" />

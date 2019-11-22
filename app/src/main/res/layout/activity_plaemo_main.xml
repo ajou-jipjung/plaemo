@@ -8,7 +8,6 @@
     tools:context=".PlaemoMainFolderActivity"
     android:background="@color/colorwhiteyellow">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/plemofolder_recylcerview"
         android:layout_width="match_parent"
