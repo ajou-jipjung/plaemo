@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PlaemoMainFolderActivity">
+    tools:context=".PlaemoMainFolderActivity"
+    android:background="@color/colorwhiteyellow">
 
 
     <androidx.recyclerview.widget.RecyclerView
