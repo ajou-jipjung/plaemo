@@ -31,11 +31,8 @@ public class PlemoMemoListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.plemomemolist_recylcerview);
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        //여기 밑에 PlemoMemoList_Adapter()안에 Arraylist안에 들어갈거를 넣어야지
 
         PlemoMemoList_Adapter adapter = new PlemoMemoList_Adapter(memolistList);
         recyclerView.setAdapter(adapter);

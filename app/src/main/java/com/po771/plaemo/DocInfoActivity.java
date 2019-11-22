@@ -2,7 +2,10 @@ package com.po771.plaemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +13,24 @@ import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
 
 public class DocInfoActivity extends AppCompatActivity {
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.plemodocinfo_action, menu);
+        return true;
+    }
+
+    //액션버튼을 클릭했을때의 동작
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.bookaction_addmemo) {
+            Intent settingIntent = new Intent(this, PlaemoBookNewMemoActivity.class);
+            startActivity(settingIntent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

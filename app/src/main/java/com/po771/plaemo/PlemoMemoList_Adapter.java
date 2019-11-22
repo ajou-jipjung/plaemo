@@ -19,9 +19,15 @@ public class PlemoMemoList_Adapter extends RecyclerView.Adapter<PlemoMemoList_Ad
 
     private List<Item_memo> items;
     // Item의 클릭 상태를 저장할 array 객체
-    private SparseBooleanArray selectedItems = new SparseBooleanArray();
-    // 직전에 클릭됐던 Item의 position
-    private int prePosition = -1;
+//    private RecyclerView.LayoutParams minimum = new RecyclerView.LayoutParams(
+//            ViewGroup.LayoutParams.MATCH_PARENT
+//            , 100 // 미리보기(?)에 표시될 높이. dp to pixel 활용하세요
+//    );
+//
+//    private RecyclerView.LayoutParams maximum = new RecyclerView.LayoutParams(
+//            ViewGroup.LayoutParams.MATCH_PARENT
+//            , ViewGroup.LayoutParams.WRAP_CONTENT
+//    );
 
     public PlemoMemoList_Adapter(List<Item_memo> items) {
         this.items = items;
@@ -65,6 +71,12 @@ public class PlemoMemoList_Adapter extends RecyclerView.Adapter<PlemoMemoList_Ad
             page_start = itemView.findViewById(R.id.memopage);
             content = itemView.findViewById(R.id.memocontent);
             date = itemView.findViewById(R.id.memodate);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
 
         public void setItem(Item_memo item){
@@ -72,5 +84,6 @@ public class PlemoMemoList_Adapter extends RecyclerView.Adapter<PlemoMemoList_Ad
             content.setText(item.getContent());
             date.setText(item.getDate());
         }
+
     }
 }
