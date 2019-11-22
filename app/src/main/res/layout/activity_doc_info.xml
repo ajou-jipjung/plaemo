@@ -105,4 +105,10 @@
             android:autoSizeTextType="uniform"
             />
     </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/colorwhiteyellow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
 </LinearLayout>
