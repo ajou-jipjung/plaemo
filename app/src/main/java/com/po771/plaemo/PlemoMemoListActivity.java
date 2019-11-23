@@ -21,8 +21,6 @@ public class PlemoMemoListActivity extends AppCompatActivity {
         //액션바 설정하기//
         //액션바 타이틀 변경하기
         getSupportActionBar().setTitle("메모리스트");
-        //액션바 배경색 변경
-        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
