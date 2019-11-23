@@ -4,13 +4,6 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.po771.plaemo.DB.BaseHelper;
-import com.po771.plaemo.item.Item_memo;
-
-import java.util.List;
 
 public class PlaemoBookNewMemoActivity extends AppCompatActivity {
 
@@ -23,7 +16,7 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_newmemo);
+        setContentView(R.layout.activity_book_memo);
 
         //액션바 설정하기//
         //액션바 타이틀 변경하기

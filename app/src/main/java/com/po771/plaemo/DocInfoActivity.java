@@ -34,7 +34,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     BaseHelper baseHelper;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.plemodocinfo_action, menu);
+        getMenuInflater().inflate(R.menu.plaemodocinfo_action, menu);
         return true;
     }
 
