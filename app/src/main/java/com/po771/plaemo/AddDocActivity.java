@@ -37,19 +37,22 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AddDocActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddDocActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     private Item_book item_book = new Item_book();
     BaseHelper baseHelper;
     Uri uri=null;
     Bitmap bitmap=null;
-    TextView tv_bookname;
-    TextView tv_page;
+    EditText tv_bookname;
+    EditText tv_page;
     EditText et_bookinfo;
     ImageView iv_bookimage;
     List<String> folderList;
+    List<Boolean> folderChecklist=new ArrayList<Boolean>();
+    PopupMenu menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +68,8 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.adddoc_register).setOnClickListener(this);
         findViewById(R.id.adddoc_folderlist).setOnClickListener(this);
 
-        tv_bookname=(TextView)findViewById(R.id.adddoc_title);
-        tv_page=(TextView)findViewById(R.id.adddoc_pages);
+        tv_bookname=(EditText)findViewById(R.id.adddoc_title);
+        tv_page=(EditText)findViewById(R.id.adddoc_pages);
         et_bookinfo=(EditText)findViewById(R.id.adddoc_info);
         iv_bookimage=(ImageView)findViewById(R.id.adddoc_image);
 
@@ -79,7 +82,14 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
 
         BaseHelper baseHelper = BaseHelper.getInstance(this);
         folderList= baseHelper.getAllmemo();
+        folderList.remove("전체");
+        folderList.remove("즐겨찾기");
 
+        folderChecklist.add(false);
+
+        for(int i=0;i<folderList.size();i++){
+            folderChecklist.add(false);
+        }
     }
 
     @Override
@@ -116,15 +126,28 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.adddoc_register:
                 if(bitmap!=null){
                     item_book.setBook_info(et_bookinfo.getText().toString());
+                    String folder="";
+                    for(int i=1;i<=folderChecklist.size();i++){
+                        if(folderChecklist.get(i)){
+                            folder+=folderList.get(i);
+                            folder+="/";
+                        }
+                    }
+                    item_book.setFolder(folder);
                     int id = baseHelper.insertBook(item_book);
                     saveToInternalStorage(bitmap,id);
                     finish();
                 }
+                break;
             case R.id.adddoc_folderlist:
-                PopupMenu menu = new PopupMenu(getApplicationContext(),v);
-                menu.getMenu().add(Menu.NONE, 1, 1, "Share");
-                menu.getMenu().add(Menu.NONE, 2, 2, "Comment");
+                menu = new PopupMenu(getApplicationContext(),v);
+                menu.setOnMenuItemClickListener(this);
+                menu.getMenu().add(Menu.NONE, 0, 0, "추가");
+                for(int i=1;i<=folderList.size();i++){
+                    menu.getMenu().add(Menu.NONE, i, i, folderList.get(i-1)).setCheckable(true).setChecked(folderChecklist.get(i));
+                }
                 menu.show();
+                break;
         }
     }
 
@@ -216,5 +239,41 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
         return directory.getAbsolutePath();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        menuItem.setActionView(new View(this));
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return false;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return false;
+            }
+        });
+//        return false;
+
+        int id = menuItem.getItemId();
+        if(id>0){
+            if(menuItem.isChecked()){
+                menuItem.setChecked(false);
+                folderChecklist.set(id,false);
+            }
+            else {
+                menuItem.setChecked(true);
+                folderChecklist.set(id,true);
+            }
+            switch (menuItem.getItemId()){
+                case 1:
+                    break;
+            }
+        }
+        return false;
     }
 }

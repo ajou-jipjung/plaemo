@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
 
@@ -81,6 +83,18 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         info_bookinfo.setText(item_book.getBook_info());
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
 
+        ChipGroup chipGroup = findViewById(R.id.info_folderchips);
+        String[] folders = item_book.getFolder().split("/");
+        for(int i=0;i<folders.length;i++){
+            if(folders[i].equals("")){
+                break;
+            }
+            Chip chip = new Chip(this);
+            chip.setText(folders[i]);
+            chip.setTextAppearanceResource(R.style.ChipTextStyle);
+            chip.setChipBackgroundColorResource(R.color.chipbackground);
+            chipGroup.addView(chip);
+        }
     }
 
 
