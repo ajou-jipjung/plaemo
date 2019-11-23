@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class AddDocActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,6 +49,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     TextView tv_page;
     EditText et_bookinfo;
     ImageView iv_bookimage;
+    List<String> folderList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.adddoc_image).setOnClickListener(this);
         findViewById(R.id.adddoc_cancle).setOnClickListener(this);
         findViewById(R.id.adddoc_register).setOnClickListener(this);
+        findViewById(R.id.adddoc_folderlist).setOnClickListener(this);
 
         tv_bookname=(TextView)findViewById(R.id.adddoc_title);
         tv_page=(TextView)findViewById(R.id.adddoc_pages);
@@ -72,6 +76,9 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         int iv_width = (metrics.widthPixels-20)/3;
         int iv_height = (int)(iv_width*1.5);
         iv_bookimage.getLayoutParams().height=iv_height;
+
+        BaseHelper baseHelper = BaseHelper.getInstance(this);
+        folderList= baseHelper.getAllmemo();
 
     }
 
@@ -113,6 +120,11 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
                     saveToInternalStorage(bitmap,id);
                     finish();
                 }
+            case R.id.adddoc_folderlist:
+                PopupMenu menu = new PopupMenu(getApplicationContext(),v);
+                menu.getMenu().add(Menu.NONE, 1, 1, "Share");
+                menu.getMenu().add(Menu.NONE, 2, 2, "Comment");
+                menu.show();
         }
     }
 

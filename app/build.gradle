@@ -40,4 +40,7 @@ dependencies {
 
     //PdfViewer
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
+    //flexbox
+    implementation 'com.google.android:flexbox:2.0.0'
 }
