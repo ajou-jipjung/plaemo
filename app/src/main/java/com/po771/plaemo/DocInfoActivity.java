@@ -76,6 +76,8 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             btn_star.setBackground(getDrawable(R.drawable.ic_blackstar_24px));
         }
         findViewById(R.id.info_setting).setOnClickListener(this);
+        findViewById(R.id.info_readfirst).setOnClickListener(this);
+        findViewById(R.id.info_readresume).setOnClickListener(this);
 
         info_bookname.setText(item_book.getBook_name());
         String pageState=""+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
@@ -127,6 +129,20 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
                     item_book.setBook_star(1);
                     baseHelper.changeStar(item_book.get_id(),1);
                 }
+                break;
+            case R.id.info_readresume:
+                Intent pdfintent = new Intent(this, PDFViewerActivity.class);
+//                pdfintent.setAction(Intent.)
+                pdfintent.putExtra("bookId",item_book.get_id());
+                pdfintent.putExtra("readState","resume");
+                startActivity(pdfintent);
+                break;
+            case R.id.info_readfirst:
+                Intent pdfintent2 = new Intent(this, PDFViewerActivity.class);
+//                pdfintent.setAction(Intent.)
+                pdfintent2.putExtra("bookId",item_book.get_id());
+                pdfintent2.putExtra("readState","first");
+                startActivity(pdfintent2);
                 break;
         }
     }

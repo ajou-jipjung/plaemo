@@ -299,6 +299,14 @@ public class BaseHelper extends SQLiteOpenHelper {
         db.update(BookList.NAME,values,"_id="+id,null);
     }
 
+    public void changePage(int id,int page){
+//        String query = "UPDATE "+BookList.NAME+" SET "+BookList.Cols.STAR+" = "+starState+" WHERE _id="+id;
+//        db.rawQuery(query,null);
+        ContentValues values = new ContentValues();
+        values.put(BookList.Cols.CURRNETPAGE,page);         // 바꿀값
+        db.update(BookList.NAME,values,"_id="+id,null);
+    }
+
     public Item_book getBook(int id){
         String query = "SELECT * FROM "+BookList.NAME +" WHERE _id="+id;
         Cursor cursor = db.rawQuery(query, null);

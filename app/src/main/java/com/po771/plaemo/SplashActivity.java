@@ -1,13 +1,19 @@
 package com.po771.plaemo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
@@ -25,27 +31,64 @@ public class SplashActivity extends AppCompatActivity {
 
     DataManager dataManager;
 
+    private final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         long startTime = System.currentTimeMillis();
 
-        initThing();
-        long endTime = System.currentTimeMillis();
+        if(request()){
+            initThing();
+            long endTime = System.currentTimeMillis();
 
-        long delayMax = 2000;
-        long delayTime = endTime-startTime;
-        if(delayMax>delayTime){
-            try {Thread.sleep(delayMax-delayTime);} catch (InterruptedException e) {}
+            long delayMax = 2000;
+            long delayTime = endTime - startTime;
+            if (delayMax > delayTime) {
+                try {
+                    Thread.sleep(delayMax - delayTime);
+                } catch (InterruptedException e) {
+                }
 
 
+            }
+            Intent intent = new Intent(this, PlaemoMainFolderActivity.class);
+            startActivity(intent);
+
+            finish();
         }
-        Intent intent = new Intent(this, PlaemoMainFolderActivity.class);
-        startActivity(intent);
-
-        finish();
+        else{
+            finish();
+        }
     }
 
+    private boolean request(){
+        int permssionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permssionCheck != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(this, PlaemoMainFolderActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    finish();
+                }
+                return;
+            }
+        }
+    }
 
     private void initThing(){
 

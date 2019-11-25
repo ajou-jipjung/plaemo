@@ -2,24 +2,35 @@ package com.po771.plaemo;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.loader.content.CursorLoader;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,14 +40,19 @@ import android.widget.Toast;
 
 import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
+import com.po771.plaemo.item.Item_folder;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfiumCore;
 
+import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +127,8 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.adddoc_image:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT );
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setType("application/pdf");
                 try {
                     startActivityForResult(intent, 3000);
@@ -127,14 +144,22 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
                 if(bitmap!=null){
                     item_book.setBook_info(et_bookinfo.getText().toString());
                     String folder="";
-                    for(int i=1;i<=folderChecklist.size();i++){
+                    for(int i=1;i<folderChecklist.size();i++){
                         if(folderChecklist.get(i)){
-                            folder+=folderList.get(i);
+                            folder+=folderList.get(i-1);
                             folder+="/";
                         }
                     }
                     item_book.setFolder(folder);
                     int id = baseHelper.insertBook(item_book);
+                    for(int i=1;i<folderChecklist.size();i++){
+                        if(folderChecklist.get(i)){
+                            Item_folder item_folder = new Item_folder();
+                            item_folder.setBook_id(id);
+                            item_folder.setFolder_name(folderList.get(i-1));
+                            baseHelper.insertFolder(item_folder);
+                        }
+                    }
                     saveToInternalStorage(bitmap,id);
                     finish();
                 }
@@ -151,6 +176,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    String filename;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -159,6 +185,8 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         switch (requestCode) {
             case 3000:
                 uri = data.getData();
+                Log.d("check_uri",uri.toString());
+                test(this,uri);
                 setItem_book(uri);
                 break;
 
@@ -167,6 +195,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
 
     private String uri2filename(Uri uri) {
 
+        Log.d("check2",uri.getPath());
         String ret=null;
         String scheme = uri.getScheme();
 
@@ -177,17 +206,22 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
                 ret = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                for(int i=0;i<cursor.getColumnCount();i++){
+                    Log.d("check1",cursor.getColumnName(i));
+                    Log.d("check1",cursor.getString(i));
+                }
             }
         }
         return ret;
     }
 
     void setItem_book(Uri pdfUri) {
-        String book_name = uri2filename(pdfUri);
+//        String book_name = uri2filename(pdfUri);
         int total_page=0;
-        item_book.setBook_uri(pdfUri.toString());
-        item_book.setBook_name(book_name);
-        tv_bookname.setText(book_name);
+
+//        item_book.setBook_uri(pdfUri.toString());
+//        item_book.setBook_name(book_name);
+//        tv_bookname.setText(book_name);
 
         item_book.setCurrent_page(1);
 
@@ -275,5 +309,48 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
         return false;
+    }
+
+    public void test(Context context,Uri uri){
+        Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+        returnCursor.moveToFirst();
+        filename = returnCursor.getString(nameIndex);
+        item_book.setBook_name(filename);
+        tv_bookname.setText(filename);
+        String size = Long.toString(returnCursor.getLong(sizeIndex));
+        File fileSave = getExternalFilesDir(null);
+        String sourcePath = getExternalFilesDir(null).toString();
+        try {
+            copyFileStream(new File(sourcePath + "/" + filename), uri,this);
+            Log.d("saveFile",sourcePath + "/" + filename);
+            item_book.setBook_uri(sourcePath + "/" + filename);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void copyFileStream(File dest, Uri uri, Context context)
+            throws IOException {
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            is = context.getContentResolver().openInputStream(uri);
+            os = new FileOutputStream(dest);
+            byte[] buffer = new byte[1024];
+            int length;
+
+            while ((length = is.read(buffer)) > 0) {
+                os.write(buffer, 0, length);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            is.close();
+            os.close();
+        }
     }
 }
