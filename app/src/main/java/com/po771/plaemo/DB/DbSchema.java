@@ -15,10 +15,11 @@ public class DbSchema {
             public static final String ALARMTONE = "tone";
             public static final String SNOOZE = "snooze";
             public static final String VIBRATE = "vibrate";
+            public static final String AMPM = "ampm";
         }
     }
 
-    public static final class BookTable {
+    public static final class BookList {
         public static final String NAME = "book_list";
 
         public static final class Cols {
@@ -29,6 +30,7 @@ public class DbSchema {
             public static final String BOOKINFO = "book_info";
             public static final String STAR = "book_star";
             public static final String FOLDER = "folder";
+            public static final String BOOKIMAGE = "book_image";
         }
     }
 

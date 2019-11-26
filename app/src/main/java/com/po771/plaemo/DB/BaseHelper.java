@@ -5,12 +5,22 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.po771.plaemo.DB.DbSchema.*;
+import com.po771.plaemo.item.Item_AlarmList;
+import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_folder;
+import com.po771.plaemo.item.Item_memo;
+
+import static com.po771.plaemo.DB.DbSchema.AlarmTable.Cols.ALARMTONE;
+import static com.po771.plaemo.DB.DbSchema.AlarmTable.Cols.SNOOZE;
 
 public class BaseHelper extends SQLiteOpenHelper {
 
@@ -43,20 +53,25 @@ public class BaseHelper extends SQLiteOpenHelper {
                 AlarmTable.Cols.MINUTE + ", " +
                 AlarmTable.Cols.REPEAT + ", " +
                 AlarmTable.Cols.DAYSOFTHEWEEK + ", " +
-                AlarmTable.Cols.ON +
+                AlarmTable.Cols.ON + ", " +
+                AlarmTable.Cols.ALARMTONE + ", " +
+                AlarmTable.Cols.SNOOZE + ", " +
+                AlarmTable.Cols.VIBRATE + ", " +
+                AlarmTable.Cols.AMPM +
                 ")"
         );
 
         //책 테이블
-        create_db.execSQL("create table " + BookTable.NAME + "(" +
+        create_db.execSQL("create table " + BookList.NAME + "(" +
                 " _id integer primary key autoincrement, " +
-                BookTable.Cols.BOOKNAME + ", " +
-                BookTable.Cols.BOOKURI + ", " +
-                BookTable.Cols.CURRNETPAGE + ", " +
-                BookTable.Cols.TOTALPAGE + ", " +
-                BookTable.Cols.BOOKINFO + ", " +
-                BookTable.Cols.STAR + "," +
-                BookTable.Cols.FOLDER +
+                BookList.Cols.BOOKNAME + ", " +
+                BookList.Cols.BOOKURI + ", " +
+                BookList.Cols.CURRNETPAGE + ", " +
+                BookList.Cols.TOTALPAGE + ", " +
+                BookList.Cols.BOOKINFO + ", " +
+                BookList.Cols.STAR + "," +
+                BookList.Cols.FOLDER + "," +
+                BookList.Cols.BOOKIMAGE +
                 ")"
         );
 
@@ -78,12 +93,6 @@ public class BaseHelper extends SQLiteOpenHelper {
                 BookMemo.Cols.BOOKID +
                 ")"
         );
-
-        //이미지 테이블
-        String CREATE_TABLE_IMAGE = "CREATE TABLE " + BookImage.NAME + "("+
-                " _id integer primary key autoincrement, " +
-                BookImage.Cols.IMAGE + " BLOB);";
-        create_db.execSQL(CREATE_TABLE_IMAGE);
     }
 
     @Override
@@ -94,88 +103,251 @@ public class BaseHelper extends SQLiteOpenHelper {
    ///////////////////////////////api들 ////////////////////////////////
 //   public void initDB2(){ // 추가로 테스트해보고 싶으면.
 
-    public void initDB(){ // 최초 설치시만 작동하도록
+    public boolean initDB(){ // 최초 설치시만 작동하도록
 
         String query = "SELECT count(*) FROM "+Folder.NAME;
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()) {
             int count = cursor.getInt(0);
             if (count > 0) {
-                return;
+                return false;
             } else {
-                Item_folder folder = new Item_folder();
+                //////////////////////////메모리스트////////////////////////////////
+                Item_memo memolist = new Item_memo();
 
-                folder.setBook_id(-1); // 나중에 -1이면 전체 부를것
-                folder.setFolder_name("전체");
-                baseHelper.insertFolder(folder);
+                memolist.setPage_start(789);
+                memolist.setContent("안녕하세요. 메모입니다.");
+                memolist.setDate("2019-11-12 10:00:35");
+                baseHelper.insertMemoList(memolist);
 
-                folder.setBook_id(-2); // 나중에 -3이면 즐겨찾기 부를것
-                folder.setFolder_name("즐겨찾기");
-                baseHelper.insertFolder(folder);
+                memolist.setPage_start(123);
+                memolist.setContent("어려워요 ㅜㅜㅜ. 메모입니다.");
+                memolist.setDate("2019-11-20 09:24:00");
+                baseHelper.insertMemoList(memolist);
 
-                //여기서부턴 더미
-                folder.setBook_id(1);
-                folder.setFolder_name("집교1");
-                baseHelper.insertFolder(folder);
+                memolist.setPage_start(456);
+                memolist.setContent("마지막. 메모입니다.");
+                memolist.setDate("2019-11-30 12:41:00");
+                baseHelper.insertMemoList(memolist);
+                /////////////////////////////////////////////////////////////////////////
 
-                folder.setBook_id(1);
-                folder.setFolder_name("집교2");
-                baseHelper.insertFolder(folder);
+                Item_AlarmList alarmList = new Item_AlarmList();
 
-                folder.setBook_id(1);
-                folder.setFolder_name("더미1");
-                baseHelper.insertFolder(folder);
+                alarmList.setAlarm_name("복습");
+                alarmList.setHour(18);
+                alarmList.setMinute(20);
+                alarmList.setIson(1);
+                alarmList.setVibrate(1);
+                baseHelper.insertAlarmList(alarmList);
 
-                folder.setBook_id(1);
-                folder.setFolder_name("더미2");
-                baseHelper.insertFolder(folder);
+                alarmList.setAlarm_name("논문 읽기");
+                alarmList.setHour(20);
+                alarmList.setMinute(03);
+                alarmList.setIson(0);
+                alarmList.setVibrate(0);
+                baseHelper.insertAlarmList(alarmList);
 
-                folder.setBook_id(1);
-                folder.setFolder_name("더미3");
-                baseHelper.insertFolder(folder);
+                alarmList.setAlarm_name("알람아 제발 들어가줘");
+                alarmList.setHour(19);
+                alarmList.setMinute(50);
+                alarmList.setIson(1);
+                alarmList.setVibrate(1);
+                baseHelper.insertAlarmList(alarmList);
 
-                folder.setBook_id(1);
-                folder.setFolder_name("더미4");
-                baseHelper.insertFolder(folder);
+//                alarmList.setAlarm_name("알람아 제발 들어가줘");
+//                alarmList.setHour(19);
+//                alarmList.setMinute(50);
+//                alarmList.setIson(1);
+//                baseHelper.insertAlarmList(alarmList);
+//
+//                alarmList.setAlarm_name("알람아 제발 들어가줘");
+//                alarmList.setHour(19);
+//                alarmList.setMinute(50);
+//                alarmList.setIson(1);
+//                baseHelper.insertAlarmList(alarmList);
+//
+//                alarmList.setAlarm_name("알람아 제발 들어가줘");
+//                alarmList.setHour(19);
+//                alarmList.setMinute(50);
+//                alarmList.setIson(1);
+//                baseHelper.insertAlarmList(alarmList);
+//
+//                alarmList.setAlarm_name("알람아 제발 들어가줘");
+//                alarmList.setHour(19);
+//                alarmList.setMinute(50);
+//                alarmList.setIson(1);
+//                baseHelper.insertAlarmList(alarmList);
+//
+//                alarmList.setAlarm_name("알람아 제발 들어가줘");
+//                alarmList.setHour(19);
+//                alarmList.setMinute(50);
+//                alarmList.setIson(1);
+//                baseHelper.insertAlarmList(alarmList);
+//
+//                alarmList.setAlarm_name("알람아 제발 들어가줘");
+//                alarmList.setHour(19);
+//                alarmList.setMinute(50);
+//                alarmList.setIson(1);
+//                baseHelper.insertAlarmList(alarmList);
+//
+//                alarmList.setAlarm_name("알람아 제발 들어가줘");
+//                alarmList.setHour(19);
+//                alarmList.setMinute(50);
+//                alarmList.setIson(1);
+//                baseHelper.insertAlarmList(alarmList);
+//
+//                alarmList.setAlarm_name("알람아 제발 들어가줘");
+//                alarmList.setHour(19);
+//                alarmList.setMinute(50);
+//                alarmList.setIson(1);
+//                baseHelper.insertAlarmList(alarmList);
 
-                folder.setBook_id(1);
-                folder.setFolder_name("더미5");
-                baseHelper.insertFolder(folder);
 
-                folder.setBook_id(1);
-                folder.setFolder_name("더미6");
-                baseHelper.insertFolder(folder);
-
-                folder.setBook_id(1);
-                folder.setFolder_name("더미7");
-                baseHelper.insertFolder(folder);
-
-                folder.setBook_id(1);
-                folder.setFolder_name("더미8");
-                baseHelper.insertFolder(folder);
-
-                folder.setBook_id(1);
-                folder.setFolder_name("더미823123123123");
-                baseHelper.insertFolder(folder);
-
-                folder.setBook_id(2);
-                folder.setFolder_name("집교2");
-                baseHelper.insertFolder(folder);
-
-                folder.setBook_id(2);
-                folder.setFolder_name("HCI");
-                baseHelper.insertFolder(folder);
+                return true;
             }
         }
+        return true;
     }
 
 
     //////////////////folder
-    public void insertFolder(Item_folder folder){
+    public void insertFolder(Item_folder item_folder){
         ContentValues values = new ContentValues();
-        values.put(Folder.Cols.BOOKID,folder.getBook_id());
-        values.put(Folder.Cols.FOLDERNAME,folder.getFolder_name());
+        values.put(Folder.Cols.BOOKID,item_folder.getBook_id());
+        values.put(Folder.Cols.FOLDERNAME,item_folder.getFolder_name());
         db.insert(Folder.NAME,null,values);
+    }
+    public void insertMemoList(Item_memo memolist){
+        ContentValues values = new ContentValues();
+        values.put(BookMemo.Cols.PAGESTART,memolist.getPage_start());
+        values.put(BookMemo.Cols.CONTENT,memolist.getContent());
+        values.put(BookMemo.Cols.DATA, memolist.getDate());
+        db.insert(BookMemo.NAME,null,values);
+    }
+
+    public void insertAlarmList(Item_AlarmList alarmList){
+        ContentValues values = new ContentValues();
+//        values.put(AlarmTable.Cols.BOOKID,alarmList.get_id());
+        values.put(AlarmTable.Cols.ALARMNAME,alarmList.getAlarm_name());
+        values.put(AlarmTable.Cols.HOUR,alarmList.getHour());
+        values.put(AlarmTable.Cols.MINUTE,alarmList.getMinute());
+        values.put(AlarmTable.Cols.ON,alarmList.getIson());
+        values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
+        db.insert(AlarmTable.NAME,null,values);
+    }
+
+    public void insertAlarmSet(Item_AlarmList alarmList){
+        ContentValues values = new ContentValues();
+//        values.put(AlarmTable.Cols.BOOKID,alarmList.get_id());
+        values.put(AlarmTable.Cols.AMPM,alarmList.getAmpm());
+        values.put(AlarmTable.Cols.HOUR,alarmList.getHour());
+        values.put(AlarmTable.Cols.MINUTE,alarmList.getMinute());
+        values.put(AlarmTable.Cols.ALARMNAME,alarmList.getAlarm_name());
+        values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
+//        values.put(AlarmTable.Cols.SNOOZE,alarmList.getSnooze());
+//        values.put(AlarmTable.Cols.REPEAT,alarmList.getRepeat());
+        values.put(AlarmTable.Cols.ON,alarmList.getIson());
+        db.insert(AlarmTable.NAME,null,values);
+    }
+
+
+
+
+
+
+
+    public List<Item_AlarmList> getAllalarm(){
+        List<Item_AlarmList> alarmLists = new ArrayList<Item_AlarmList>();
+        String query = "SELECT "+
+                AlarmTable.Cols.ALARMNAME+", "+AlarmTable.Cols.HOUR+", "+AlarmTable.Cols.MINUTE+", "+AlarmTable.Cols.ON+", "+AlarmTable.Cols.VIBRATE+
+                " FROM "+AlarmTable.NAME;
+
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()) {
+            do {
+                Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
+
+                Item_AlarmList item = new Item_AlarmList();
+                item.setAlarm_name(cursor.getString(0));
+                item.setHour(cursor.getInt(1));
+                item.setMinute(cursor.getInt(2));
+                item.setIson(cursor.getInt(3));
+                item.setVibrate(cursor.getInt(4));
+                alarmLists.add(item);
+            }while (cursor.moveToNext());
+        }
+
+        return alarmLists;
+    }
+
+    public List<Item_AlarmList> getAlarmSetting(int alarm_id) {
+        List<Item_AlarmList> alarmLists = new ArrayList<Item_AlarmList>();
+        String query = "SELECT"+
+            AlarmTable.Cols.AMPM+AlarmTable.Cols.HOUR+", "+AlarmTable.Cols.MINUTE+", "+
+//                AlarmTable.Cols.DAYSOFTHEWEEK+", "+
+            AlarmTable.Cols.ALARMNAME+", "+AlarmTable.Cols.VIBRATE+", "+
+//                AlarmTable.Cols.SNOOZE+", "+AlarmTable.Cols.REPEAT+", "+
+            AlarmTable.Cols.ON+ " FROM "+AlarmTable.NAME+" WHERE alarm_id = "+alarm_id;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do{
+                Log.d("qweqwe",cursor.getString(4));
+
+                Item_AlarmList item = new Item_AlarmList();
+                item.setAmpm(cursor.getInt(0));
+                item.setHour(cursor.getInt(1));
+                item.setMinute(cursor.getInt(2));
+//                item.setDaysoftheweek(cursor.getString(3));
+                item.setAlarm_name(cursor.getString(3));
+                item.setVibrate(cursor.getInt(4));
+//                item.setSnooze(cursor.getInt(4));
+//                item.setRepeat(cursor.getInt(5));
+                item.setIson(cursor.getInt(5));
+                alarmLists.add(item);
+            } while (cursor.moveToNext());
+        }
+        return alarmLists;
+    }
+
+
+
+
+
+
+//    public List<Item_AlarmList> deleteAlarm() {
+//        List<Item_AlarmList> alarmLists = new ArrayList<Item_AlarmList>();
+//        String query = "DELETE "+
+//
+//    }
+
+
+
+
+
+    public List<Item_memo> getMemos(){
+        List<Item_memo> memoList = new ArrayList<Item_memo>();
+        String query = "SELECT "+
+                BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+
+                " FROM "+BookMemo.NAME;
+        //String query = "SELECT * FROM "+BookMemo.NAME;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
+                // String pagestart = new String(cursor.getString(0));
+                //  String content = new String(cursor.getString(1));
+                // String date = new String(cursor.getString(2));
+                Item_memo item = new Item_memo();
+                item.setPage_start(cursor.getInt(0));
+                //  item.setPage_start(Integer.getInteger(cursor.getString(0)));
+                item.setContent(cursor.getString(1));
+                item.setDate(cursor.getString(2));
+                memoList.add(item);
+                //memoList.add(folder_name);
+            } while (cursor.moveToNext());
+        }
+
+        return memoList;
     }
 
     public List<String> getAllmemo(){
@@ -196,7 +368,10 @@ public class BaseHelper extends SQLiteOpenHelper {
     ////////////////Alarm
 //    public void insertAlarm()
 
+    public List<Item_book> getAllbookinfolder(String folder_name){
 
+        List<Item_book> bookList = new ArrayList<Item_book>();
+        String query = "select * from "+BookList.NAME+" WHERE "+BookList.NAME+"._id in (SELECT "+Folder.Cols.BOOKID+" FROM "+Folder.NAME +" WHERE "+Folder.Cols.FOLDERNAME+" = "+ "\""+folder_name+"\")";
 
 //    public void addBook(Item_book book){
 ////        SQLiteDatabase db = this.getWritableDatabase();
@@ -282,4 +457,65 @@ public class BaseHelper extends SQLiteOpenHelper {
 //    }
 
 
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Item_book item_book = new Item_book();
+                item_book.set_id(cursor.getInt(0));
+                item_book.setBook_name(cursor.getString(1));
+                item_book.setBook_uri(cursor.getString(2));
+                item_book.setCurrent_page(cursor.getInt(3));
+                item_book.setTotal_page(cursor.getInt(4));
+                item_book.setBook_info(cursor.getString(5));
+                item_book.setBook_star(cursor.getInt(6));
+                item_book.setFolder(cursor.getString(7));
+                byte[] bytes = cursor.getBlob(8);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                item_book.setImage_bitmap(bitmap);
+                bookList.add(item_book);
+            } while (cursor.moveToNext());
+        }
+        return  bookList;
+    }
+
+    ////////////////book
+    public void insertBook(Item_book item_book){
+        ContentValues values = new ContentValues();
+        values.put(BookList.Cols.BOOKNAME,item_book.getBook_name());
+        values.put(BookList.Cols.BOOKURI,item_book.getBook_uri());
+        values.put(BookList.Cols.CURRNETPAGE,item_book.getCurrent_page());
+        values.put(BookList.Cols.TOTALPAGE,item_book.getTotal_page());
+        values.put(BookList.Cols.BOOKINFO,item_book.getBook_info());
+        values.put(BookList.Cols.STAR,item_book.getBook_star());
+        values.put(BookList.Cols.FOLDER,item_book.getFolder());
+        Bitmap bitmap = item_book.getImage_bitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+        byte[] data = stream.toByteArray();
+        values.put(BookList.Cols.BOOKIMAGE,data);
+        db.insert(BookList.NAME,null,values);
+    }
+
+
+    public Item_book getBook(int id){
+        String query = "SELECT * FROM "+BookList.NAME +" WHERE _id="+id;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            Item_book item_book = new Item_book();
+            item_book.set_id(cursor.getInt(0));
+            item_book.setBook_name(cursor.getString(1));
+            item_book.setBook_uri(cursor.getString(2));
+            item_book.setCurrent_page(cursor.getInt(3));
+            item_book.setTotal_page(cursor.getInt(4));
+            item_book.setBook_info(cursor.getString(5));
+            item_book.setBook_star(cursor.getInt(6));
+            item_book.setFolder(cursor.getString(7));
+            byte[] bytes = cursor.getBlob(8);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            item_book.setImage_bitmap(bitmap);
+            return item_book;
+        }
+        return null;
+    }
 }
