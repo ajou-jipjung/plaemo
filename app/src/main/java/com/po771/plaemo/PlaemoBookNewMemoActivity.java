@@ -1,7 +1,10 @@
 package com.po771.plaemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +14,24 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.plaemomemoadd_action, menu);
         return true;
+    }
+
+    //액션버튼을 클릭했을때의 동작
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.memoadd:
+                // 메모 추가하는 기능 구현
+
+                // 이전 페이지로 이동
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -25,6 +46,16 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
         //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+//        bn00.setOnClickListener(new OnClickListener(){
+//
+//            @Override
+//            public void onClick(View arg0) {
+//
+//                finish();
+//            }
+//
+//        });
 
     }
 

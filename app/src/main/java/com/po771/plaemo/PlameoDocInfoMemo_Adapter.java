@@ -1,9 +1,12 @@
 package com.po771.plaemo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +20,7 @@ import java.util.List;
 public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInfoMemo_Adapter.ViewHolder> {
 
     private List<Item_memo> items;
-
+    private Context context;
 
     public PlameoDocInfoMemo_Adapter(List<Item_memo> items) {
         this.items = items;
@@ -26,7 +29,8 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType){
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        context = viewGroup.getContext();
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.plaemobookmemolist_item, viewGroup, false);
 
         Log.d("qweqwe","qweqwe");
@@ -43,6 +47,7 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
         private TextView content;
         private TextView date;
         private ImageView imageView;
+//        private Button edit;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -51,8 +56,10 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
             page_start = itemView.findViewById(R.id.memopage);
             content = itemView.findViewById(R.id.memocontent);
             date = itemView.findViewById(R.id.memodate);
+//            edit = itemView.findViewById(R.id.memo_edit);
 
             content.setOnClickListener(this);
+//            edit.setOnClickListener(this);
         }
 
         public void setItem(Item_memo item){
@@ -71,6 +78,14 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
                 }
                 content.requestLayout();
             }
+//            if (v.getId() == R.id.memo_edit){
+//                Intent intent = new Intent(v.getContext(), PlaemoEditMemoActivity.class);
+////                intent.putExtra("start_page",(item_book.get_id()));
+////                intent.putExtra("end_page",);
+////                intent.putExtra("memo_title",);
+////                intent.putExtra("memo_content", );
+//                v.getContext().startActivity(intent);
+//            }
         }
     }
 
@@ -82,5 +97,6 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
         viewHolder.content.setText(item.getContent());
         viewHolder.date.setText(item.getDate());
         //viewHolder.setItem(item);
+
     }
 }
