@@ -86,7 +86,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
 
         BaseHelper baseHelper = BaseHelper.getInstance(this);
-        List<Item_memo> memolistList= baseHelper.getMemos();
+        List<Item_memo> memolistList= baseHelper.getBookMemo(book_id);
 
         RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
 

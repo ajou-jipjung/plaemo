@@ -47,15 +47,6 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        bn00.setOnClickListener(new OnClickListener(){
-//
-//            @Override
-//            public void onClick(View arg0) {
-//
-//                finish();
-//            }
-//
-//        });
 
     }
 
