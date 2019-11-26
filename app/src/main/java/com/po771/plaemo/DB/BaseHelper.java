@@ -211,38 +211,64 @@ public class BaseHelper extends SQLiteOpenHelper {
         db.insert(BookMemo.NAME,null,values);
     }
 
+    public void editBookMemo(Item_memo memolist){
+        Log.w("메모 수정",String.valueOf(memolist.get_id())+memolist.getContent());
+        db.execSQL("UPDATE "+BookMemo.NAME+" SET "+BookMemo.Cols.PAGESTART+" = "+ memolist.getPage_start()+", "+
+                BookMemo.Cols.PAGEEND+" = "+memolist.getPage_end()+", "+
+                BookMemo.Cols.CONTENT+" = \""+memolist.getContent()+"\", "+
+                BookMemo.Cols.DATA+" = \""+memolist.getDate()+"\""+
+                " WHERE _id = "+memolist.get_id());
+    }
+
     public List<Item_memo> getMemos(){
         List<Item_memo> memoList = new ArrayList<Item_memo>();
         String query = "SELECT "+
-                BookMemo.Cols.BOOKID+", "+BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+
+                BookMemo.Cols.BOOKID+", "+BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+", _id"+
                 " FROM "+BookMemo.NAME;
         //String query = "SELECT * FROM "+BookMemo.NAME;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
-                // String pagestart = new String(cursor.getString(0));
-                //  String content = new String(cursor.getString(1));
-                // String date = new String(cursor.getString(2));
                 Item_memo item = new Item_memo();
                 item.setBoook_id(cursor.getInt(0));
                 item.setPage_start(cursor.getInt(1));
                 item.setPage_end(cursor.getInt(2));
-                //  item.setPage_start(Integer.getInteger(cursor.getString(0)));
                 item.setContent(cursor.getString(3));
                 item.setDate(cursor.getString(4));
+                item.set_id(cursor.getInt(5));
                 memoList.add(item);
-                //memoList.add(folder_name);
+
             } while (cursor.moveToNext());
         }
 
         return memoList;
     }
 
+    public Item_memo getEditMemo(int memo_id){
+        Item_memo memo = new Item_memo();
+        String query = "SELECT "+
+                BookMemo.Cols.BOOKID+", "+BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+
+                " FROM "+BookMemo.NAME+" WHERE _id = "+memo_id;
+        //String query = "SELECT * FROM "+BookMemo.NAME;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
+            memo.setBoook_id(cursor.getInt(0));
+            memo.setPage_start(cursor.getInt(1));
+            memo.setPage_end(cursor.getInt(2));
+            memo.setContent(cursor.getString(3));
+            memo.setDate(cursor.getString(4));
+            memo.set_id(memo_id);
+        }
+        return memo;
+    }
+
+
     public List<Item_memo> getBookMemo(int book_id){
         List<Item_memo> memoList = new ArrayList<Item_memo>();
         String query = "SELECT "+
-                BookMemo.Cols.BOOKID+", "+BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+
+                BookMemo.Cols.BOOKID+", "+BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+", _id"+
                 " FROM "+BookMemo.NAME+" WHERE book_id = "+book_id;
         //String query = "SELECT * FROM "+BookMemo.NAME;
         Cursor cursor = db.rawQuery(query, null);
@@ -259,6 +285,7 @@ public class BaseHelper extends SQLiteOpenHelper {
                 //  item.setPage_start(Integer.getInteger(cursor.getString(0)));
                 item.setContent(cursor.getString(3));
                 item.setDate(cursor.getString(4));
+                item.set_id(cursor.getInt(5));
                 memoList.add(item);
                 //memoList.add(folder_name);
             } while (cursor.moveToNext());

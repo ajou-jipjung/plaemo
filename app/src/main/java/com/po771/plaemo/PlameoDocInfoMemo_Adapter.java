@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_memo;
 
 import java.util.List;
@@ -47,19 +50,19 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
         private TextView content;
         private TextView date;
         private ImageView imageView;
-//        private Button edit;
+        private ImageButton edit;
+        private int memoid;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             imageView = itemView.findViewById(R.id.bookimg);
-            //imageView.setImageResource(R.drawable.book1);
             page_start = itemView.findViewById(R.id.memopage);
             content = itemView.findViewById(R.id.memocontent);
             date = itemView.findViewById(R.id.memodate);
-//            edit = itemView.findViewById(R.id.memo_edit);
+            edit = (ImageButton)itemView.findViewById(R.id.memo_edit);
 
             content.setOnClickListener(this);
-//            edit.setOnClickListener(this);
+            edit.setOnClickListener(this);
         }
 
         public void setItem(Item_memo item){
@@ -78,16 +81,27 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
                 }
                 content.requestLayout();
             }
+            if (v.getId() == R.id.memo_edit){
+                Intent intent = new Intent(v.getContext(), PlaemoEditMemoActivity.class);
+                // 값 넘겨주기 코드 구현
+                Log.w("넘겨주는 memo_id", String.valueOf(memoid));
+                intent.putExtra("memo_id", memoid);
+                v.getContext().startActivity(intent);
+            }
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull PlameoDocInfoMemo_Adapter.ViewHolder viewHolder, int position) {
-        Item_memo item = items.get(position);
+        final Item_memo item = items.get(position);
+
         viewHolder.imageView.setImageResource(R.drawable.book1);
         viewHolder.page_start.setText("p."+String.valueOf(item.getPage_start())+" ~ p."+String.valueOf(item.getPage_end()));
         viewHolder.content.setText(item.getContent());
         viewHolder.date.setText(item.getDate());
+        viewHolder.memoid = item.get_id();
+        Log.w("memo content", item.getDate());
+        Log.w("memo_id 첫 설정완료", String.valueOf(item.get_id()));
         //viewHolder.setItem(item);
 
     }

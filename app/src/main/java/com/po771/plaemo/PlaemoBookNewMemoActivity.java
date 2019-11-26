@@ -16,6 +16,9 @@ import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_memo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class PlaemoBookNewMemoActivity extends AppCompatActivity {
 
     private Item_memo new_memo = new Item_memo();
@@ -56,9 +59,14 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
                     new_memo.setPage_start(Integer.parseInt(start_page.getText().toString()));
                     new_memo.setPage_end(Integer.parseInt(end_page.getText().toString()));
                     new_memo.setContent(context.getText().toString());
-                    new_memo.setDate("2019-11-26 03:17:88");
+                    //수정 시간으로 변경
+                    SimpleDateFormat nowtime = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+                    Date time = new Date();
+                    new_memo.setDate(nowtime.format(time));
+
                     baseHelper.insertMemoList(new_memo);
                     // 이전 페이지로 이동
+//                    Toast.makeText(this, "등록 완료", Toast.LENGTH_SHORT).show();
                     finish();
                     return true;
                 }
