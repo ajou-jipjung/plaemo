@@ -78,14 +78,6 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
                 }
                 content.requestLayout();
             }
-//            if (v.getId() == R.id.memo_edit){
-//                Intent intent = new Intent(v.getContext(), PlaemoEditMemoActivity.class);
-////                intent.putExtra("start_page",(item_book.get_id()));
-////                intent.putExtra("end_page",);
-////                intent.putExtra("memo_title",);
-////                intent.putExtra("memo_content", );
-//                v.getContext().startActivity(intent);
-//            }
         }
     }
 

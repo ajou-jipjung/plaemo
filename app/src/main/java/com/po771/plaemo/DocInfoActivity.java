@@ -47,6 +47,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
                 return true;
             case R.id.bookaction_addmemo:
                 Intent settingIntent = new Intent(this, PlaemoBookNewMemoActivity.class);
+                settingIntent.putExtra("book_id",(item_book.get_id()));
                 startActivity(settingIntent);
             default:
                 return super.onOptionsItemSelected(item);
