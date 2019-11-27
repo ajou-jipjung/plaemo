@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlaemoMainDocActivity">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/plemodoc_recylcerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorwhiteyellow"
-        />
+    tools:context=".PlaemoMainSettingActivity">
+
 </androidx.constraintlayout.widget.ConstraintLayout>
