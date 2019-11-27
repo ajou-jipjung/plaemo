@@ -8,11 +8,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
+import com.github.barteksc.pdfviewer.listener.OnTapListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
@@ -22,23 +28,53 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public class PDFViewerActivity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener, OnPageErrorListener {
+public class PDFViewerActivity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener, OnPageErrorListener, OnTapListener {
 
     private static final String TAG = PDFViewerActivity.class.getSimpleName();
+    BaseHelper baseHelper;
+    Item_book item_book;
+
     PDFView pdfView;
     Integer pageNumber = 0;
     String pdfFileName;
-    Item_book item_book;
-    BaseHelper baseHelper;
+
+    LinearLayout linearLayout;
+    SeekBar sb;
+    TextView seekbar_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdfviewer);
         int bookId = getIntent().getIntExtra("bookId",1);
         String readState = getIntent().getStringExtra("readState");
-
         baseHelper = BaseHelper.getInstance(this);
         item_book = baseHelper.getBook(bookId);
+
+        linearLayout = (LinearLayout)findViewById(R.id.pdfView_linearlayout);
+        linearLayout.setVisibility(View.INVISIBLE);
+        seekbar_tv = (TextView)findViewById(R.id.pdfView_seekbartext);
+        sb = (SeekBar)findViewById(R.id.pdfView_seekbar);
+        sb.setMin(1);
+        sb.setMax(item_book.getTotal_page());
+        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                seekbar_tv.setText(String.valueOf(i)+"/"+item_book.getTotal_page());
+                sb.setProgress(i);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                pdfView.jumpTo(sb.getProgress()-1);
+            }
+        });
+
+        pdfFileName=item_book.getBook_name();
         if(readState.equals("resume")){
             pageNumber=item_book.getCurrent_page();
         }
@@ -51,13 +87,14 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
             FileInputStream fis = new FileInputStream(item_book.getBook_uri());
             pdfView.fromStream(fis)
                     .defaultPage(pageNumber-1)
+                    .pageSnap(true)
+                    .swipeHorizontal(true) //옆으로 슬라이드
+                    .autoSpacing(true)
+                    .pageFling(true) // 자동으로 한페이지에 들어오도록
                     .onPageChange(this)
-                    .enableAnnotationRendering(true)
-                    .onLoad(this)
-                    .scrollHandle(new DefaultScrollHandle(this))
-                    .spacing(10) // in dp
-                    .onPageError(this)
+                    .onTap(this)
                     .load();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -68,6 +105,8 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
         pageNumber = page;
         setTitle(String.format("%s %s / %s", pdfFileName, page + 1, pageCount));
         baseHelper.changePage(item_book.get_id(),page+1);
+        seekbar_tv.setText(String.valueOf(page+1)+"/"+item_book.getTotal_page());
+        sb.setProgress(page+1);
     }
 
     @Override
@@ -99,5 +138,16 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
     @Override
     public void onPageError(int page, Throwable t) {
         Log.e(TAG, "Cannot load page " + page);
+    }
+
+    @Override
+    public boolean onTap(MotionEvent e) {
+        if (linearLayout.getVisibility() == View.VISIBLE) {
+            // Its visible
+            linearLayout.setVisibility(View.INVISIBLE);
+        } else {
+            linearLayout.setVisibility(View.VISIBLE);
+        }
+        return false;
     }
 }
