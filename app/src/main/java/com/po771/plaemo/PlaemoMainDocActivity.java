@@ -27,24 +27,20 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
     //액션버튼을 클릭했을때의 동작
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.folderaction_memolist:
-                Intent settingIntent = new Intent(this, PlemoMemoListActivity.class);
-                startActivity(settingIntent);
-                default:
-                    return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.folderaction_memolist) {
+            Intent settingIntent = new Intent(this, PlaemoMemoListActivity.class);
+            startActivity(settingIntent);
         }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plaemo_doc);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String folder_name = getIntent().getStringExtra("folder_name");
         this.setTitle(folder_name);
