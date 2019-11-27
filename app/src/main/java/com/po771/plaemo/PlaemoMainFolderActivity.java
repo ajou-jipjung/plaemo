@@ -22,6 +22,19 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
         return true;
     }
 
+    //알람 버튼 활성화
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.mainfolderaction_alarm:
+                Intent intent = new Intent(getApplicationContext(), PlaemoAlarmListActivity.class);
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,5 +50,6 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
         PlaemoMainFolder_Adapter adapter = new PlaemoMainFolder_Adapter(folderList);
         recyclerView.setAdapter(adapter);
     }
+
 
 }

@@ -14,11 +14,11 @@ import com.po771.plaemo.item.Item_memo;
 
 import java.util.List;
 
-public class PlemoMemoList_Adapter extends RecyclerView.Adapter<PlemoMemoList_Adapter.ViewHolder> {
+public class PlaemoMemoList_Adapter extends RecyclerView.Adapter<PlaemoMemoList_Adapter.ViewHolder> {
 
     private List<Item_memo> items;
 
-    public PlemoMemoList_Adapter(List<Item_memo> items) {
+    public PlaemoMemoList_Adapter(List<Item_memo> items) {
         this.items = items;
     }
 
@@ -26,14 +26,14 @@ public class PlemoMemoList_Adapter extends RecyclerView.Adapter<PlemoMemoList_Ad
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType){
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = inflater.inflate(R.layout.plemomemolist_item, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.plaemomemolist_item, viewGroup, false);
 
         Log.d("qweqwe","qweqwe");
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PlemoMemoList_Adapter.ViewHolder viewHolder, int position){
+    public void onBindViewHolder(@NonNull PlaemoMemoList_Adapter.ViewHolder viewHolder, int position){
         Item_memo item = items.get(position);
         viewHolder.imageView.setImageResource(R.drawable.book1);
         viewHolder.page_start.setText(String.valueOf(item.getPage_start()));

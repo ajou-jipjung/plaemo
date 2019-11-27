@@ -29,9 +29,10 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.folderaction_memolist) {
-            Intent settingIntent = new Intent(this, PlemoMemoListActivity.class);
+            Intent settingIntent = new Intent(this, PlaemoMemoListActivity.class);
             startActivity(settingIntent);
         }
+
 
         return super.onOptionsItemSelected(item);
     }

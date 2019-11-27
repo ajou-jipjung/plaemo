@@ -11,7 +11,7 @@ import com.po771.plaemo.item.Item_memo;
 
 import java.util.List;
 
-public class PlemoMemoListActivity extends AppCompatActivity {
+public class PlaemoMemoListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class PlemoMemoListActivity extends AppCompatActivity {
 
         //여기 밑에 PlemoMemoList_Adapter()안에 Arraylist안에 들어갈거를 넣어야지
 
-        PlemoMemoList_Adapter adapter = new PlemoMemoList_Adapter(memolistList);
+        PlaemoMemoList_Adapter adapter = new PlaemoMemoList_Adapter(memolistList);
         recyclerView.setAdapter(adapter);
     }
 }
