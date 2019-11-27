@@ -1,7 +1,10 @@
 package com.po771.plaemo;
 
+import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +33,7 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm_list);
 
         BaseHelper baseHelper = BaseHelper.getInstance(this);
-        List<Item_AlarmList> alarmList= baseHelper.getAllalarm();
+        final List<Item_AlarmList> alarmList= baseHelper.getAllalarm();
 
         RecyclerView recyclerView = findViewById(R.id.plaemoalarm_recylcerview);
 
@@ -44,6 +47,10 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
         //액션바 타이틀 변경
         getSupportActionBar().setTitle("알람리스트");
         Button button = (Button)findViewById(R.id.btn_back);
+
+
+        //Item 터치이벤트
+
 
     }
 

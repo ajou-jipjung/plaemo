@@ -250,9 +250,25 @@ public class BaseHelper extends SQLiteOpenHelper {
         db.insert(AlarmTable.NAME,null,values);
     }
 
+    public void editAlarmOnOff(Item_AlarmList alarmList){
+        db.execSQL("UPDATE "+
+                AlarmTable.Cols.ALARMNAME+"SET "+AlarmTable.Cols.ON+" = "+ alarmList.getIson()+
+                " WHERE _id = "+alarmList.get_id());
+    }
 
-
-
+    public Item_AlarmList getEditAlarmOnOff(int alarm_id){
+        Item_AlarmList alarm = new Item_AlarmList();
+        String query = "SELECT "+
+                AlarmTable.Cols.ON+
+                " FROM "+AlarmTable.Cols.ALARMNAME+
+                " WHERE _id = "+alarm_id;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            alarm.setIson(cursor.getInt(0));
+            alarm.set_id(alarm_id);
+        }
+        return alarm;
+    }
 
 
 

@@ -189,17 +189,6 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_setting);
 
-//        switch_vibe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked == true) {
-//                    new_alarm.setVibrate(1);
-//                    Toast.makeText(PlaemoAlarmSetActivity.this, "진동-ON", Toast.LENGTH_SHORT).show();
-//                }else new_alarm.setVibrate(0);
-//                Toast.makeText(PlaemoAlarmSetActivity.this, "진동-ON", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         Button alarm_set = (Button) findViewById(R.id.set_alarm);
         alarm_set.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -246,6 +235,17 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity {
 //        switch_repeat = (Switch) findViewById(R.id.repeat_switch);
 
         alarm_id = getIntent().getIntExtra("alarm_id", 1);
+
+
+
+        // 알람 on/off
+//        PlaemoAlarmList_Adapter adapter = new PlaemoAlarmList_Adapter(new PlaemoAlarmList_Adapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                if ()
+//                new_alarm.setIson();
+//            }
+//        }) ;
 
     }
 
