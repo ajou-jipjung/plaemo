@@ -15,7 +15,6 @@ public class DbSchema {
             public static final String ALARMTONE = "tone";
             public static final String SNOOZE = "snooze";
             public static final String VIBRATE = "vibrate";
-            public static final String AMPM = "ampm";
         }
     }
 
