@@ -9,12 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DocInfoActivity"></activity>
+        <activity android:name=".PlaemoEditMemoActivity"></activity>
+        <activity android:name=".PlaemoMainSettingActivity" />
+        <activity android:name=".PlaemoAlarmListActivity" />
+        <activity android:name=".AddDocActivity" />
+        <activity android:name=".DocInfoActivity" />
         <activity android:name=".PlaemoMainDocActivity" />
         <activity android:name=".PlaemoMainFolderActivity" />
-        <activity android:name=".PlaemoMemoListActivity"/>
-        <activity android:name=".PlaemoAlarmListActivity"/>
-        <activity android:name=".PlaemoAlarmSetActivity"/>
+        <activity android:name=".PlaemoMemoListActivity" />
+        <activity android:name=".PlaemoBookNewMemoActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -24,14 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver android:name=".AlarmReceiver">
-
-            <intent-filter>
-                <action android:name="android.intent.action.sec" />
-            </intent-filter>
-
-        </receiver>
     </application>
 
 </manifest>
