@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DocInfoActivity">
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/info_bookimage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:adjustViewBounds="true"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="2">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/info_bookname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="left"
+                    android:text="말의 품격"
+                    android:textSize="30dp" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_star_border_24px"
+                    android:layout_toLeftOf="@+id/info_setting"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/info_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_settings_applications_24px" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@android:color/black" />
+
+            <TextView
+                android:id="@+id/info_bookpage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="페이지 ~~~"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                />
+
+            <TextView
+                android:id="@+id/info_bookinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="책 정보 ㅁ나이ㅗㄹ마ㅣㄴ오러ㅏㅁㄴ오라ㅣㅁㄴ올마ㅣㄴ올마ㅣㅓㄴㅇ로마ㅣ넝로마ㅣㄴ어로 ~~~"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/info_readfirst"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="처음부터"
+            android:autoSizeTextType="uniform"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/info_readresume"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="이어보기"
+            android:autoSizeTextType="uniform"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/colorwhiteyellow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/info_bookmemolist_recylcerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>
