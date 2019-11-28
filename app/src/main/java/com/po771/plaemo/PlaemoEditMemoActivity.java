@@ -77,23 +77,39 @@ public class PlaemoEditMemoActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.memoedit:
-                // 내용 수정 저장
-                memo.set_id(memo_id);
-                memo.setBoook_id(book_id);
-                memo.setPage_start(Integer.parseInt(start_page.getText().toString()));
-                memo.setPage_end(Integer.parseInt(end_page.getText().toString()));
-                memo.setContent(context.getText().toString());
+                // 시작, 종료, 제목, 내용을 입력했는지 확인
+                if(start_page.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
+                    Toast.makeText(this, "시작페이지를 입력하세요.", Toast.LENGTH_SHORT).show();
+                }
+                else if(end_page.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
+                    Toast.makeText(this, "종료페이지를 입력하세요.", Toast.LENGTH_SHORT).show();
+                }
+                else if(context.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
+                    Toast.makeText(this, "내용을 입력하세요.", Toast.LENGTH_SHORT).show();
+                }
+                else if(Integer.parseInt(start_page.getText().toString()) > Integer.parseInt(end_page.getText().toString())){
+                    Toast.makeText(this, "시작페이지는 종료페이지보다 클 수 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    // 내용 수정 저장
+                    memo.set_id(memo_id);
+                    memo.setBoook_id(book_id);
+                    memo.setPage_start(Integer.parseInt(start_page.getText().toString()));
+                    memo.setPage_end(Integer.parseInt(end_page.getText().toString()));
+                    memo.setContent(context.getText().toString());
 
-                SimpleDateFormat nowtime = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-                Date time = new Date();
-                memo.setDate(nowtime.format(time));
+                    SimpleDateFormat nowtime = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+                    Date time = new Date();
+                    memo.setDate(nowtime.format(time));
 
-                baseHelper.editBookMemo(memo);
-                Toast.makeText(this, "수정 완료", Toast.LENGTH_SHORT).show();
-                // 이전 페이지로 이동
-                setResult(RESULT_OK);
-                finish();
-                return true;
+                    baseHelper.editBookMemo(memo);
+                    Toast.makeText(this, "수정 완료", Toast.LENGTH_SHORT).show();
+                    // 이전 페이지로 이동
+                    setResult(RESULT_OK);
+                    finish();
+                    return true;
+                }
+                return false;
             default:
                 return super.onOptionsItemSelected(item);
         }
