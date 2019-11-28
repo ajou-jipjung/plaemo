@@ -1,8 +1,6 @@
 package com.po771.plaemo;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,14 +16,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
-import com.po771.plaemo.item.Item_memo;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
 
 public class DocInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,7 +32,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     BaseHelper baseHelper;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.plaemodocinfo_action, menu);
+        getMenuInflater().inflate(R.menu.plemodocinfo_action, menu);
         return true;
     }
 
@@ -47,7 +45,6 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
                 return true;
             case R.id.bookaction_addmemo:
                 Intent settingIntent = new Intent(this, PlaemoBookNewMemoActivity.class);
-                settingIntent.putExtra("book_id",(item_book.get_id()));
                 startActivity(settingIntent);
             default:
                 return super.onOptionsItemSelected(item);
@@ -79,6 +76,8 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             btn_star.setBackground(getDrawable(R.drawable.ic_blackstar_24px));
         }
         findViewById(R.id.info_setting).setOnClickListener(this);
+        findViewById(R.id.info_readfirst).setOnClickListener(this);
+        findViewById(R.id.info_readresume).setOnClickListener(this);
 
         info_bookname.setText(item_book.getBook_name());
         String pageState=""+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
@@ -86,17 +85,18 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         info_bookinfo.setText(item_book.getBook_info());
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
 
-        BaseHelper baseHelper = BaseHelper.getInstance(this);
-        List<Item_memo> memolistList= baseHelper.getBookMemo(book_id);
-
-        RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        PlameoDocInfoMemo_Adapter adapter = new PlameoDocInfoMemo_Adapter(memolistList);
-        recyclerView.setAdapter(adapter);
-
+        ChipGroup chipGroup = findViewById(R.id.info_folderchips);
+        String[] folders = item_book.getFolder().split("/");
+        for(int i=0;i<folders.length;i++){
+            if(folders[i].equals("")){
+                break;
+            }
+            Chip chip = new Chip(this);
+            chip.setText(folders[i]);
+            chip.setTextAppearanceResource(R.style.ChipTextStyle);
+            chip.setChipBackgroundColorResource(R.color.chipbackground);
+            chipGroup.addView(chip);
+        }
     }
 
 
@@ -129,6 +129,20 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
                     item_book.setBook_star(1);
                     baseHelper.changeStar(item_book.get_id(),1);
                 }
+                break;
+            case R.id.info_readresume:
+                Intent pdfintent = new Intent(this, PDFViewerActivity.class);
+//                pdfintent.setAction(Intent.)
+                pdfintent.putExtra("bookId",item_book.get_id());
+                pdfintent.putExtra("readState","resume");
+                startActivity(pdfintent);
+                break;
+            case R.id.info_readfirst:
+                Intent pdfintent2 = new Intent(this, PDFViewerActivity.class);
+//                pdfintent.setAction(Intent.)
+                pdfintent2.putExtra("bookId",item_book.get_id());
+                pdfintent2.putExtra("readState","first");
+                startActivity(pdfintent2);
                 break;
         }
     }
