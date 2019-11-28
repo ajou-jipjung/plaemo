@@ -167,9 +167,6 @@
         android:pathData="M79,19L79,89"
         android:strokeWidth="0.8"
         android:strokeColor="#33FFFFFF" />
-=======
-    android:viewportWidth="109.09091"
-    android:viewportHeight="109.09091">
   <group android:translateX="0.54545456"
       android:translateY="0.54545456">
       <path android:fillColor="#008577"
@@ -239,5 +236,4 @@
       <path android:fillColor="#00000000" android:pathData="M79,19L79,89"
             android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
   </group>
->>>>>>> origin/1128_check2
 </vector>

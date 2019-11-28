@@ -83,6 +83,16 @@
                 android:layout_marginLeft="10dp"
                 android:textSize="20dp"
                 />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/info_folderchips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.flexbox.FlexboxLayout>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
