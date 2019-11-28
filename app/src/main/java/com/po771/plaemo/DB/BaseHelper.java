@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.po771.plaemo.DB.DbSchema.*;
+import com.po771.plaemo.item.Item_AlarmList;
 import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_folder;
 import com.po771.plaemo.item.Item_memo;
@@ -49,7 +50,11 @@ public class BaseHelper extends SQLiteOpenHelper {
                 AlarmTable.Cols.MINUTE + ", " +
                 AlarmTable.Cols.REPEAT + ", " +
                 AlarmTable.Cols.DAYSOFTHEWEEK + ", " +
-                AlarmTable.Cols.ON +
+                AlarmTable.Cols.ON + ", " +
+                AlarmTable.Cols.ALARMTONE + ", " +
+                AlarmTable.Cols.SNOOZE + ", " +
+                AlarmTable.Cols.VIBRATE + ", " +
+                AlarmTable.Cols.AMPM +
                 ")"
         );
 
@@ -187,6 +192,29 @@ public class BaseHelper extends SQLiteOpenHelper {
                 memolist.setContent("마지막. 메모입니다. 내용이 초과되면 어디까지 출력되는지 보기위해서 내용을 많이 입력해보도록 하겠습니다. 내용이 초과될때는 한번 터치하면 전체를 출력하고 다시 터치하면 잘린 내용을 출력하도록 제가 한번 구현해보도록 하겠습니다.");
                 memolist.setDate("2019-11-30 12:41:00");
                 baseHelper.insertMemoList(memolist);
+
+                Item_AlarmList alarmList = new Item_AlarmList();
+
+                alarmList.setAlarm_name("복습");
+                alarmList.setHour(18);
+                alarmList.setMinute(20);
+                alarmList.setIson(1);
+                alarmList.setVibrate(1);
+                baseHelper.insertAlarmList(alarmList);
+
+                alarmList.setAlarm_name("논문 읽기");
+                alarmList.setHour(20);
+                alarmList.setMinute(03);
+                alarmList.setIson(0);
+                alarmList.setVibrate(0);
+                baseHelper.insertAlarmList(alarmList);
+
+                alarmList.setAlarm_name("알람아 제발 들어가줘");
+                alarmList.setHour(19);
+                alarmList.setMinute(50);
+                alarmList.setIson(1);
+                alarmList.setVibrate(1);
+                baseHelper.insertAlarmList(alarmList);
                 return true;
             }
         }
@@ -444,5 +472,60 @@ public class BaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return  folderList;
+    }
+
+    public List<Item_AlarmList> getAllalarm(){
+        List<Item_AlarmList> alarmLists = new ArrayList<Item_AlarmList>();
+        String query = "SELECT "+
+                AlarmTable.Cols.ALARMNAME+", "+AlarmTable.Cols.HOUR+", "+AlarmTable.Cols.MINUTE+", "+AlarmTable.Cols.ON+", "+AlarmTable.Cols.VIBRATE+
+                " FROM "+AlarmTable.NAME;
+
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()) {
+            do {
+                Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
+
+                Item_AlarmList item = new Item_AlarmList();
+                item.setAlarm_name(cursor.getString(0));
+                item.setHour(cursor.getInt(1));
+                item.setMinute(cursor.getInt(2));
+                item.setIson(cursor.getInt(3));
+                item.setVibrate(cursor.getInt(4));
+                alarmLists.add(item);
+            }while (cursor.moveToNext());
+        }
+
+        return alarmLists;
+    }
+
+    public void editAlarmOnOff(Item_AlarmList alarmList){
+        db.execSQL("UPDATE "+
+                AlarmTable.Cols.ALARMNAME+"SET "+AlarmTable.Cols.ON+" = "+ alarmList.getIson()+
+                " WHERE _id = "+alarmList.get_id());
+    }
+
+    public void insertAlarmSet(Item_AlarmList alarmList){
+        ContentValues values = new ContentValues();
+//        values.put(AlarmTable.Cols.BOOKID,alarmList.get_id());
+        values.put(AlarmTable.Cols.AMPM,alarmList.getAmpm());
+        values.put(AlarmTable.Cols.HOUR,alarmList.getHour());
+        values.put(AlarmTable.Cols.MINUTE,alarmList.getMinute());
+        values.put(AlarmTable.Cols.ALARMNAME,alarmList.getAlarm_name());
+        values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
+//        values.put(AlarmTable.Cols.SNOOZE,alarmList.getSnooze());
+//        values.put(AlarmTable.Cols.REPEAT,alarmList.getRepeat());
+        values.put(AlarmTable.Cols.ON,alarmList.getIson());
+        db.insert(AlarmTable.NAME,null,values);
+    }
+
+    public void insertAlarmList(Item_AlarmList alarmList){
+        ContentValues values = new ContentValues();
+//        values.put(AlarmTable.Cols.BOOKID,alarmList.get_id());
+        values.put(AlarmTable.Cols.ALARMNAME,alarmList.getAlarm_name());
+        values.put(AlarmTable.Cols.HOUR,alarmList.getHour());
+        values.put(AlarmTable.Cols.MINUTE,alarmList.getMinute());
+        values.put(AlarmTable.Cols.ON,alarmList.getIson());
+        values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
+        db.insert(AlarmTable.NAME,null,values);
     }
 }
