@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.po771.plaemo.DB.BaseHelper;
@@ -18,31 +20,27 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.plaemomaindoc_action, menu);
+        getMenuInflater().inflate(R.menu.plemomaindoc_action, menu);
         return true;
     }
 
     //액션버튼을 클릭했을때의 동작
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.folderaction_memolist:
-                Intent settingIntent = new Intent(this, PlaemoMemoListActivity.class);
-                startActivity(settingIntent);
-                default:
-                    return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.folderaction_memolist) {
+            Intent settingIntent = new Intent(this, PlaemoMemoListActivity.class);
+            startActivity(settingIntent);
         }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plaemo_doc);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String folder_name = getIntent().getStringExtra("folder_name");
         this.setTitle(folder_name);
