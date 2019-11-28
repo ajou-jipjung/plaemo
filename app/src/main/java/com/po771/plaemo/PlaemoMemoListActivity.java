@@ -1,6 +1,7 @@
 package com.po771.plaemo;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,16 +14,26 @@ import java.util.List;
 
 public class PlaemoMemoListActivity extends AppCompatActivity {
 
+    //액션버튼을 클릭했을때의 동작
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plemo_memo_list);
+        setContentView(R.layout.activity_plaemo_memo_list);
 
         //액션바 설정하기//
         //액션바 타이틀 변경하기
         getSupportActionBar().setTitle("메모리스트");
-        //액션바 배경색 변경
-        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -34,8 +45,6 @@ public class PlaemoMemoListActivity extends AppCompatActivity {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        //여기 밑에 PlemoMemoList_Adapter()안에 Arraylist안에 들어갈거를 넣어야지
 
         PlaemoMemoList_Adapter adapter = new PlaemoMemoList_Adapter(memolistList);
         recyclerView.setAdapter(adapter);

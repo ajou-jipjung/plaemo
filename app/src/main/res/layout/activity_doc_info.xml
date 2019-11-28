@@ -105,4 +105,16 @@
             android:autoSizeTextType="uniform"
             />
     </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/colorwhiteyellow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/info_bookmemolist_recylcerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </LinearLayout>

@@ -3,7 +3,6 @@ package com.po771.plaemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,7 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.plemomainfolder_action, menu);
+        getMenuInflater().inflate(R.menu.plaemomainfolder_action, menu);
         return true;
     }
 
