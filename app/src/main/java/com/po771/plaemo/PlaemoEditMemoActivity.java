@@ -62,11 +62,18 @@ public class PlaemoEditMemoActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        super.onBackPressed();
+    }
+
     //액션버튼을 클릭했을때의 동작
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setResult(RESULT_OK);
                 finish();
                 return true;
             case R.id.memoedit:
@@ -84,6 +91,7 @@ public class PlaemoEditMemoActivity extends AppCompatActivity {
                 baseHelper.editBookMemo(memo);
                 Toast.makeText(this, "수정 완료", Toast.LENGTH_SHORT).show();
                 // 이전 페이지로 이동
+                setResult(RESULT_OK);
                 finish();
                 return true;
             default:

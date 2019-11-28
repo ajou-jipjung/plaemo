@@ -1,5 +1,6 @@
 package com.po771.plaemo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -78,6 +79,7 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
 
         @Override
         public void onClick(View v) {
+            Context context = v.getContext();
             if (v.getId() == R.id.memocontent){
                 if(content.getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT){
                     content.getLayoutParams().height = 128;
@@ -91,7 +93,7 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
                 // 값 넘겨주기 코드 구현
                 Log.w("넘겨주는 memo_id", String.valueOf(memoid));
                 intent.putExtra("memo_id", memoid);
-                v.getContext().startActivity(intent);
+                ((Activity) context).startActivityForResult(intent,400);
             }
         }
     }
