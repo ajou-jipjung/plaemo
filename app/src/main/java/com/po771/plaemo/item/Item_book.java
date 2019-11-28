@@ -11,15 +11,6 @@ public class Item_book {
     private String book_info;
     private int book_star;
     private String folder;
-    private Bitmap image_bitmap;
-
-    public Bitmap getImage_bitmap() {
-        return image_bitmap;
-    }
-
-    public void setImage_bitmap(Bitmap image_bitmap) {
-        this.image_bitmap = image_bitmap;
-    }
 
     public Item_book() {
     }
