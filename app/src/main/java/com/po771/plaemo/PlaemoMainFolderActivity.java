@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
@@ -26,7 +25,7 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
     ImageView imageView;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.plemomainfolder_action, menu);
+        getMenuInflater().inflate(R.menu.plaemomainfolder_action, menu);
         return true;
     }
 
