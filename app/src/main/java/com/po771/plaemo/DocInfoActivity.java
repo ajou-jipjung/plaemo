@@ -1,6 +1,8 @@
 package com.po771.plaemo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +20,12 @@ import android.widget.TextView;
 
 import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
+import com.po771.plaemo.item.Item_memo;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public class DocInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,7 +34,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     BaseHelper baseHelper;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.plemodocinfo_action, menu);
+        getMenuInflater().inflate(R.menu.plaemodocinfo_action, menu);
         return true;
     }
 
@@ -43,6 +47,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
                 return true;
             case R.id.bookaction_addmemo:
                 Intent settingIntent = new Intent(this, PlaemoBookNewMemoActivity.class);
+                settingIntent.putExtra("book_id",(item_book.get_id()));
                 startActivity(settingIntent);
             default:
                 return super.onOptionsItemSelected(item);
@@ -80,6 +85,17 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         info_bookpage.setText(pageState);
         info_bookinfo.setText(item_book.getBook_info());
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
+
+        BaseHelper baseHelper = BaseHelper.getInstance(this);
+        List<Item_memo> memolistList= baseHelper.getBookMemo(book_id);
+
+        RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        PlameoDocInfoMemo_Adapter adapter = new PlameoDocInfoMemo_Adapter(memolistList);
+        recyclerView.setAdapter(adapter);
 
     }
 
