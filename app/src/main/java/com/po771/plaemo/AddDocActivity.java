@@ -61,7 +61,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     BaseHelper baseHelper;
     Uri uri=null;
     Bitmap bitmap=null;
-    EditText tv_bookname;
+    EditText et_bookname;
     EditText tv_page;
     EditText et_bookinfo;
     ImageView iv_bookimage;
@@ -83,7 +83,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.adddoc_register).setOnClickListener(this);
         findViewById(R.id.adddoc_folderlist).setOnClickListener(this);
 
-        tv_bookname=(EditText)findViewById(R.id.adddoc_title);
+        et_bookname=(EditText)findViewById(R.id.adddoc_title);
         tv_page=(EditText)findViewById(R.id.adddoc_pages);
         et_bookinfo=(EditText)findViewById(R.id.adddoc_info);
         iv_bookimage=(ImageView)findViewById(R.id.adddoc_image);
@@ -141,6 +141,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.adddoc_register:
                 if(bitmap!=null){
+                    item_book.setBook_name(et_bookname.getText().toString());
                     item_book.setBook_info(et_bookinfo.getText().toString());
                     String folder="";
                     for(int i=1;i<folderChecklist.size();i++){
@@ -149,6 +150,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
                             folder+="/";
                         }
                     }
+                    registerDoc(this,uri,item_book.getBook_name());
                     item_book.setFolder(folder);
                     int id = baseHelper.insertBook(item_book);
                     for(int i=1;i<folderChecklist.size();i++){
@@ -185,7 +187,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             case 3000:
                 uri = data.getData();
                 Log.d("check_uri",uri.toString());
-                test(this,uri);
+//                test(this,uri);
                 setItem_book(uri);
                 break;
 
@@ -215,12 +217,12 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     void setItem_book(Uri pdfUri) {
-//        String book_name = uri2filename(pdfUri);
+        String book_name = uri2filename(pdfUri);
         int total_page=0;
 
 //        item_book.setBook_uri(pdfUri.toString());
-//        item_book.setBook_name(book_name);
-//        tv_bookname.setText(book_name);
+        item_book.setBook_name(book_name);
+        et_bookname.setText(book_name);
 
         item_book.setCurrent_page(1);
 
@@ -310,21 +312,14 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         return false;
     }
 
-    public void test(Context context,Uri uri){
+    public void registerDoc(Context context,Uri uri,String bookname){
         Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
-        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
         returnCursor.moveToFirst();
-        filename = returnCursor.getString(nameIndex);
-        item_book.setBook_name(filename);
-        tv_bookname.setText(filename);
-        String size = Long.toString(returnCursor.getLong(sizeIndex));
-        File fileSave = getExternalFilesDir(null);
         String sourcePath = getExternalFilesDir(null).toString();
         try {
-            copyFileStream(new File(sourcePath + "/" + filename), uri,this);
-            Log.d("saveFile",sourcePath + "/" + filename);
-            item_book.setBook_uri(sourcePath + "/" + filename);
+            copyFileStream(new File(sourcePath + "/" + bookname), uri,this);
+            Log.d("saveFile",sourcePath + "/" + bookname);
+            item_book.setBook_uri(sourcePath + "/" + bookname);
 
         } catch (Exception e) {
             e.printStackTrace();

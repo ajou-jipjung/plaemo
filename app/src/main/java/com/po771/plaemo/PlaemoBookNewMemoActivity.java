@@ -41,6 +41,7 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setResult(RESULT_OK);
                 finish();
                 return true;
             case R.id.memoadd:
@@ -67,6 +68,7 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
                     baseHelper.insertMemoList(new_memo);
                     // 이전 페이지로 이동
 //                    Toast.makeText(this, "등록 완료", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
                     finish();
                     return true;
                 }
@@ -96,6 +98,12 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
         context = (EditText)findViewById(R.id.memo_context);
 
         book_id = getIntent().getIntExtra("book_id", 1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        super.onBackPressed();
     }
 
 }

@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,11 @@ import java.util.List;
 
 public class PlaemoMainDocActivity extends AppCompatActivity {
 
+    String folder_name;
+    BaseHelper baseHelper;
+    List<Item_book> bookList;
+    RecyclerView recyclerView;
+    PlaemoMainDoc_Adapter docListAdapter;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.plaemomaindoc_action, menu);
@@ -44,16 +51,16 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String folder_name = getIntent().getStringExtra("folder_name");
+        folder_name = getIntent().getStringExtra("folder_name");
         this.setTitle(folder_name);
 
-        BaseHelper baseHelper = BaseHelper.getInstance(this);
-        List<Item_book> bookList= baseHelper.getAllbookinfolder(folder_name);
+        baseHelper = BaseHelper.getInstance(this);
+        bookList= baseHelper.getAllbookinfolder(folder_name);
 
-        RecyclerView recyclerView = findViewById(R.id.plemodoc_recylcerview);
+        recyclerView = findViewById(R.id.plemodoc_recylcerview);
         GridLayoutManager layoutManager = new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(layoutManager);
-        PlaemoMainDoc_Adapter docListAdapter = new PlaemoMainDoc_Adapter(bookList);
+        docListAdapter = new PlaemoMainDoc_Adapter(bookList);
         recyclerView.setAdapter(docListAdapter);
 
 //        GridLayoutManager manager = new GridLayoutManager(this,5);
@@ -61,5 +68,16 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
 //        PlaemoMainFolder_Adapter adapter = new PlaemoMainFolder_Adapter(folderList);
 //        recyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==200){
+//            Toast.makeText(this,"check!",Toast.LENGTH_SHORT).show();
+            bookList= baseHelper.getAllbookinfolder(folder_name);
+            docListAdapter.update(bookList);
+        }
     }
 }

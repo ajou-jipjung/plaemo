@@ -48,6 +48,11 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
         return vh;
     }
 
+    public void update(List<Item_book> bookList){
+        this.bookList=bookList;
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Item_book item_book = bookList.get(position);
@@ -88,15 +93,13 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
                 Intent intent = new Intent(context,DocInfoActivity.class);
                 intent.putExtra("book_id",(item_book.get_id()));
                 intent.putExtra("book_name",(item_book.getBook_name()));
-                context.startActivity(intent);
+                ((Activity) context).startActivityForResult(intent,200);
             }
         });
         holder.textView_percent.setText(String.valueOf(Math.round(percent))+"%");
 //        holder.circularProgressBar.getLayoutParams().width=bitwidth;
 //        holder.circularProgressBar.getLayoutParams().height=bitwidth;
         holder.circularProgressBar.setProgress(percent);
-
-
     }
 
     @Override

@@ -19,7 +19,6 @@
             android:id="@+id/info_bookimage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
             android:adjustViewBounds="true"
             android:layout_weight="1"/>
 

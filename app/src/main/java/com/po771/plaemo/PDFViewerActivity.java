@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -45,6 +46,9 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdfviewer);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         int bookId = getIntent().getIntExtra("bookId",1);
         String readState = getIntent().getStringExtra("readState");
         baseHelper = BaseHelper.getInstance(this);
@@ -97,6 +101,18 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    //액션버튼을 클릭했을때의 동작
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

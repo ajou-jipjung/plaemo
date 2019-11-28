@@ -25,6 +25,12 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
     private List<Item_AlarmList> alarmList;
 //    private Context context;
 
+
+    public void update(List<Item_AlarmList> alarmList){
+        this.alarmList=alarmList;
+        this.notifyDataSetChanged();
+    }
+
     public PlaemoAlarmList_Adapter(List<Item_AlarmList> alarmList) {
         this.alarmList = alarmList;
     }

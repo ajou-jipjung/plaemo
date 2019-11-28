@@ -40,6 +40,11 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
         return new ViewHolder(itemView);
     }
 
+    public void update(List<Item_memo> memolistList){
+        this.items=memolistList;
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount(){
         return items.size();

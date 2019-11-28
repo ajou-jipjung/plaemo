@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -184,10 +186,14 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity {
     Switch switch_repeat;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_setting);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button alarm_set = (Button) findViewById(R.id.set_alarm);
         alarm_set.setOnClickListener(new View.OnClickListener() {
@@ -215,6 +221,7 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity {
                          new_alarm.setIson(1);
                          baseHelper.insertAlarmSet(new_alarm);
                          // 이전 페이지로 이동
+                         setResult(RESULT_OK);
                          finish();
                  }
              }
@@ -249,5 +256,23 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        super.onBackPressed();
+    }
+
+    //액션버튼을 클릭했을때의 동작
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                setResult(RESULT_OK);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

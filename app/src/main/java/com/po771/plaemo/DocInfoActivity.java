@@ -1,5 +1,6 @@
 package com.po771.plaemo;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +39,10 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     Item_book item_book;
     Button btn_star;
     BaseHelper baseHelper;
+    TextView info_bookpage;
+    int book_id;
+    PlameoDocInfoMemo_Adapter adapter;
+    List<Item_memo> memolistList;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -45,18 +50,25 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        super.onBackPressed();
+    }
+
     //액션버튼을 클릭했을때의 동작
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setResult(RESULT_OK);
                 finish();
                 return true;
             case R.id.bookaction_addmemo:
                 Intent settingIntent = new Intent(this, PlaemoBookNewMemoActivity.class);
                 settingIntent.putExtra("book_id",(item_book.get_id()));
 
-                startActivity(settingIntent);
+                startActivityForResult(settingIntent,400);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -69,7 +81,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String book_name = getIntent().getStringExtra("book_name");
-        int book_id = getIntent().getIntExtra("book_id",1);
+        book_id = getIntent().getIntExtra("book_id",1);
 
         setTitle(book_name+ " - 정보");
 
@@ -77,7 +89,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         item_book = baseHelper.getBook(book_id);
 
         TextView info_bookname = (TextView)findViewById(R.id.info_bookname);
-        TextView info_bookpage = (TextView)findViewById(R.id.info_bookpage);
+        info_bookpage = (TextView)findViewById(R.id.info_bookpage);
         TextView info_bookinfo = (TextView)findViewById(R.id.info_bookinfo);
         ImageView imageView = (ImageView)findViewById(R.id.info_bookimage);
 
@@ -96,15 +108,14 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         info_bookinfo.setText(item_book.getBook_info());
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
 
-        BaseHelper baseHelper = BaseHelper.getInstance(this);
-        List<Item_memo> memolistList= baseHelper.getBookMemo(book_id);
+        memolistList= baseHelper.getBookMemo(book_id);
 
         RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        PlameoDocInfoMemo_Adapter adapter = new PlameoDocInfoMemo_Adapter(memolistList);
+        adapter = new PlameoDocInfoMemo_Adapter(memolistList);
         recyclerView.setAdapter(adapter);
 
         ChipGroup chipGroup = findViewById(R.id.info_folderchips);
@@ -157,15 +168,34 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
 //                pdfintent.setAction(Intent.)
                 pdfintent.putExtra("bookId",item_book.get_id());
                 pdfintent.putExtra("readState","resume");
-                startActivity(pdfintent);
+                startActivityForResult(pdfintent,200);
                 break;
             case R.id.info_readfirst:
                 Intent pdfintent2 = new Intent(this, PDFViewerActivity.class);
 //                pdfintent.setAction(Intent.)
                 pdfintent2.putExtra("bookId",item_book.get_id());
                 pdfintent2.putExtra("readState","first");
-                startActivity(pdfintent2);
+                startActivityForResult(pdfintent2,200);
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case 200: //책 상태 변경 + 아래 메모 변경
+                item_book = baseHelper.getBook(book_id);
+
+                String pageState=""+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
+                info_bookpage.setText(pageState);
+
+            case 400://메모 변경
+                memolistList= baseHelper.getBookMemo(book_id);
+                adapter.update(memolistList);
+                break;
+        }
+
     }
 }
