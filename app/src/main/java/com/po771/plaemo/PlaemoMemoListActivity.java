@@ -42,7 +42,6 @@ public class PlaemoMemoListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.plemomemolist_recylcerview);
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 

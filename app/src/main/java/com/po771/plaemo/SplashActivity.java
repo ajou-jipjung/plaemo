@@ -1,5 +1,7 @@
 package com.po771.plaemo;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,9 +14,16 @@ import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_folder;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class SplashActivity extends AppCompatActivity {
+
+    DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +114,7 @@ public class SplashActivity extends AppCompatActivity {
             item_book.setBook_star(1);
             item_book.setFolder("집교1/집교2");
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.book1);
-            item_book.setImage_bitmap(bitmap);
+            saveToInternalStorage(bitmap,"1");
             baseHelper.insertBook(item_book);
 
             item_book.setBook_name("집교책2");
@@ -116,7 +125,7 @@ public class SplashActivity extends AppCompatActivity {
             item_book.setBook_star(1);
             item_book.setFolder("집교1/집교2/HCI");
             bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.book2);
-            item_book.setImage_bitmap(bitmap);
+            saveToInternalStorage(bitmap,"2");
             baseHelper.insertBook(item_book);
 
             item_book.setBook_name("집교책3");
@@ -127,7 +136,7 @@ public class SplashActivity extends AppCompatActivity {
             item_book.setBook_star(1);
             item_book.setFolder("집교1/HCI");
             bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.book3);
-            item_book.setImage_bitmap(bitmap);
+            saveToInternalStorage(bitmap,"3");
             baseHelper.insertBook(item_book);
 
             item_book.setBook_name("집교책4");
@@ -138,8 +147,36 @@ public class SplashActivity extends AppCompatActivity {
             item_book.setBook_star(1);
             item_book.setFolder("집교1/집교2/HCI");
             bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.book4);
-            item_book.setImage_bitmap(bitmap);
+            saveToInternalStorage(bitmap,"4");
             baseHelper.insertBook(item_book);
         }
+        ///////////아직 사용 보류
+        dataManager=DataManager.getInstance();
+        dataManager.setBookList(baseHelper.getAllBook());
+        dataManager.setFolderList(baseHelper.getAllFolder());
+    }
+
+    private String saveToInternalStorage(Bitmap bitmapImage,String fileName){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath=new File(directory,fileName+".jpg");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return directory.getAbsolutePath();
     }
 }
