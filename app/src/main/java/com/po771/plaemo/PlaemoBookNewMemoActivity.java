@@ -55,6 +55,9 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
                 else if(context.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
                     Toast.makeText(this, "내용을 입력하세요.", Toast.LENGTH_SHORT).show();
                 }
+                else if(Integer.parseInt(start_page.getText().toString()) > Integer.parseInt(end_page.getText().toString())){
+                    Toast.makeText(this, "시작페이지는 종료페이지보다 클 수 없습니다.", Toast.LENGTH_SHORT).show();
+                }
                 else{
                     new_memo.setBoook_id(book_id);
                     new_memo.setPage_start(Integer.parseInt(start_page.getText().toString()));

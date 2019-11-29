@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Spinner
+        android:id="@+id/book_memo_spinner"
+        android:layout_width="161dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="250dp"
+        android:entries="@array/bookmemo"
+        android:textSize="10dp" />
+
+
     <androidx.recyclerview.widget.RecyclerView
 
         android:id="@+id/plemomemolist_recylcerview"

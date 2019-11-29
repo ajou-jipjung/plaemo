@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bookmemo">
+        <item>정렬</item>
+        <item>등록순</item>
+        <item>최종수정순</item>
+        <item>시작페이지순</item>
+        <item>종료페이지순</item>
+    </string-array>
+
+</resources>
