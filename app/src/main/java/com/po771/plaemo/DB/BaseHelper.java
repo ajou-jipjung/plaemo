@@ -275,23 +275,25 @@ public class BaseHelper extends SQLiteOpenHelper {
                 " WHERE _id = "+memolist.get_id());
     }
 
-    public List<Item_memo> getMemos(int spinner_num){
+    public List<Item_memo> getMemos(int spinner_num, String folder_name){
         List<Item_memo> memoList = new ArrayList<Item_memo>();
+        //memo.book_id = book._id WHERE book.folder like '%집교2%' ORDER BY memo.date DESC
         String query = "SELECT "+
-                BookMemo.Cols.BOOKID+", "+BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+", _id"+
-                " FROM "+BookMemo.NAME;
+                "memo_table."+BookMemo.Cols.BOOKID+", memo_table."+BookMemo.Cols.PAGESTART+", memo_table."+BookMemo.Cols.PAGEEND+", memo_table."+BookMemo.Cols.CONTENT+", memo_table."+BookMemo.Cols.DATA+", memo_table._id"+
+                " FROM "+BookMemo.NAME +" memo_table INNER JOIN "+BookList.NAME+" book_table ON memo_table."+BookMemo.Cols.BOOKID+" = book_table._id WHERE book_table."+BookList.Cols.FOLDER
+                +" like '%"+folder_name+"%'";
         switch(spinner_num){ //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 최종수정순 3. 시작페이지순 4. 종료페이지순
             case 1:
-                query = query + " ORDER BY _id ASC";
+                query = query + " ORDER BY memo_table._id ASC";
                 break;
             case 2:
-                query = query + " ORDER BY "+BookMemo.Cols.DATA+" DESC";
+                query = query + " ORDER BY memo_table."+BookMemo.Cols.DATA+" DESC";
                 break;
             case 3:
-                query = query + " ORDER BY "+BookMemo.Cols.PAGESTART+" ASC";
+                query = query + " ORDER BY memo_table."+BookMemo.Cols.PAGESTART+" ASC";
                 break;
             case 4:
-                query = query + " ORDER BY "+BookMemo.Cols.PAGEEND+" DESC";
+                query = query + " ORDER BY memo_table."+BookMemo.Cols.PAGEEND+" DESC";
                 break;
             default: // 0포함
                 Log.w("쿼리문in", "no in. spinner_num is"+spinner_num);

@@ -2,6 +2,7 @@ package com.po771.plaemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class PlaemoMemoListActivity extends AppCompatActivity {
 
+    String folder_name;
     BaseHelper baseHelper = BaseHelper.getInstance(this);
 
     @Override
@@ -55,6 +57,8 @@ public class PlaemoMemoListActivity extends AppCompatActivity {
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        folder_name = getIntent().getStringExtra("folder_name");
+        Log.w("폴더이름", folder_name);
 
         Spinner memo_spinner = (Spinner)findViewById(R.id.book_memo_spinner);
         memo_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -71,7 +75,7 @@ public class PlaemoMemoListActivity extends AppCompatActivity {
     }
 
     protected void MemoListSort(int spinner_num){
-        List<Item_memo> memolistList= baseHelper.getMemos(spinner_num);
+        List<Item_memo> memolistList= baseHelper.getMemos(spinner_num, folder_name);
 
         RecyclerView recyclerView = findViewById(R.id.plemomemolist_recylcerview);
 
