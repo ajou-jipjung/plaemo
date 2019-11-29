@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,10 @@ import com.po771.plaemo.DB.BaseHelper;
 public class PlaemoMainFolderActivity extends AppCompatActivity {
 
     ImageView imageView;
+    BaseHelper baseHelper;
+    List<String> folderList;
+    PlaemoMainFolder_Adapter adapter;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.plaemomainfolder_action, menu);
@@ -34,7 +39,7 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.mainfolderaction_book:
                 Intent addDoc_intent = new Intent(this, AddDocActivity.class);
-                startActivity(addDoc_intent);
+                startActivityForResult(addDoc_intent,200);
                 return true;
             case R.id.mainfolderaction_alarm:
                 Intent alarmList_intent = new Intent(this, PlaemoAlarmListActivity.class);
@@ -54,14 +59,14 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plaemo_main);
 
-        BaseHelper baseHelper = BaseHelper.getInstance(this);
-        List<String> folderList= baseHelper.getAllmemo();
+        baseHelper = BaseHelper.getInstance(this);
+        folderList= baseHelper.getAllmemo();
 
         RecyclerView recyclerView = findViewById(R.id.plemofolder_recylcerview);
 //        int width =
         GridLayoutManager manager = new GridLayoutManager(this,5);
         recyclerView.setLayoutManager(manager);
-        PlaemoMainFolder_Adapter adapter = new PlaemoMainFolder_Adapter(folderList);
+        adapter = new PlaemoMainFolder_Adapter(folderList);
         recyclerView.setAdapter(adapter);
 
 //        imageView = (ImageView)findViewById(R.id.test);
@@ -70,18 +75,14 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
     }
 
 
-    private void loadImageFromInternalStorage(String fileName)
-    {
-
-        try {
-            File f=new File(getDataDir().getAbsolutePath()+"/app_imageDir", fileName+".jpg");
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            imageView.setImageBitmap(b);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 200: //책 상태 변경 + 아래 메모 변경
+                folderList = baseHelper.getAllmemo();
+                adapter.update(folderList);
+                break;
         }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
     }
 }

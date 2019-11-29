@@ -10,4 +10,7 @@
     <color name="colorskybuleDark">#4B72AD</color>
     <color name="chipbackground">#FFC0F7EB</color>
     <color name="progressbar_color">#202328</color>
+    <color name="lightgray">#b4b4ad</color>
+    <color name="darkgray">#727272</color>
+    <color name="white">#ffffff</color>
 </resources>

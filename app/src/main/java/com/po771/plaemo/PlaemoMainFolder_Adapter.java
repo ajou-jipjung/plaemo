@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.po771.plaemo.item.Item_book;
+
 import java.util.List;
 
 public class PlaemoMainFolder_Adapter extends RecyclerView.Adapter<PlaemoMainFolder_Adapter.ViewHolder> {
@@ -22,7 +24,6 @@ public class PlaemoMainFolder_Adapter extends RecyclerView.Adapter<PlaemoMainFol
         this.folderList = folderList;
     }
 
-
     @NonNull
     @Override
     public PlaemoMainFolder_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,6 +34,11 @@ public class PlaemoMainFolder_Adapter extends RecyclerView.Adapter<PlaemoMainFol
         PlaemoMainFolder_Adapter.ViewHolder vh = new PlaemoMainFolder_Adapter.ViewHolder(view);
 
         return vh;
+    }
+
+    public void update( List<String> folderList){
+        this.folderList=folderList;
+        this.notifyDataSetChanged();
     }
 
     @Override

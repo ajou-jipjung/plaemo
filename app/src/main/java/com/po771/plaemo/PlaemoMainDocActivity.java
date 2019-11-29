@@ -2,8 +2,12 @@ package com.po771.plaemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -14,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class PlaemoMainDocActivity extends AppCompatActivity {
@@ -23,9 +29,27 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
     List<Item_book> bookList;
     RecyclerView recyclerView;
     PlaemoMainDoc_Adapter docListAdapter;
+    Switch percent_switch;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.plaemomaindoc_action, menu);
+        MenuItem item = menu.findItem(R.id.folderaction_switch);
+        percent_switch = (Switch)item.getActionView().findViewById(R.id.cSwitch);
+        final TextView tv_switch = (TextView)item.getActionView().findViewById(R.id.cSwitch_textView);
+        percent_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    tv_switch.setGravity(Gravity.LEFT);
+                    docListAdapter.updatevisible(true);
+                }else{
+                    tv_switch.setGravity(Gravity.RIGHT);
+                    docListAdapter.updatevisible(false);
+                }
+            }
+        });
+
         return true;
     }
 
@@ -62,6 +86,7 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         docListAdapter = new PlaemoMainDoc_Adapter(bookList);
         recyclerView.setAdapter(docListAdapter);
+
 
 //        GridLayoutManager manager = new GridLayoutManager(this,5);
 //        recyclerView.setLayoutManager(manager);

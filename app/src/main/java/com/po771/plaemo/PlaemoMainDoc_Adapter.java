@@ -28,11 +28,12 @@ import java.util.List;
 public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Adapter.ViewHolder> {
 
     private List<Item_book> bookList = null;
-
+    private boolean visibleState;
     private Context context;
 
     public PlaemoMainDoc_Adapter(List<Item_book> bookList) {
         this.bookList = bookList;
+        this.visibleState=false;
     }
 
     @NonNull
@@ -50,6 +51,11 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
 
     public void update(List<Item_book> bookList){
         this.bookList=bookList;
+        this.notifyDataSetChanged();
+    }
+
+    public void updatevisible(boolean visibleSate){
+        this.visibleState = visibleSate;
         this.notifyDataSetChanged();
     }
 
@@ -74,7 +80,7 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
         int layoutwidth = displaymetrics.widthPixels/3;
         int layoutheight = displaymetrics.heightPixels/3;
         holder.linearLayout.getLayoutParams().width=layoutwidth;
-        holder.linearLayout.getLayoutParams().height=layoutheight;
+        holder.linearLayout.getLayoutParams().height=layoutheight-40;
         holder.relativeLayout.getLayoutParams().height=layoutheight-30;
 
         Bitmap bitmap = loadImageFromInternalStorage(item_book.get_id());
@@ -84,7 +90,6 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
         if(bitwidth>bitheight){
             bitwidth=bitheight;
         }
-        holder.imageView.getDrawable().setAlpha(50);
         holder.textView_title.setText(doc_name);
         holder.relativeLayout.setOnClickListener(new View.OnClickListener(){
 
@@ -99,7 +104,23 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
         holder.textView_percent.setText(String.valueOf(Math.round(percent))+"%");
 //        holder.circularProgressBar.getLayoutParams().width=bitwidth;
 //        holder.circularProgressBar.getLayoutParams().height=bitwidth;
+
+        int circularsize = layoutwidth-100;
+        holder.circularProgressBar.getLayoutParams().width=circularsize;
+        holder.circularProgressBar.getLayoutParams().height=circularsize;
         holder.circularProgressBar.setProgress(percent);
+
+        if(!visibleState){
+            holder.imageView.getDrawable().setAlpha(255);
+            holder.textView_percent.setVisibility(View.INVISIBLE);
+            holder.circularProgressBar.setVisibility(View.INVISIBLE);
+        }
+        else{
+            holder.imageView.getDrawable().setAlpha(70);
+            holder.textView_percent.setVisibility(View.VISIBLE);
+            holder.circularProgressBar.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override

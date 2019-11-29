@@ -7,11 +7,13 @@ import androidx.loader.content.CursorLoader;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -25,6 +27,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -116,6 +119,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setResult(RESULT_OK);
                 finish();
                 return true;
         }
@@ -142,6 +146,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
             case R.id.adddoc_cancle:
+                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.adddoc_register:
@@ -167,19 +172,107 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     }
                     saveToInternalStorage(bitmap,id);
+                    setResult(RESULT_OK);
                     finish();
                 }
                 break;
             case R.id.adddoc_folderlist:
                 menu = new PopupMenu(getApplicationContext(),v);
                 menu.setOnMenuItemClickListener(this);
-                menu.getMenu().add(Menu.NONE, 0, 0, "추가");
+                menu.getMenu().add(Menu.NONE, 0, 0, "폴더 추가");
+
                 for(int i=1;i<=folderList.size();i++){
                     menu.getMenu().add(Menu.NONE, i, i, folderList.get(i-1)).setCheckable(true).setChecked(folderChecklist.get(i));
                 }
                 menu.show();
                 break;
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) { //메뉴 클릭 이벤트
+
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        menuItem.setActionView(new View(this));
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return false;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return false;
+            }
+        });
+//        return false;
+
+        int id = menuItem.getItemId();
+        if(id>0){
+            if(menuItem.isChecked()){
+                menuItem.setChecked(false);
+                folderChecklist.set(id,false);
+                for(int i=0;i<chipGroup.getChildCount();i++){
+                    View childChip = chipGroup.getChildAt(i);
+                    String chipTitle = ((Chip)childChip).getText().toString();
+                    if(chipTitle.equals(menuItem.getTitle().toString())){
+                        chipGroup.removeViewAt(i);
+                        break;
+                    }
+
+                }
+            }
+            else {
+                menuItem.setChecked(true);
+                folderChecklist.set(id,true);
+                Chip chip = new Chip(this);
+                chip.setText(menuItem.getTitle().toString());
+                chip.setTextAppearanceResource(R.style.ChipTextStyle);
+                chip.setChipBackgroundColorResource(R.color.chipbackground);
+                chipGroup.addView(chip);
+            }
+            switch (menuItem.getItemId()){
+                case 1:
+                    break;
+            }
+        }
+        else{ //추가
+            LayoutInflater layoutInflater = LayoutInflater.from(this);
+            View addFolderview = layoutInflater.inflate(R.layout.addfolder,null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+            // set prompts.xml to alertdialog builder
+            alertDialogBuilder.setView(addFolderview);
+
+            final EditText folderTitle = (EditText)addFolderview.findViewById(R.id.addfolder_foldertitle);
+
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("추가",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    //추가버튼 이벤트
+//                                    result.setText(userInput.getText());
+                                    folderList.add(folderTitle.getText().toString());
+                                    folderChecklist.add(false);
+                                    int i=folderList.size();
+                                    menu.getMenu().add(Menu.NONE, i, i, folderList.get(i-1)).setCheckable(true).setChecked(folderChecklist.get(i));
+                                }
+                            })
+                    .setNegativeButton("취소",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
+        }
+        return false;
     }
 
     String filename;
@@ -259,55 +352,6 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         return directory.getAbsolutePath();
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) { //메뉴 클릭 이벤트
-
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-        menuItem.setActionView(new View(this));
-        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                return false;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                return false;
-            }
-        });
-//        return false;
-
-        int id = menuItem.getItemId();
-        if(id>0){
-            if(menuItem.isChecked()){
-                menuItem.setChecked(false);
-                folderChecklist.set(id,false);
-                for(int i=0;i<chipGroup.getChildCount();i++){
-                    View childChip = chipGroup.getChildAt(i);
-                    String chipTitle = ((Chip)childChip).getText().toString();
-                    if(chipTitle.equals(menuItem.getTitle().toString())){
-                        chipGroup.removeViewAt(i);
-                        break;
-                    }
-
-                }
-            }
-            else {
-                menuItem.setChecked(true);
-                folderChecklist.set(id,true);
-                Chip chip = new Chip(this);
-                chip.setText(menuItem.getTitle().toString());
-                chip.setTextAppearanceResource(R.style.ChipTextStyle);
-                chip.setChipBackgroundColorResource(R.color.chipbackground);
-                chipGroup.addView(chip);
-            }
-            switch (menuItem.getItemId()){
-                case 1:
-                    break;
-            }
-        }
-        return false;
-    }
 
     private String uri2filename(Uri uri) {
         Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
@@ -351,5 +395,11 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             is.close();
             os.close();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        super.onBackPressed();
     }
 }
