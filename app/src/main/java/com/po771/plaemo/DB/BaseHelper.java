@@ -277,11 +277,22 @@ public class BaseHelper extends SQLiteOpenHelper {
 
     public List<Item_memo> getMemos(int spinner_num, String folder_name){
         List<Item_memo> memoList = new ArrayList<Item_memo>();
-        //memo.book_id = book._id WHERE book.folder like '%집교2%' ORDER BY memo.date DESC
         String query = "SELECT "+
                 "memo_table."+BookMemo.Cols.BOOKID+", memo_table."+BookMemo.Cols.PAGESTART+", memo_table."+BookMemo.Cols.PAGEEND+", memo_table."+BookMemo.Cols.CONTENT+", memo_table."+BookMemo.Cols.DATA+", memo_table._id"+
                 " FROM "+BookMemo.NAME +" memo_table INNER JOIN "+BookList.NAME+" book_table ON memo_table."+BookMemo.Cols.BOOKID+" = book_table._id WHERE book_table."+BookList.Cols.FOLDER
                 +" like '%"+folder_name+"%'";
+        if(folder_name.equals("전체")){
+            query = "SELECT "+
+                    "memo_table."+BookMemo.Cols.BOOKID+", memo_table."+BookMemo.Cols.PAGESTART+", memo_table."+BookMemo.Cols.PAGEEND+", memo_table."+BookMemo.Cols.CONTENT+", memo_table."+BookMemo.Cols.DATA+", memo_table._id"+
+                    " FROM "+BookMemo.NAME +" memo_table";
+        }
+        else if(folder_name.equals("즐겨찾기")){
+            query = "SELECT "+
+                    "memo_table."+BookMemo.Cols.BOOKID+", memo_table."+BookMemo.Cols.PAGESTART+", memo_table."+BookMemo.Cols.PAGEEND+", memo_table."+BookMemo.Cols.CONTENT+", memo_table."+BookMemo.Cols.DATA+", memo_table._id"+
+                    " FROM "+BookMemo.NAME +" memo_table INNER JOIN "+BookList.NAME+" book_table ON memo_table."+BookMemo.Cols.BOOKID+" = book_table._id WHERE book_table."+BookList.Cols.STAR
+                    +" = 1";
+        }
+
         switch(spinner_num){ //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 최종수정순 3. 시작페이지순 4. 종료페이지순
             case 1:
                 query = query + " ORDER BY memo_table._id ASC";
