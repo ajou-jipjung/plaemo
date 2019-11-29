@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -104,6 +105,14 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.plemoaddnewmemo_action, menu);
+        return true;
+    }
+
+
+
     //액션버튼을 클릭했을때의 동작
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -111,10 +120,17 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.bookaction_addmemo:
+                Intent settingIntent = new Intent(this, PlaemoBookNewMemoActivity.class);
+                settingIntent.putExtra("book_id",(item_book.get_id()));
+
+                startActivityForResult(settingIntent,400);
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 
     @Override
     public void onPageChanged(int page, int pageCount) {

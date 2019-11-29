@@ -11,9 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -32,10 +29,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public class DocInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     int spinner_num = 0;
@@ -49,7 +42,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.plemodocinfo_action, menu);
+        getMenuInflater().inflate(R.menu.plemoaddnewmemo_action, menu);
         return true;
     }
 
