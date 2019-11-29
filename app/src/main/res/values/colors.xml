@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#6EA8FF</color>
+    <color name="colorPrimaryDark">#4B72AD</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colordoublewhiteyellow">#8CFFFFFF</color>
     <color name="colorwhiteyellow">#FFFAF0</color>
     <color name="colorwhitesky">#F8FBFF</color>
     <color name="colorskybule">#DCEAFF</color>
     <color name="colormainskybule">#6EA8FF</color>
     <color name="colorskybuleDark">#4B72AD</color>
-    <color name="chipbackground">#FFC0F7EB</color>
+    <color name="chipbackground">#DCEAFF</color>
     <color name="progressbar_color">#202328</color>
     <color name="lightgray">#b4b4ad</color>
     <color name="darkgray">#727272</color>
