@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.Switch;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -274,12 +275,29 @@ public class BaseHelper extends SQLiteOpenHelper {
                 " WHERE _id = "+memolist.get_id());
     }
 
-    public List<Item_memo> getMemos(){
+    public List<Item_memo> getMemos(int spinner_num){
         List<Item_memo> memoList = new ArrayList<Item_memo>();
         String query = "SELECT "+
                 BookMemo.Cols.BOOKID+", "+BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+", _id"+
                 " FROM "+BookMemo.NAME;
-        //String query = "SELECT * FROM "+BookMemo.NAME;
+        switch(spinner_num){ //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 최종수정순 3. 시작페이지순 4. 종료페이지순
+            case 1:
+                query = query + " ORDER BY _id ASC";
+                break;
+            case 2:
+                query = query + " ORDER BY "+BookMemo.Cols.DATA+" DESC";
+                break;
+            case 3:
+                query = query + " ORDER BY "+BookMemo.Cols.PAGESTART+" ASC";
+                break;
+            case 4:
+                query = query + " ORDER BY "+BookMemo.Cols.PAGEEND+" DESC";
+                break;
+            default: // 0포함
+                Log.w("쿼리문in", "no in. spinner_num is"+spinner_num);
+                break;
+        }
+        Log.w("쿼리문", query);
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
@@ -319,29 +337,40 @@ public class BaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<Item_memo> getBookMemo(int book_id){
+    public List<Item_memo> getBookMemo(int book_id, int spinner_num){
         List<Item_memo> memoList = new ArrayList<Item_memo>();
         String query = "SELECT "+
                 BookMemo.Cols.BOOKID+", "+BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+", _id"+
                 " FROM "+BookMemo.NAME+" WHERE book_id = "+book_id;
+        switch(spinner_num){ //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 최종수정순 3. 시작페이지순 4. 종료페이지순
+            case 1:
+                query = query + " ORDER BY _id ASC";
+                break;
+            case 2:
+                query = query + " ORDER BY "+BookMemo.Cols.DATA+" DESC";
+                break;
+            case 3:
+                query = query + " ORDER BY "+BookMemo.Cols.PAGESTART+" ASC";
+                break;
+            case 4:
+                query = query + " ORDER BY "+BookMemo.Cols.PAGEEND+" DESC";
+                break;
+            default: // 0포함
+                Log.w("쿼리문in", "no in. spinner_num is"+spinner_num);
+                break;
+        }
         //String query = "SELECT * FROM "+BookMemo.NAME;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
-                // String pagestart = new String(cursor.getString(0));
-                //  String content = new String(cursor.getString(1));
-                // String date = new String(cursor.getString(2));
                 Item_memo item = new Item_memo();
                 item.setBoook_id(cursor.getInt(0));
                 item.setPage_start(cursor.getInt(1));
                 item.setPage_end(cursor.getInt(2));
-                //  item.setPage_start(Integer.getInteger(cursor.getString(0)));
                 item.setContent(cursor.getString(3));
                 item.setDate(cursor.getString(4));
                 item.set_id(cursor.getInt(5));
                 memoList.add(item);
-                //memoList.add(folder_name);
             } while (cursor.moveToNext());
         }
 

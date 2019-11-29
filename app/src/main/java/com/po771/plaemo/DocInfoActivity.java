@@ -15,8 +15,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.chip.Chip;
@@ -36,6 +38,7 @@ import java.io.FileNotFoundException;
 
 public class DocInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
+    int spinner_num = 0;
     Item_book item_book;
     Button btn_star;
     BaseHelper baseHelper;
@@ -108,15 +111,20 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         info_bookinfo.setText(item_book.getBook_info());
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
 
-        memolistList= baseHelper.getBookMemo(book_id);
 
-        RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        adapter = new PlameoDocInfoMemo_Adapter(memolistList);
-        recyclerView.setAdapter(adapter);
+        Spinner memo_spinner = (Spinner)findViewById(R.id.book_memo_spinner);
+        memo_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 최종수정순(내림차순) 3. 시작페이지순(오름차순) 4. 종료페이지순(내림차순)
+                spinner_num = position;
+                MemoListSort(spinner_num);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                MemoListSort(0);
+            }
+        });
 
         ChipGroup chipGroup = findViewById(R.id.info_folderchips);
         String[] folders = item_book.getFolder().split("/");
@@ -130,6 +138,17 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             chip.setChipBackgroundColorResource(R.color.chipbackground);
             chipGroup.addView(chip);
         }
+    }
+
+    protected void MemoListSort(int spinner_num){
+        memolistList= baseHelper.getBookMemo(book_id, spinner_num);
+        RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new PlameoDocInfoMemo_Adapter(memolistList);
+        recyclerView.setAdapter(adapter);
     }
 
 
@@ -192,7 +211,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
                 info_bookpage.setText(pageState);
 
             case 400://메모 변경
-                memolistList= baseHelper.getBookMemo(book_id);
+                memolistList= baseHelper.getBookMemo(book_id, spinner_num);
                 adapter.update(memolistList);
                 break;
         }
