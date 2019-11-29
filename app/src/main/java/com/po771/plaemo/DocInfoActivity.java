@@ -177,7 +177,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        PlaemoMemoList_Adapter adapter = new PlaemoMemoList_Adapter(memolistList);
+        PlameoDocInfoMemo_Adapter adapter = new PlameoDocInfoMemo_Adapter(memolistList);
         recyclerView.setAdapter(adapter);
     }
 
