@@ -3,6 +3,8 @@ package com.po771.plaemo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_memo;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInfoMemo_Adapter.ViewHolder> {
@@ -101,8 +106,8 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
     @Override
     public void onBindViewHolder(@NonNull PlameoDocInfoMemo_Adapter.ViewHolder viewHolder, int position) {
         final Item_memo item = items.get(position);
-
-        viewHolder.imageView.setImageResource(R.drawable.book1);
+        viewHolder.imageView.setImageBitmap(loadImageFromInternalStorage(item.getBoook_id()));
+//        viewHolder.imageView.setImageResource(R.drawable.book1);
         viewHolder.page_start.setText("p."+String.valueOf(item.getPage_start())+" ~ p."+String.valueOf(item.getPage_end()));
         viewHolder.content.setText(item.getContent());
         viewHolder.date.setText(item.getDate());
@@ -111,5 +116,20 @@ public class PlameoDocInfoMemo_Adapter extends RecyclerView.Adapter<PlameoDocInf
         Log.w("memo_id 첫 설정완료", String.valueOf(item.get_id()));
         //viewHolder.setItem(item);
 
+    }
+
+    private Bitmap loadImageFromInternalStorage(int fileName)
+    {
+
+        try {
+            File f=new File(context.getDataDir().getAbsolutePath()+"/app_imageDir", fileName+".jpg");
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
