@@ -8,5 +8,10 @@
         android:icon="@drawable/ic_library_books_24px"
         android:title="memolist"
          />
+    <item
+        android:id="@+id/memo_search"
+        android:title="Search"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_search_24px"/>
 
 </menu>

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/memo_search"
-        android:title="Search"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_search_24px"/>
-<!--        android:actionViewClass="android.support.v7.widget.SerachView"-->
+    android:id="@+id/memo_search"
+    android:title="Search"
+    android:icon="@drawable/ic_search_24px"
+    app:showAsAction="always"
+    app:actionViewClass="android.widget.SearchView" />
 
 </menu>
