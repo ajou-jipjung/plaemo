@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,6 +41,10 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     Button btn_star;
     BaseHelper baseHelper;
     TextView info_bookpage;
+
+    TextView info_bookname;
+    TextView info_bookinfo;
+    ChipGroup chipGroup;
     int book_id;
     PlameoDocInfoMemo_Adapter adapter;
     List<Item_memo> memolistList;
@@ -105,9 +110,9 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         baseHelper = BaseHelper.getInstance(this);
         item_book = baseHelper.getBook(book_id);
 
-        TextView info_bookname = (TextView)findViewById(R.id.info_bookname);
+        info_bookname = (TextView)findViewById(R.id.info_bookname);
         info_bookpage = (TextView)findViewById(R.id.info_bookpage);
-        TextView info_bookinfo = (TextView)findViewById(R.id.info_bookinfo);
+        info_bookinfo = (TextView)findViewById(R.id.info_bookinfo);
         ImageView imageView = (ImageView)findViewById(R.id.info_bookimage);
 
         btn_star = (Button)findViewById(R.id.info_star);
@@ -144,7 +149,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        ChipGroup chipGroup = findViewById(R.id.info_folderchips);
+        chipGroup = findViewById(R.id.info_folderchips);
         String[] folders = item_book.getFolder().split("/");
         for(int i=0;i<folders.length;i++){
             if(folders[i].equals("")){
@@ -200,6 +205,12 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.info_setting:
+                Intent intent = new Intent(this,DocInfoSettingActivity.class);
+                intent.putExtra("book_id",(item_book.get_id()));
+                intent.putExtra("book_name",(item_book.getBook_name()));
+                startActivityForResult(intent,600);
+                break;
             case R.id.info_star:
                 if(item_book.getBook_star()==1){
                     btn_star.setBackground(getDrawable(R.drawable.ic_star_border_24px));
@@ -243,6 +254,23 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             case 400://메모 변경
                 memolistList= baseHelper.getBookMemo(book_id, now_spin);
                 adapter.update(memolistList);
+                break;
+            case 600:
+                item_book = baseHelper.getBook(book_id);
+                info_bookname.setText(item_book.getBook_name());
+                info_bookinfo.setText(item_book.getBook_info());
+                chipGroup.removeAllViews();
+                String[] folders = item_book.getFolder().split("/");
+                for(int i=0;i<folders.length;i++){
+                    if(folders[i].equals("")){
+                        break;
+                    }
+                    Chip chip = new Chip(this);
+                    chip.setText(folders[i]);
+                    chip.setTextAppearanceResource(R.style.ChipTextStyle);
+                    chip.setChipBackgroundColorResource(R.color.chipbackground);
+                    chipGroup.addView(chip);
+                }
                 break;
         }
 

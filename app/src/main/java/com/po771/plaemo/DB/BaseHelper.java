@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -24,9 +25,11 @@ public class BaseHelper extends SQLiteOpenHelper {
 
     public static BaseHelper baseHelper = null;
     private static SQLiteDatabase db;
+    public static Context context;
 
-    public static BaseHelper getInstance(Context context){ // 싱글턴 패턴으로 구현하였다.
+    public static BaseHelper getInstance(Context context2){ // 싱글턴 패턴으로 구현하였다.
         if(baseHelper == null){
+            context=context2;
             baseHelper = new BaseHelper(context.getApplicationContext());
             db = baseHelper.getWritableDatabase();
         }
@@ -490,6 +493,14 @@ public class BaseHelper extends SQLiteOpenHelper {
 
     ////////////////book
 
+    public void updateBook(Item_book item_book){
+        ContentValues values = new ContentValues();
+        values.put(BookList.Cols.BOOKNAME,item_book.getBook_name());
+        values.put(BookList.Cols.BOOKINFO,item_book.getBook_info());
+        values.put(BookList.Cols.FOLDER,item_book.getFolder());
+        db.update(BookList.NAME,values,"_id="+item_book.get_id(),null);
+    }
+
     public List<Item_book> getAllbookinfolder(String folder_name){
 
         List<Item_book> bookList = new ArrayList<Item_book>();
@@ -631,6 +642,10 @@ public class BaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return  folderList;
+    }
+
+    public void clearFolder(int book_id){
+        db.delete(Folder.NAME,Folder.Cols.BOOKID+"="+book_id,null);
     }
 
     public List<Item_AlarmList> getAllalarm(){
