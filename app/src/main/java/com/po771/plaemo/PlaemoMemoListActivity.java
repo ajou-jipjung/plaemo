@@ -1,8 +1,5 @@
 package com.po771.plaemo;
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -44,7 +41,7 @@ public class PlaemoMemoListActivity extends AppCompatActivity {
             }
             @Override
             public boolean onQueryTextChange(String s) { //검색어 입력시
-                MemoListSort(now_spin);
+                if(s.equals("") || s == null) MemoListSort(now_spin);
                 return false;
             }
         });

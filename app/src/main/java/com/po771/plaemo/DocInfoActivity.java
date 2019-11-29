@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,7 +32,10 @@ import java.util.List;
 
 public class DocInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
-    int spinner_num = 0;
+    String search_text; //검색어
+    int now_spin = 0; //현재 위치
+    boolean search_now = false; //검색 여부
+
     Item_book item_book;
     Button btn_star;
     BaseHelper baseHelper;
@@ -41,8 +45,25 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     List<Item_memo> memolistList;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.plaemodocinfo_action, menu);
+        SearchView searchView = (SearchView)menu.findItem(R.id.memo_search_book).getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setQueryHint("검색할 내용을 입력해주세요.");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {//검색 완료시
+                search_text = s;
+                search_now = true;
+                MeMoFind(search_text, now_spin);
+                return false;
+            }
 
-        getMenuInflater().inflate(R.menu.plemoaddnewmemo_action, menu);
+            @Override
+            public boolean onQueryTextChange(String s) { //검색어 입력시
+                if(s.equals("") || s == null) MemoListSort(now_spin);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -110,8 +131,12 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 최종수정순(내림차순) 3. 시작페이지순(오름차순) 4. 종료페이지순(내림차순)
-                spinner_num = position;
-                MemoListSort(spinner_num);
+                now_spin = position;
+                if(search_now == false){
+                    MemoListSort(now_spin);
+                }else{
+                    MeMoFind(search_text, now_spin);
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -133,14 +158,26 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    protected void MemoListSort(int spinner_num){
-        memolistList= baseHelper.getBookMemo(book_id, spinner_num);
+    protected void MemoListSort(int now_spin){
+        memolistList= baseHelper.getBookMemo(book_id, now_spin);
         RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         adapter = new PlameoDocInfoMemo_Adapter(memolistList);
+        recyclerView.setAdapter(adapter);
+    }
+
+    protected void MeMoFind(String keyword, int now_spin){
+        memolistList= baseHelper.getBookMemoFind(keyword, book_id, now_spin);
+
+        RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        PlaemoMemoList_Adapter adapter = new PlaemoMemoList_Adapter(memolistList);
         recyclerView.setAdapter(adapter);
     }
 
@@ -204,7 +241,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
                 info_bookpage.setText(pageState);
 
             case 400://메모 변경
-                memolistList= baseHelper.getBookMemo(book_id, spinner_num);
+                memolistList= baseHelper.getBookMemo(book_id, now_spin);
                 adapter.update(memolistList);
                 break;
         }

@@ -392,6 +392,46 @@ public class BaseHelper extends SQLiteOpenHelper {
         return memo;
     }
 
+    public List<Item_memo> getBookMemoFind(String keyword, int book_id, int spinner_num){
+        List<Item_memo> memoList = new ArrayList<Item_memo>();
+        String query = "SELECT "+
+                BookMemo.Cols.BOOKID+", "+BookMemo.Cols.PAGESTART+", "+BookMemo.Cols.PAGEEND+", "+BookMemo.Cols.CONTENT+", "+BookMemo.Cols.DATA+", _id"+
+                " FROM "+BookMemo.NAME+" WHERE book_id = "+book_id+" AND "+BookMemo.Cols.CONTENT+" like '%"+keyword+"%'";
+        switch(spinner_num){ //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 최종수정순 3. 시작페이지순 4. 종료페이지순
+            case 1:
+                query = query + " ORDER BY _id ASC";
+                break;
+            case 2:
+                query = query + " ORDER BY "+BookMemo.Cols.DATA+" DESC";
+                break;
+            case 3:
+                query = query + " ORDER BY "+BookMemo.Cols.PAGESTART+" ASC";
+                break;
+            case 4:
+                query = query + " ORDER BY "+BookMemo.Cols.PAGEEND+" DESC";
+                break;
+            default: // 0포함
+                Log.w("쿼리문in", "no in. spinner_num is"+spinner_num);
+                break;
+        }
+        //String query = "SELECT * FROM "+BookMemo.NAME;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Item_memo item = new Item_memo();
+                item.setBoook_id(cursor.getInt(0));
+                item.setPage_start(cursor.getInt(1));
+                item.setPage_end(cursor.getInt(2));
+                item.setContent(cursor.getString(3));
+                item.setDate(cursor.getString(4));
+                item.set_id(cursor.getInt(5));
+                memoList.add(item);
+            } while (cursor.moveToNext());
+        }
+
+        return memoList;
+    }
+
 
     public List<Item_memo> getBookMemo(int book_id, int spinner_num){
         List<Item_memo> memoList = new ArrayList<Item_memo>();
