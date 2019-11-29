@@ -86,6 +86,7 @@
             android:ems="10"
             android:gravity="start|top"
             android:hint="내용"
+            android:fontFamily="@font/ridibatang"
             android:inputType="textMultiLine" />
     </LinearLayout>
 </LinearLayout>

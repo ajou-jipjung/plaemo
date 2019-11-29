@@ -67,6 +67,7 @@
             android:layout_marginEnd="0dp"
             android:includeFontPadding="false"
             android:text="content"
+            android:fontFamily="@font/ridibatang"
             android:textColor="@android:color/darker_gray"
             android:textSize="13sp" />
     </RelativeLayout>

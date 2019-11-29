@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorwhitesky"
     tools:context=".AddDocActivity"
     android:layout_margin="10dp">
 
@@ -48,7 +49,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:text="총페이지 : "
                 />
 
@@ -97,6 +98,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="File Info"
+        android:textStyle="bold"
+        android:textColor="@color/colorskybuleDark"
         android:textSize="30dp"
         />
 
@@ -107,6 +110,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:background="@drawable/round_edittext"
         android:gravity="top"
         android:hint="파일에 대한 정보를 입력해주세요" />
@@ -120,6 +125,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="취소"
+            android:textStyle="bold"
+            android:textColor="@color/colorskybuleDark"
             android:layout_weight="1"
             android:autoSizeTextType="uniform"/>
 
@@ -128,6 +135,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="등록"
+            android:textStyle="bold"
+            android:textColor="@color/colorskybuleDark"
             android:layout_weight="1"
             android:autoSizeTextType="uniform"/>
 

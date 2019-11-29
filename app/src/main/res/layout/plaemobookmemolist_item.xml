@@ -7,7 +7,7 @@
     android:padding="8dp"
     android:gravity="center_vertical"
     android:layout_marginBottom="8dp"
-    android:background="@android:color/white">
+    android:background="@color/colordoublewhiteyellow">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -70,6 +70,7 @@
             android:layout_marginEnd="0dp"
             android:includeFontPadding="false"
             android:text="content"
+            android:fontFamily="@font/ridibatang"
             android:textColor="@android:color/darker_gray"
             android:textSize="13sp" />
 
