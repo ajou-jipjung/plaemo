@@ -38,6 +38,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_folder;
@@ -68,6 +70,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     List<String> folderList;
     List<Boolean> folderChecklist=new ArrayList<Boolean>();
     PopupMenu menu;
+    ChipGroup chipGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,11 +81,13 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
 
         baseHelper=BaseHelper.getInstance(this);
 
+
         findViewById(R.id.adddoc_image).setOnClickListener(this);
         findViewById(R.id.adddoc_cancle).setOnClickListener(this);
         findViewById(R.id.adddoc_register).setOnClickListener(this);
         findViewById(R.id.adddoc_folderlist).setOnClickListener(this);
 
+        chipGroup=(ChipGroup)findViewById(R.id.adddoc_docchips);
         et_bookname=(EditText)findViewById(R.id.adddoc_title);
         tv_page=(EditText)findViewById(R.id.adddoc_pages);
         et_bookinfo=(EditText)findViewById(R.id.adddoc_info);
@@ -194,14 +199,6 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private String uri2filename(Uri uri) {
-        Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
-        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        returnCursor.moveToFirst();
-        filename = returnCursor.getString(nameIndex);
-        return filename;
-    }
-
     void setItem_book(Uri pdfUri) {
         String book_name = uri2filename(pdfUri);
         int total_page=0;
@@ -263,7 +260,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
+    public boolean onMenuItemClick(MenuItem menuItem) { //메뉴 클릭 이벤트
 
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
         menuItem.setActionView(new View(this));
@@ -285,10 +282,24 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             if(menuItem.isChecked()){
                 menuItem.setChecked(false);
                 folderChecklist.set(id,false);
+                for(int i=0;i<chipGroup.getChildCount();i++){
+                    View childChip = chipGroup.getChildAt(i);
+                    String chipTitle = ((Chip)childChip).getText().toString();
+                    if(chipTitle.equals(menuItem.getTitle().toString())){
+                        chipGroup.removeViewAt(i);
+                        break;
+                    }
+
+                }
             }
             else {
                 menuItem.setChecked(true);
                 folderChecklist.set(id,true);
+                Chip chip = new Chip(this);
+                chip.setText(menuItem.getTitle().toString());
+                chip.setTextAppearanceResource(R.style.ChipTextStyle);
+                chip.setChipBackgroundColorResource(R.color.chipbackground);
+                chipGroup.addView(chip);
             }
             switch (menuItem.getItemId()){
                 case 1:
@@ -296,6 +307,14 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
         return false;
+    }
+
+    private String uri2filename(Uri uri) {
+        Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        returnCursor.moveToFirst();
+        filename = returnCursor.getString(nameIndex);
+        return filename;
     }
 
     public void registerDoc(Context context,Uri uri,String bookname){

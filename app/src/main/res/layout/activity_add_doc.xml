@@ -82,6 +82,16 @@
 
     </LinearLayout>
 
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/adddoc_docchips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
     <TextView
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
