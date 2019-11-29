@@ -195,25 +195,11 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private String uri2filename(Uri uri) {
-
-        Log.d("check2",uri.getPath());
-        String ret=null;
-        String scheme = uri.getScheme();
-
-        if (scheme.equals("file")) {
-            ret = uri.getLastPathSegment();
-        }
-        else if (scheme.equals("content")) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                ret = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                for(int i=0;i<cursor.getColumnCount();i++){
-                    Log.d("check1",cursor.getColumnName(i));
-                    Log.d("check1",cursor.getString(i));
-                }
-            }
-        }
-        return ret;
+        Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        returnCursor.moveToFirst();
+        filename = returnCursor.getString(nameIndex);
+        return filename;
     }
 
     void setItem_book(Uri pdfUri) {
