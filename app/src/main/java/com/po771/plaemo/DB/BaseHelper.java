@@ -5,19 +5,19 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.po771.plaemo.DB.DbSchema.*;
+import com.po771.plaemo.DB.DbSchema.AlarmTable;
+import com.po771.plaemo.DB.DbSchema.BookList;
+import com.po771.plaemo.DB.DbSchema.BookMemo;
+import com.po771.plaemo.DB.DbSchema.Folder;
 import com.po771.plaemo.item.Item_AlarmList;
 import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_folder;
 import com.po771.plaemo.item.Item_memo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BaseHelper extends SQLiteOpenHelper {
 
@@ -197,26 +197,26 @@ public class BaseHelper extends SQLiteOpenHelper {
 
                 Item_AlarmList alarmList = new Item_AlarmList();
 
-                alarmList.setAlarm_name("복습");
-                alarmList.setHour(18);
-                alarmList.setMinute(20);
-                alarmList.setIson(1);
-                alarmList.setVibrate(1);
-                baseHelper.insertAlarmList(alarmList);
-
-                alarmList.setAlarm_name("논문 읽기");
-                alarmList.setHour(20);
-                alarmList.setMinute(03);
-                alarmList.setIson(0);
-                alarmList.setVibrate(0);
-                baseHelper.insertAlarmList(alarmList);
-
-                alarmList.setAlarm_name("알람아 제발 들어가줘");
-                alarmList.setHour(19);
-                alarmList.setMinute(50);
-                alarmList.setIson(1);
-                alarmList.setVibrate(1);
-                baseHelper.insertAlarmList(alarmList);
+//                alarmList.setAlarm_name("복습");
+//                alarmList.setHour(18);
+//                alarmList.setMinute(20);
+//                alarmList.setIson(1);
+//                alarmList.setVibrate(1);
+//                baseHelper.insertAlarmList(alarmList);
+//
+//                alarmList.setAlarm_name("논문 읽기");
+//                alarmList.setHour(20);
+//                alarmList.setMinute(03);
+//                alarmList.setIson(0);
+//                alarmList.setVibrate(0);
+//                baseHelper.insertAlarmList(alarmList);
+//
+//                alarmList.setAlarm_name("알람아 제발 들어가줘");
+//                alarmList.setHour(19);
+//                alarmList.setMinute(50);
+//                alarmList.setIson(1);
+//                alarmList.setVibrate(1);
+//                baseHelper.insertAlarmList(alarmList);
 
                 memolist.setPage_start(5);
                 memolist.setPage_end(6);
@@ -561,5 +561,26 @@ public class BaseHelper extends SQLiteOpenHelper {
         values.put(AlarmTable.Cols.ON,alarmList.getIson());
         values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
         db.insert(AlarmTable.NAME,null,values);
+    }
+
+    public Item_AlarmList insertAlarmtoManager(int alarm_id) {
+        Item_AlarmList alarm = new Item_AlarmList();
+        String query = "SELECT "+
+                AlarmTable.Cols.AMPM+", "+AlarmTable.Cols.HOUR+", "+AlarmTable.Cols.MINUTE+", "+
+                AlarmTable.Cols.ALARMNAME+", "+AlarmTable.Cols.VIBRATE+", "+AlarmTable.Cols.ON+
+                " FROM "+AlarmTable.NAME+" WHERE _id = "+alarm_id;
+
+                Cursor cursor = db.rawQuery(query, null);
+                if(cursor.moveToFirst()){
+                    Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
+                    alarm.setAmpm(cursor.getInt(0));
+                    alarm.setHour(cursor.getInt(1));
+                    alarm.setMinute(cursor.getInt(2));
+                    alarm.setAlarm_name(cursor.getString(3));
+                    alarm.setVibrate(cursor.getInt(4));
+                    alarm.setIson(cursor.getInt(5));
+                    alarm.set_id(alarm_id);
+                }
+                return alarm;
     }
 }

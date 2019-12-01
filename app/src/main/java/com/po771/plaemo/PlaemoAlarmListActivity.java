@@ -1,19 +1,13 @@
 package com.po771.plaemo;
 
-import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,21 +20,23 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
 
     Item_AlarmList item_alarmList;
     BaseHelper baseHelper;
+    PlaemoAlarmList_Adapter adapter;
+    List<Item_AlarmList> alarmList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_list);
 
-        BaseHelper baseHelper = BaseHelper.getInstance(this);
-        final List<Item_AlarmList> alarmList= baseHelper.getAllalarm();
+        baseHelper = BaseHelper.getInstance(this);
+        alarmList= baseHelper.getAllalarm();
 
         RecyclerView recyclerView = findViewById(R.id.plaemoalarm_recylcerview);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        PlaemoAlarmList_Adapter adapter = new PlaemoAlarmList_Adapter(alarmList);
+        adapter = new PlaemoAlarmList_Adapter(alarmList);
         recyclerView.setAdapter(adapter);
 
 
@@ -67,15 +63,21 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
             case R.id.mainalarmaction_alarm_add:
                 Intent intent = new Intent(getApplicationContext(), PlaemoAlarmSetActivity.class);
 //                intent.putExtra("alarm_id",(item_alarmList.get_id()));
-                startActivity(intent);
+                startActivityForResult(intent,200);
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-
-
-
+        if(requestCode==200){
+//            Toast.makeText(this,"check!",Toast.LENGTH_SHORT).show();
+            alarmList= baseHelper.getAllalarm();
+            adapter.update(alarmList);
+        }
+    }
 
 }

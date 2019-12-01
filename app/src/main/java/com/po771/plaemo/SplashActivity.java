@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +19,7 @@ import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_folder;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -94,6 +90,9 @@ public class SplashActivity extends AppCompatActivity {
     private void initThing(){
 
         BaseHelper baseHelper = BaseHelper.getInstance(this);
+
+
+
 
         if(baseHelper.initDB()){
 
