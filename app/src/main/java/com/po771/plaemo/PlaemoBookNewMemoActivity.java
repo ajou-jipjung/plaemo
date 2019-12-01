@@ -2,6 +2,7 @@ package com.po771.plaemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
     private Item_memo new_memo = new Item_memo();
     BaseHelper baseHelper;
 
+    int current_page;
     int book_id;
     TextView date;
     EditText start_page;
@@ -101,6 +103,11 @@ public class PlaemoBookNewMemoActivity extends AppCompatActivity {
         context = (EditText)findViewById(R.id.memo_context);
 
         book_id = getIntent().getIntExtra("book_id", 1);
+        current_page = getIntent().getIntExtra("current_page", -1);
+        if(current_page > -1){
+            Log.w("현재페이지", String.valueOf(current_page));
+            end_page.setText(String.valueOf(current_page));
+        }
     }
 
     @Override

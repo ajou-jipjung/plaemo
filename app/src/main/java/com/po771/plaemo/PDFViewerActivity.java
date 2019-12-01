@@ -123,7 +123,7 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
             case R.id.bookaction_addmemo:
                 Intent settingIntent = new Intent(this, PlaemoBookNewMemoActivity.class);
                 settingIntent.putExtra("book_id",(item_book.get_id()));
-
+                settingIntent.putExtra("current_page",(pageNumber+1));
                 startActivityForResult(settingIntent,400);
             default:
                 return super.onOptionsItemSelected(item);
