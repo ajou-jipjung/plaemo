@@ -26,6 +26,9 @@
                 android:resource="@xml/file_path" />
         </provider>
 
+        <!-- 팝업 Activity -->
+        <activity android:name=".BookDelete_PopupActivity" android:theme="@android:style/Theme.Dialog" />
+
         <activity android:name=".PDFViewerActivity"></activity>
         <activity android:name=".PlaemoMainSettingActivity" />
         <activity android:name=".PlaemoAlarmListActivity" />
