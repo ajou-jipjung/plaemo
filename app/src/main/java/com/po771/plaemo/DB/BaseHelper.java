@@ -651,7 +651,7 @@ public class BaseHelper extends SQLiteOpenHelper {
     public List<Item_AlarmList> getAllalarm(){
         List<Item_AlarmList> alarmLists = new ArrayList<Item_AlarmList>();
         String query = "SELECT "+
-                AlarmTable.Cols.ALARMNAME+", "+AlarmTable.Cols.HOUR+", "+AlarmTable.Cols.MINUTE+", "+AlarmTable.Cols.ON+", "+AlarmTable.Cols.VIBRATE+
+                "_id, "+AlarmTable.Cols.ALARMNAME+", "+AlarmTable.Cols.HOUR+", "+AlarmTable.Cols.MINUTE+", "+AlarmTable.Cols.ON+", "+AlarmTable.Cols.VIBRATE+
                 " FROM "+AlarmTable.NAME;
 
         Cursor cursor = db.rawQuery(query, null);
@@ -660,11 +660,12 @@ public class BaseHelper extends SQLiteOpenHelper {
                 Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
 
                 Item_AlarmList item = new Item_AlarmList();
-                item.setAlarm_name(cursor.getString(0));
-                item.setHour(cursor.getInt(1));
-                item.setMinute(cursor.getInt(2));
-                item.setIson(cursor.getInt(3));
-                item.setVibrate(cursor.getInt(4));
+                item.set_id(cursor.getInt(0));
+                item.setAlarm_name(cursor.getString(1));
+                item.setHour(cursor.getInt(2));
+                item.setMinute(cursor.getInt(3));
+                item.setIson(cursor.getInt(4));
+                item.setVibrate(cursor.getInt(5));
                 alarmLists.add(item);
             }while (cursor.moveToNext());
         }
@@ -673,9 +674,12 @@ public class BaseHelper extends SQLiteOpenHelper {
     }
 
     public void editAlarmOnOff(Item_AlarmList alarmList){
-        db.execSQL("UPDATE "+
-                AlarmTable.Cols.ALARMNAME+"SET "+AlarmTable.Cols.ON+" = "+ alarmList.getIson()+
-                " WHERE _id = "+alarmList.get_id());
+        ContentValues values = new ContentValues();
+        values.put(AlarmTable.Cols.ON,alarmList.getIson());
+        Log.d("switchcheck","id"+alarmList.get_id());
+        Log.d("switchcheck","ison"+alarmList.getIson());
+        db.update(AlarmTable.NAME,values,"_id="+alarmList.get_id(),null);
+        Log.d("switchcheck","update"+alarmList.getIson());
     }
 
     public void insertAlarmSet(Item_AlarmList alarmList){

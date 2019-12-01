@@ -8,6 +8,7 @@
     tools:context="PlaemoAlarmSetActivity">
 
     <TimePicker
+        android:theme="@style/Theme.MyApp"
         android:id="@+id/timePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,12 +1,16 @@
 package com.po771.plaemo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,8 +23,8 @@ import java.util.List;
 
 public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmList_Adapter.ViewHolder> {
 
+    Context context;
     BaseHelper baseHelper;
-    Item_AlarmList alarm = new Item_AlarmList();
 
     private List<Item_AlarmList> alarmList;
 //    private Context context;
@@ -31,20 +35,17 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
         this.notifyDataSetChanged();
     }
 
-    public PlaemoAlarmList_Adapter(List<Item_AlarmList> alarmList) {
+    public PlaemoAlarmList_Adapter(List<Item_AlarmList> alarmList, BaseHelper baseHelper) {
         this.alarmList = alarmList;
-    }
-
-    public PlaemoAlarmList_Adapter(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+        this.baseHelper =baseHelper;
     }
 
     @NonNull
     @Override
     public PlaemoAlarmList_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 //        context = parent.getContext();
-
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        context=parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.plaemoalarmlist_item,parent, false);
 
         PlaemoAlarmList_Adapter.ViewHolder vh = new PlaemoAlarmList_Adapter.ViewHolder(view);
@@ -72,6 +73,22 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
         else {
             holder.ison.setChecked(false);
         }
+        holder.ison.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Toast.makeText(context,"check",Toast.LENGTH_SHORT);
+                Log.d("switchcheck","switchcheck");
+                Log.d("switchcheck","state "+alarmList.get(position).getIson());
+                if(b){
+                    alarmList.get(position).setIson(1);
+                }
+                else{
+                    alarmList.get(position).setIson(-1);
+                }
+                Log.d("switchcheck","state "+alarmList.get(position).getIson());
+                baseHelper.editAlarmOnOff(alarmList.get(position));
+            }
+        });
 
     }
 
@@ -112,32 +129,9 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
             alarm_name = itemView.findViewById(R.id.alarmname);
             alarm_time = itemView.findViewById(R.id.alarmtime);
             alarm_day = itemView.findViewById(R.id.alarmday);
-            ison = itemView.findViewById(R.id.alarmonoff);
-
-
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    // TODO : process click event.
-//                    int pos = getAdapterPosition();
-//                    if (pos != RecyclerView.NO_POSITION) {
-//                        if (mListener != null) {
-//                            mListener.onItemClick(view, pos);
-//                        }
-//                    }
-//                }
-//            });
-
-            // 알람 on/off
+            ison = (Switch) itemView.findViewById(R.id.alarmonoff);
 
         }
-
-        public void onClick(View view) {
-            if (view.getId() == R.id.alarmonoff){
-                    baseHelper.editAlarmOnOff(alarm);
-                }
-            }
-        }
-
+    }
 }
 

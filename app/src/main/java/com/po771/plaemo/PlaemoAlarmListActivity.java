@@ -43,7 +43,7 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new PlaemoAlarmList_Adapter(alarmList);
+        adapter = new PlaemoAlarmList_Adapter(alarmList,baseHelper);
         recyclerView.setAdapter(adapter);
 
 
