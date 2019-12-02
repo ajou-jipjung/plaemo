@@ -114,6 +114,7 @@
         android:orientation="horizontal">
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/infosetting_cancle"
+            android:textColor="@color/colorskybuleDark"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="취소"
@@ -121,6 +122,7 @@
             android:autoSizeTextType="uniform"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:textColor="@color/colorskybuleDark"
             android:id="@+id/infosetting_register"
             android:layout_width="0dp"
             android:layout_height="match_parent"
