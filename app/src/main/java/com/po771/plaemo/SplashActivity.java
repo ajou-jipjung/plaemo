@@ -93,6 +93,9 @@ public class SplashActivity extends AppCompatActivity {
 
     private void initThing(){
 
+        AlarmLoader alarmLoader = AlarmLoader.getInstance(this);
+
+
         BaseHelper baseHelper = BaseHelper.getInstance(this);
 
         if(baseHelper.initDB()){

@@ -8,10 +8,9 @@
 
     <ImageView
         android:id="@+id/pdfimg"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/pdf_icon" />
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,6 +41,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:gravity="right"
             android:id="@+id/alarmday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

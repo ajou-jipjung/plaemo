@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.po771.plaemo">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -13,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DocInfoSettingActivity"></activity>
+        <activity android:name=".PlaemoAlarmSetDocActivity"></activity>
+        <activity android:name=".PlaemoAlarmSetFolderActivity" />
+        <activity android:name=".DocInfoSettingActivity" />
         <activity android:name=".PlaemoEditMemoActivity" />
 
         <provider
@@ -26,7 +30,7 @@
                 android:resource="@xml/file_path" />
         </provider>
 
-        <activity android:name=".PDFViewerActivity"></activity>
+        <activity android:name=".PDFViewerActivity" />
         <activity android:name=".PlaemoMainSettingActivity" />
         <activity android:name=".PlaemoAlarmListActivity" />
         <activity android:name=".AddDocActivity" />
@@ -46,11 +50,14 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmReceiver">
+        <receiver
+            android:name=".DeviceBootReceiver"
+            android:enabled="false">
             <intent-filter>
-                <action android:name="android.intent.action.sec" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".AlarmReceiver" />
     </application>
 
 </manifest>
