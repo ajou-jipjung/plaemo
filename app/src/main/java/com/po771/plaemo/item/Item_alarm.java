@@ -1,9 +1,10 @@
 package com.po771.plaemo.item;
 
-public class Item_AlarmList {
+public class Item_alarm {
+
     private int _id;
     private String alarm_name;
-    private String book_image;
+    private int book_id;
     private int hour;
     private int minute;
     private int repeat;
@@ -14,33 +15,8 @@ public class Item_AlarmList {
     private int vibrate;
     private int ampm;
 
-
-    public Item_AlarmList(int _id, String alarm_name, String book_image, int hour, int minute, int repeat, String daysoftheweek, int ison, String tone, int snooze, int vibrate, int ampm) {
-        this._id = _id;
-        this.alarm_name = alarm_name;
-        this.book_image = book_image;
-        this.hour = hour;
-        this.minute = minute;
-        this.repeat = repeat;
-        this.daysoftheweek = daysoftheweek;
-        this.ison = ison;
-        this.tone = tone;
-        this.snooze = snooze;
-        this.vibrate = vibrate;
-        this.ampm = ampm;
+    public Item_alarm() {
     }
-
-
-//    public Item_AlarmList(String alarm_name, int hour, int minute, int ison, int vibrate, int ampm) {
-//        this.alarm_name = alarm_name;
-//        this.hour = hour;
-//        this.minute = minute;
-//        this.ison = ison;
-//        this.vibrate = vibrate;
-//        this.ampm = ampm;
-//    }
-
-    public Item_AlarmList() {}
 
     public int get_id() {
         return _id;
@@ -58,12 +34,12 @@ public class Item_AlarmList {
         this.alarm_name = alarm_name;
     }
 
-    public String getBook_image() {
-        return book_image;
+    public int getBook_id() {
+        return book_id;
     }
 
-    public void setBook_image(String book_image) {
-        this.book_image = book_image;
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
     }
 
     public int getHour() {
@@ -137,5 +113,4 @@ public class Item_AlarmList {
     public void setAmpm(int ampm) {
         this.ampm = ampm;
     }
-
 }

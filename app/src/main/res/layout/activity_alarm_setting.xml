@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="PlaemoAlarmSetActivity">
+    tools:context="PlaemoAlarmSetActivity"
+    android:layout_marginHorizontal="10dp">
 
     <TimePicker
         android:theme="@style/Theme.MyApp"
@@ -84,6 +85,49 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textOff="토"
             android:textOn="토" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginVertical="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="문서 선택"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/alarmset_imagebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/dash_line"
+            android:src="@drawable/ic_add_circle_48px"
+            android:tint="@color/colorPrimary"
+            android:scaleType="centerInside"
+            />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+            <TextView
+                android:id="@+id/alarmset_bookname"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:autoSizeTextType="uniform"
+                />
+            <TextView
+                android:id="@+id/alarmset_bookpage"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:autoSizeTextType="uniform"
+                />
+        </LinearLayout>
     </LinearLayout>
 
     <EditText

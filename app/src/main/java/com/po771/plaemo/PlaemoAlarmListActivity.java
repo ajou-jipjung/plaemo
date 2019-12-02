@@ -1,34 +1,27 @@
 package com.po771.plaemo;
 
-import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.po771.plaemo.DB.BaseHelper;
-import com.po771.plaemo.item.Item_AlarmList;
+import com.po771.plaemo.item.Item_alarm;
 
 import java.util.List;
 
 public class PlaemoAlarmListActivity extends AppCompatActivity {
 
-    Item_AlarmList item_alarmList;
+    Item_alarm item_alarmList;
     BaseHelper baseHelper;
     PlaemoAlarmList_Adapter adapter;
-    List<Item_AlarmList> alarmList;
+    List<Item_alarm> alarmList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

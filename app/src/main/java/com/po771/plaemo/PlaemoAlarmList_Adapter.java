@@ -1,7 +1,8 @@
 package com.po771.plaemo;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.po771.plaemo.DB.BaseHelper;
-import com.po771.plaemo.item.Item_AlarmList;
+import com.po771.plaemo.item.Item_alarm;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmList_Adapter.ViewHolder> {
@@ -26,16 +29,16 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
     Context context;
     BaseHelper baseHelper;
 
-    private List<Item_AlarmList> alarmList;
+    private List<Item_alarm> alarmList;
 //    private Context context;
 
 
-    public void update(List<Item_AlarmList> alarmList){
+    public void update(List<Item_alarm> alarmList){
         this.alarmList=alarmList;
         this.notifyDataSetChanged();
     }
 
-    public PlaemoAlarmList_Adapter(List<Item_AlarmList> alarmList, BaseHelper baseHelper) {
+    public PlaemoAlarmList_Adapter(List<Item_alarm> alarmList, BaseHelper baseHelper) {
         this.alarmList = alarmList;
         this.baseHelper =baseHelper;
     }
@@ -55,18 +58,32 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
 
     @Override
     public void onBindViewHolder(@NonNull final PlaemoAlarmList_Adapter.ViewHolder holder, final int position) {
-//        String alarm_name = ;
-        String alarm_time = alarmList.get(position).getHour() + " : " + alarmList.get(position).getMinute();
-        if (alarmList.get(position).getMinute() <10) {
-            alarm_time = alarmList.get(position).getHour() + " : " + "0" + alarmList.get(position).getMinute();
-        }
-//        String alarm_day =
-        Item_AlarmList item  = alarmList.get(position);
 
-        holder.imageView.setImageResource(R.drawable.pdf_icon);
-        holder.alarm_name.setText(alarmList.get(position).getAlarm_name());
+        Item_alarm item_alarm  = alarmList.get(position);
+        String alarm_time;
+        if(item_alarm.getHour()>12){
+            alarm_time="오후";
+            alarm_time += " "+(item_alarm.getHour()-12) + " :" ;
+        }
+        else{
+            alarm_time="오전";
+            alarm_time += " "+item_alarm.getHour() + " :" ;
+        }
+
+        if (item_alarm.getMinute() >=10) {
+            alarm_time += " " + item_alarm.getMinute();
+        }
+        else{
+            alarm_time += " 0" + item_alarm.getMinute();
+        }
+
+
+
+        Bitmap bitmap = loadImageFromInternalStorage(item_alarm.getBook_id());
+        holder.imageView.setImageBitmap(bitmap);
+        holder.alarm_name.setText(item_alarm.getAlarm_name());
         holder.alarm_time.setText(alarm_time);
-        holder.alarm_day.setText(alarmList.get(position).getDaysoftheweek());
+        holder.alarm_day.setText(item_alarm.getDaysoftheweek());
         if (alarmList.get(position).getIson() == 1){
             holder.ison.setChecked(true);
         }
@@ -132,6 +149,21 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
             ison = (Switch) itemView.findViewById(R.id.alarmonoff);
 
         }
+    }
+
+    private Bitmap loadImageFromInternalStorage(int fileName)
+    {
+
+        try {
+            File f=new File(context.getDataDir().getAbsolutePath()+"/app_imageDir", fileName+".jpg");
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

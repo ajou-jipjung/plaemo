@@ -5,18 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.po771.plaemo.DB.DbSchema.*;
-import com.po771.plaemo.item.Item_AlarmList;
+import com.po771.plaemo.item.Item_alarm;
 import com.po771.plaemo.item.Item_book;
 import com.po771.plaemo.item.Item_folder;
 import com.po771.plaemo.item.Item_memo;
@@ -50,6 +45,7 @@ public class BaseHelper extends SQLiteOpenHelper {
         create_db.execSQL("create table " + AlarmTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
                 AlarmTable.Cols.ALARMNAME + ", " +
+                AlarmTable.Cols.BOOKID + ", " +
                 AlarmTable.Cols.HOUR + ", " +
                 AlarmTable.Cols.MINUTE + ", " +
                 AlarmTable.Cols.REPEAT + ", " +
@@ -199,28 +195,46 @@ public class BaseHelper extends SQLiteOpenHelper {
                 memolist.setDate("2019-11-30 12:41:00");
                 baseHelper.insertMemoList(memolist);
 
-                Item_AlarmList alarmList = new Item_AlarmList();
+                Item_alarm item_alarm = new Item_alarm();
+                item_alarm.setAlarm_name("복습");
+                item_alarm.setBook_id(1);
+                item_alarm.setHour(18);
+                item_alarm.setMinute(20);
+                item_alarm.setRepeat(1);
+                item_alarm.setDaysoftheweek("월/화/수");
+                item_alarm.setIson(1);
+                item_alarm.setTone("??");
+                item_alarm.setSnooze(1);
+                item_alarm.setVibrate(1);
+                item_alarm.setAmpm(1);
+                baseHelper.insertAlarm(item_alarm);
 
-                alarmList.setAlarm_name("복습");
-                alarmList.setHour(18);
-                alarmList.setMinute(20);
-                alarmList.setIson(1);
-                alarmList.setVibrate(1);
-                baseHelper.insertAlarmList(alarmList);
+                item_alarm.setAlarm_name("논문 읽기");
+                item_alarm.setBook_id(2);
+                item_alarm.setHour(8);
+                item_alarm.setMinute(30);
+                item_alarm.setRepeat(1);
+                item_alarm.setDaysoftheweek("월/화/목");
+                item_alarm.setIson(0);
+                item_alarm.setTone("??");
+                item_alarm.setSnooze(1);
+                item_alarm.setVibrate(1);
+                item_alarm.setAmpm(0);
+                baseHelper.insertAlarm(item_alarm);
 
-                alarmList.setAlarm_name("논문 읽기");
-                alarmList.setHour(20);
-                alarmList.setMinute(03);
-                alarmList.setIson(0);
-                alarmList.setVibrate(0);
-                baseHelper.insertAlarmList(alarmList);
 
-                alarmList.setAlarm_name("알람아 제발 들어가줘");
-                alarmList.setHour(19);
-                alarmList.setMinute(50);
-                alarmList.setIson(1);
-                alarmList.setVibrate(1);
-                baseHelper.insertAlarmList(alarmList);
+                item_alarm.setAlarm_name("알람 테스트");
+                item_alarm.setBook_id(3);
+                item_alarm.setHour(22);
+                item_alarm.setMinute(30);
+                item_alarm.setRepeat(1);
+                item_alarm.setDaysoftheweek("화/목/금");
+                item_alarm.setIson(0);
+                item_alarm.setTone("??");
+                item_alarm.setSnooze(1);
+                item_alarm.setVibrate(1);
+                item_alarm.setAmpm(1);
+                baseHelper.insertAlarm(item_alarm);
 
                 memolist.setPage_start(5);
                 memolist.setPage_end(6);
@@ -663,24 +677,28 @@ public class BaseHelper extends SQLiteOpenHelper {
         db.delete(Folder.NAME,Folder.Cols.BOOKID+"="+book_id,null);
     }
 
-    public List<Item_AlarmList> getAllalarm(){
-        List<Item_AlarmList> alarmLists = new ArrayList<Item_AlarmList>();
-        String query = "SELECT "+
-                "_id, "+AlarmTable.Cols.ALARMNAME+", "+AlarmTable.Cols.HOUR+", "+AlarmTable.Cols.MINUTE+", "+AlarmTable.Cols.ON+", "+AlarmTable.Cols.VIBRATE+
-                " FROM "+AlarmTable.NAME;
+    public List<Item_alarm> getAllalarm(){
+        List<Item_alarm> alarmLists = new ArrayList<Item_alarm>();
+        String query = "SELECT *  FROM "+AlarmTable.NAME;
 
         Cursor cursor = db.rawQuery(query, null);
         if(cursor.moveToFirst()) {
             do {
                 Log.d("qweqwe",cursor.getString(0) + cursor.getString(1));
 
-                Item_AlarmList item = new Item_AlarmList();
+                Item_alarm item = new Item_alarm();
                 item.set_id(cursor.getInt(0));
                 item.setAlarm_name(cursor.getString(1));
-                item.setHour(cursor.getInt(2));
-                item.setMinute(cursor.getInt(3));
-                item.setIson(cursor.getInt(4));
-                item.setVibrate(cursor.getInt(5));
+                item.setBook_id(cursor.getInt(2));
+                item.setHour(cursor.getInt(3));
+                item.setMinute(cursor.getInt(4));
+                item.setRepeat(cursor.getInt(5));
+                item.setDaysoftheweek(cursor.getString(6));
+                item.setIson(cursor.getInt(7));
+                item.setTone(cursor.getString(8));
+                item.setSnooze(cursor.getInt(9));
+                item.setVibrate(cursor.getInt(10));
+                item.setAmpm(cursor.getInt(11));
                 alarmLists.add(item);
             }while (cursor.moveToNext());
         }
@@ -688,37 +706,29 @@ public class BaseHelper extends SQLiteOpenHelper {
         return alarmLists;
     }
 
-    public void editAlarmOnOff(Item_AlarmList alarmList){
+    public void editAlarmOnOff(Item_alarm item_alarm){
         ContentValues values = new ContentValues();
-        values.put(AlarmTable.Cols.ON,alarmList.getIson());
-        Log.d("switchcheck","id"+alarmList.get_id());
-        Log.d("switchcheck","ison"+alarmList.getIson());
-        db.update(AlarmTable.NAME,values,"_id="+alarmList.get_id(),null);
-        Log.d("switchcheck","update"+alarmList.getIson());
+        values.put(AlarmTable.Cols.ON,item_alarm.getIson());
+        Log.d("switchcheck","id"+item_alarm.get_id());
+        Log.d("switchcheck","ison"+item_alarm.getIson());
+        db.update(AlarmTable.NAME,values,"_id="+item_alarm.get_id(),null);
+        Log.d("switchcheck","update"+item_alarm.getIson());
     }
 
-    public void insertAlarmSet(Item_AlarmList alarmList){
+    public void insertAlarm(Item_alarm alarmList){
         ContentValues values = new ContentValues();
 //        values.put(AlarmTable.Cols.BOOKID,alarmList.get_id());
+        values.put(AlarmTable.Cols.ALARMNAME,alarmList.getAlarm_name());
+        values.put(AlarmTable.Cols.BOOKID,alarmList.getBook_id());
+        values.put(AlarmTable.Cols.HOUR,alarmList.getHour());
+        values.put(AlarmTable.Cols.MINUTE,alarmList.getMinute());
+        values.put(AlarmTable.Cols.REPEAT,alarmList.getRepeat());
+        values.put(AlarmTable.Cols.DAYSOFTHEWEEK,alarmList.getDaysoftheweek());
+        values.put(AlarmTable.Cols.ON,alarmList.getIson());
+        values.put(AlarmTable.Cols.ALARMTONE,alarmList.getTone());
+        values.put(AlarmTable.Cols.SNOOZE,alarmList.getSnooze());
+        values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
         values.put(AlarmTable.Cols.AMPM,alarmList.getAmpm());
-        values.put(AlarmTable.Cols.HOUR,alarmList.getHour());
-        values.put(AlarmTable.Cols.MINUTE,alarmList.getMinute());
-        values.put(AlarmTable.Cols.ALARMNAME,alarmList.getAlarm_name());
-        values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
-//        values.put(AlarmTable.Cols.SNOOZE,alarmList.getSnooze());
-//        values.put(AlarmTable.Cols.REPEAT,alarmList.getRepeat());
-        values.put(AlarmTable.Cols.ON,alarmList.getIson());
-        db.insert(AlarmTable.NAME,null,values);
-    }
-
-    public void insertAlarmList(Item_AlarmList alarmList){
-        ContentValues values = new ContentValues();
-//        values.put(AlarmTable.Cols.BOOKID,alarmList.get_id());
-        values.put(AlarmTable.Cols.ALARMNAME,alarmList.getAlarm_name());
-        values.put(AlarmTable.Cols.HOUR,alarmList.getHour());
-        values.put(AlarmTable.Cols.MINUTE,alarmList.getMinute());
-        values.put(AlarmTable.Cols.ON,alarmList.getIson());
-        values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
         db.insert(AlarmTable.NAME,null,values);
     }
 
