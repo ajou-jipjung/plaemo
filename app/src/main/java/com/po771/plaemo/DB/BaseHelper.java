@@ -501,8 +501,8 @@ public class BaseHelper extends SQLiteOpenHelper {
         db.update(BookList.NAME,values,"_id="+item_book.get_id(),null);
     }
 
-    public List<Item_book> getAllbookinfolder(String folder_name){
-
+    public List<Item_book> getAllbookinfolder(String folder_name, int spinner_num){
+        //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 이름(오름차순) 3. 이름(내림차순)
         List<Item_book> bookList = new ArrayList<Item_book>();
         String query1 = "SELECT * FROM "+BookList.NAME;
         String query2 = "SELECT * FROM "+BookList.NAME +" WHERE book_star=1";
@@ -516,6 +516,21 @@ public class BaseHelper extends SQLiteOpenHelper {
         }
         else{
             query=query3;
+        }
+        switch (spinner_num){
+            case 1:
+                query = query + " ORDER BY _id ASC";
+                break;
+            case 2:
+                query = query + " ORDER BY book_name ASC";
+                break;
+            case 3:
+                query = query + " ORDER BY book_name DESC";
+                break;
+            default:
+                query = query + " ORDER BY _id DESC";
+                // 그대로 진행
+                break;
         }
         Cursor cursor = db.rawQuery(query, null);
 
@@ -705,5 +720,19 @@ public class BaseHelper extends SQLiteOpenHelper {
         values.put(AlarmTable.Cols.ON,alarmList.getIson());
         values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
         db.insert(AlarmTable.NAME,null,values);
+    }
+
+    public void deleteBook(int book_id){
+//        db.execSQL("UPDATE "+
+//                AlarmTable.Cols.ALARMNAME+"SET "+AlarmTable.Cols.ON+" = "+ alarmList.getIson()+
+//                " WHERE _id = "+alarmList.get_id());
+        // 알람 DB 삭제
+
+        // 폴더 DB 삭제
+        db.execSQL("DELETE FROM "+ Folder.NAME+" WHERE book_id = "+book_id);
+        // 메모 DB 삭제
+        db.execSQL("DELETE FROM "+ BookMemo.NAME+" WHERE book_id = "+book_id);
+        // 책 DB 삭제
+        db.execSQL("DELETE FROM "+ BookList.NAME+" WHERE _id = "+book_id);
     }
 }

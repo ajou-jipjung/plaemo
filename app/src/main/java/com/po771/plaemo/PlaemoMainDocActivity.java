@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +26,8 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class PlaemoMainDocActivity extends AppCompatActivity {
+
+    int spinner_num = 0;
 
     String folder_name;
     BaseHelper baseHelper;
@@ -80,20 +85,29 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
         this.setTitle(folder_name);
 
         baseHelper = BaseHelper.getInstance(this);
-        bookList= baseHelper.getAllbookinfolder(folder_name);
 
+        Spinner book_sort_spinner = (Spinner)findViewById(R.id.book_sort_spinner);
+        book_sort_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 이름(오름차순) 3. 이름(내림차순)
+                spinner_num = position;
+                BookSort(folder_name, spinner_num);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                BookSort(folder_name, spinner_num);
+            }
+        });
+    }
+
+    protected void BookSort(String folder_name, int spinner_num){
+        bookList= baseHelper.getAllbookinfolder(folder_name, spinner_num);
         recyclerView = findViewById(R.id.plemodoc_recylcerview);
         GridLayoutManager layoutManager = new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(layoutManager);
         docListAdapter = new PlaemoMainDoc_Adapter(bookList);
         recyclerView.setAdapter(docListAdapter);
-
-
-//        GridLayoutManager manager = new GridLayoutManager(this,5);
-//        recyclerView.setLayoutManager(manager);
-//        PlaemoMainFolder_Adapter adapter = new PlaemoMainFolder_Adapter(folderList);
-//        recyclerView.setAdapter(adapter);
-
     }
 
     @Override
@@ -102,7 +116,7 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
 
         if(requestCode==200){
 //            Toast.makeText(this,"check!",Toast.LENGTH_SHORT).show();
-            bookList= baseHelper.getAllbookinfolder(folder_name);
+            bookList= baseHelper.getAllbookinfolder(folder_name, spinner_num);
             docListAdapter.update(bookList);
         }
     }

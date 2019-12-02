@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -45,6 +47,48 @@ public class DocInfoSettingActivity extends AppCompatActivity implements View.On
     List<Boolean> folderChecklist=new ArrayList<Boolean>();
     PopupMenu menu;
     ChipGroup chipGroup;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.plaemodelete_action, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                setResult(RESULT_OK);
+                finish();
+                return true;
+            case R.id.book_delete:
+                // 여기에 책 삭제 코드 작성하기
+                Intent intent = new Intent(this, BookDelete_PopupActivity.class);
+                intent.putExtra("book_id", book_id);
+                startActivityForResult(intent, 1);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requsetCode, int resultCode, Intent data){
+        if(requsetCode == 1){
+            if(resultCode==RESULT_OK){
+                //값 확인
+                String result = data.getStringExtra("result");
+                if(result.equals("삭제")){
+                    baseHelper.deleteBook(book_id);
+                    // 수정필요) 뒤로가기 두번 되도록
+                    Intent intent = new Intent(this, PlaemoMainFolderActivity.class);
+                    Toast.makeText(this, "삭제완료", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                }
+                // 아닐경우 "취소"이기 때문에 아무일도 일어나지 않음
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,17 +198,6 @@ public class DocInfoSettingActivity extends AppCompatActivity implements View.On
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                setResult(RESULT_OK);
-                finish();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) { //메뉴 클릭 이벤트
@@ -256,10 +289,6 @@ public class DocInfoSettingActivity extends AppCompatActivity implements View.On
     public void onBackPressed() {
         setResult(RESULT_OK);
         super.onBackPressed();
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
     }
 
     private Bitmap loadImageFromInternalStorage(int fileName)
