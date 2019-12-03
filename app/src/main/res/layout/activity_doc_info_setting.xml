@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DocInfoSettingActivity"
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:clickable="false"
+            android:id="@+id/infosetting_image"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_weight="1"
+            />
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/infosetting_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="문서이름 : "
+                />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:editable="false"
+                android:id="@+id/infosetting_pages"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="총페이지 : "
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="폴더"
+            android:textSize="20dp"
+            android:gravity="center_vertical"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/infosetting_folderlist"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_add_circle_24px"
+            android:tint="@color/colorPrimary"
+            android:background="@android:color/transparent"
+            />
+
+    </LinearLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/infosetting_docchips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="File Info"
+        android:textSize="30dp"
+        />
+
+    <EditText
+        android:layout_marginTop="5dp"
+        android:id="@+id/infosetting_info"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/round_edittext"
+        android:gravity="top"
+        android:hint="파일에 대한 정보를 입력해주세요" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/infosetting_cancle"
+            android:textColor="@color/colorskybuleDark"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="취소"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:textColor="@color/colorskybuleDark"
+            android:id="@+id/infosetting_register"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="등록"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"/>
+
+
+    </LinearLayout>
+</LinearLayout>
