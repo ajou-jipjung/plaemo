@@ -39,32 +39,36 @@ public class AlarmLoader {
 
     public void initAlarm(List<Item_alarm> alarmList){
 
-        Calendar calendar = Calendar.getInstance();
         for(int i=0;i<alarmList.size();i++){
-            calendar = Calendar.getInstance();
             Item_alarm item_alarm = alarmList.get(i);
-            calendar.set(Calendar.HOUR_OF_DAY, item_alarm.getHour());
-            calendar.set(Calendar.MINUTE, item_alarm.getMinute());
-            calendar.set(Calendar.SECOND, 0);
-            int startIndex =getToday();
-            int count = 0;
-            int daysnum = item_alarm.getDaysnum();
-            Log.d("settingalarm",item_alarm.getDaysoftheweek());
-            Log.d("settingalarm",String.valueOf(daysnum));
+            setAlarm(item_alarm);
 
-            do{
-                int index = (startIndex + count) % 7;
-                if(item_alarm.checkday(index)){
-                    Log.d("settingalarm","setting day"+index);
-                    if (!calendar.before(Calendar.getInstance())) {
-                        diaryNotification(calendar,item_alarm,index);
-                        daysnum--;
-                    }
-                }
-                calendar.add(Calendar.DATE, 1);
-                count++;
-            }while(daysnum!=0);
         }
+    }
+
+    public void setAlarm(Item_alarm item_alarm){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, item_alarm.getHour());
+        calendar.set(Calendar.MINUTE, item_alarm.getMinute());
+        calendar.set(Calendar.SECOND, 0);
+        int startIndex = getToday();
+        int count = 0;
+        int daysnum = item_alarm.getDaysnum();
+        Log.d("settingalarm", item_alarm.getDaysoftheweek());
+        Log.d("settingalarm", String.valueOf(daysnum));
+
+        do {
+            int index = (startIndex + count) % 7;
+            if (item_alarm.checkday(index)) {
+                Log.d("settingalarm", "setting day" + index);
+                if (!calendar.before(Calendar.getInstance())) {
+                    diaryNotification(calendar, item_alarm, index);
+                    daysnum--;
+                }
+            }
+            calendar.add(Calendar.DATE, 1);
+            count++;
+        } while (daysnum != 0);
     }
 
     private int getToday(){
@@ -115,7 +119,7 @@ public class AlarmLoader {
 
 
         // 사용자가 매일 알람을 허용했다면
-        if (dailyNotify) {
+        if (item_alarm.getIson()==1) {
 
 
             if (alarmManager != null) {
@@ -135,6 +139,9 @@ public class AlarmLoader {
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                     PackageManager.DONT_KILL_APP);
 
+        }
+        else{
+            alarmManager.cancel(pendingIntent);
         }
 //        else { //Disable Daily Notifications
 //            if (PendingIntent.getBroadcast(this, 0, alarmIntent, 0) != null && alarmManager != null) {

@@ -10,6 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.po771.plaemo.AlarmLoader;
 import com.po771.plaemo.DB.DbSchema.*;
 import com.po771.plaemo.item.Item_alarm;
 import com.po771.plaemo.item.Item_book;
@@ -21,12 +22,14 @@ public class BaseHelper extends SQLiteOpenHelper {
     public static BaseHelper baseHelper = null;
     private static SQLiteDatabase db;
     public static Context context;
+    public static AlarmLoader alarmLoader=null;
 
     public static BaseHelper getInstance(Context context2){ // 싱글턴 패턴으로 구현하였다.
         if(baseHelper == null){
             context=context2;
             baseHelper = new BaseHelper(context.getApplicationContext());
             db = baseHelper.getWritableDatabase();
+            alarmLoader = AlarmLoader.getInstance(context2);
         }
 
         return baseHelper;
@@ -718,6 +721,7 @@ public class BaseHelper extends SQLiteOpenHelper {
         Log.d("switchcheck","ison"+item_alarm.getIson());
         db.update(AlarmTable.NAME,values,"_id="+item_alarm.get_id(),null);
         Log.d("switchcheck","update"+item_alarm.getIson());
+        alarmLoader.setAlarm(item_alarm);
     }
 
     public void insertAlarm(Item_alarm alarmList){
