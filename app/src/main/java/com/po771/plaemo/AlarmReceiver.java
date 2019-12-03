@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -21,6 +22,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        int alarm_id = intent.getExtras().getInt("alarm_id",-1);
+        Log.d("AlarmReceiver","get alarm id"+alarm_id);
 
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

@@ -112,6 +112,7 @@ public class AlarmLoader {
         PackageManager pm = context.getPackageManager();
         ComponentName receiver = new ComponentName(context, DeviceBootReceiver.class);
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        alarmIntent.putExtra("alarm_id",item_alarm.get_id());
         final int _id = item_alarm.getCase_id()+index;
         Log.d("settingalarm","case_id "+_id);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, _id, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
