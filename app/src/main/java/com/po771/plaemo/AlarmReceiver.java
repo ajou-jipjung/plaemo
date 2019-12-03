@@ -25,7 +25,14 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         int alarm_id = intent.getExtras().getInt("alarm_id",-1);
-        Log.d("AlarmReceiver","get alarm id"+alarm_id);
+        int book_id = intent.getExtras().getInt("book_id",-1);
+
+        Log.d("AlarmReceiver","get alarm id "+alarm_id);
+
+//        Bundle bundle = intent.getExtras();
+//        Intent serviceIntent = new Intent(context, PlaemoAlarmPopupActivity.class);
+//        serviceIntent.putExtras(bundle);
+//        Log.d("AlarmReceiver","get book id "+book_id);
 
         Intent serviceIntent = new Intent(context, AlarmService.class);
         serviceIntent.putExtra("alarm_id",alarm_id);

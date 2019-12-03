@@ -45,6 +45,8 @@
         <activity android:name=".PlaemoMemoListActivity" />
         <activity android:name=".PlaemoBookNewMemoActivity" />
         <activity android:name=".PlaemoAlarmSetActivity" />
+        <activity android:name=".PlaemoAlarmPopupActivity"/>
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

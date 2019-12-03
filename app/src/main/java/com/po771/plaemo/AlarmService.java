@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -64,11 +65,23 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         int alarm_id = intent.getExtras().getInt("alarm_id",-1);
+//        int book_id = intent.getExtras().getInt("book_id",-1);
+
         remoteViews.setTextViewText(R.id.popup_alarmname,"alarm id : "+alarm_id);
 
         builder.setContent(remoteViews);
 
         startForeground(alarm_id, builder.build());
+
+        Bundle bundle = intent.getExtras();
+        Intent popupIntent = new Intent(this, PlaemoAlarmPopupActivity.class);
+        popupIntent.putExtras(bundle);
+        Log.d("AlarmService","get alarm id "+alarm_id);
+//        Log.d("AlarmService","get book id "+book_id);
+
+
+        startActivity(popupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
 
         return START_NOT_STICKY;
     }
