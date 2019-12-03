@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PDFEditActivity"></activity>
+        <activity android:name=".PDFEditActivity" />
         <activity android:name=".PlaemoAlarmSetDocActivity" />
         <activity android:name=".PlaemoAlarmSetFolderActivity" />
         <activity android:name=".DocInfoSettingActivity" />
@@ -29,9 +29,13 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
-        </provider> <!-- 팝업 Activity -->
+        </provider>
+        <!-- 팝업 Activity -->
         <activity
             android:name=".BookDelete_PopupActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".PDFColor_PopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".PDFViewerActivity" />
         <activity android:name=".PlaemoMainSettingActivity" />

@@ -3,11 +3,20 @@ package com.po771.plaemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
-public class PDFEditActivity extends AppCompatActivity {
+public class PDFEditActivity extends AppCompatActivity implements View.OnClickListener{
+
+    Paint paintColor = new Paint();
+    TextView txt;
+    ImageButton colorButton, eraserButton, backButton, fowardButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +28,52 @@ public class PDFEditActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(pdfFileName);
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        txt = findViewById(R.id.checkresult);
+
+        colorButton = findViewById(R.id.pdf_color);
+        eraserButton = findViewById(R.id.pdf_eraser);
+        backButton = findViewById(R.id.pdf_back);
+        fowardButton = findViewById(R.id.pdf_foward);
+
+        colorButton.setOnClickListener(this);
+        eraserButton.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+        fowardButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.pdf_color:
+                Intent intent = new Intent(this, PDFColor_PopupActivity.class);
+                startActivityForResult(intent, 1);
+                break;
+            case R.id.pdf_eraser:
+                break;
+            case R.id.pdf_back:
+                break;
+            case R.id.pdf_foward:
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                String result = data.getStringExtra("result");
+                if(result.equals("취소")){
+                    txt.setText(result);
+                    return;
+                }
+                else{
+                    txt.setText(result);
+                }
+            }
+        }
     }
 
     @Override

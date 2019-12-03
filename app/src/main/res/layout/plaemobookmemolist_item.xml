@@ -55,8 +55,6 @@
             android:text="날짜"
             android:textSize="10sp" />
 
-
-
         <TextView
             android:id="@+id/memocontent"
             android:layout_width="match_parent"
