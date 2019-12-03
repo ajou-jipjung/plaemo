@@ -724,6 +724,30 @@ public class BaseHelper extends SQLiteOpenHelper {
         alarmLoader.setAlarm(item_alarm);
     }
 
+    public Item_alarm getAlarm(int alarm_id){
+        String query = "SELECT * FROM "+AlarmTable.NAME +" WHERE _id="+alarm_id;
+        Cursor cursor = db.rawQuery(query, null);
+        Item_alarm item_alarm = new Item_alarm();
+        if(cursor.moveToFirst()) {
+            Item_alarm item = new Item_alarm();
+            item_alarm.set_id(cursor.getInt(0));
+            item_alarm.setAlarm_name(cursor.getString(1));
+            item_alarm.setBook_id(cursor.getInt(2));
+            item_alarm.setHour(cursor.getInt(3));
+            item_alarm.setMinute(cursor.getInt(4));
+            item_alarm.setRepeat(cursor.getInt(5));
+            item_alarm.setDaysoftheweek(cursor.getString(6));
+            item_alarm.setIson(cursor.getInt(7));
+            item_alarm.setTone(cursor.getString(8));
+            item_alarm.setSnooze(cursor.getInt(9));
+            item_alarm.setVibrate(cursor.getInt(10));
+            item_alarm.setAmpm(cursor.getInt(11));
+            item_alarm.setCase_id(cursor.getInt(12));
+        }
+
+        return item_alarm;
+    }
+
     public void insertAlarm(Item_alarm alarmList){
         ContentValues values = new ContentValues();
 //        values.put(AlarmTable.Cols.BOOKID,alarmList.get_id());
