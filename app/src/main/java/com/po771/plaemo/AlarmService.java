@@ -1,6 +1,5 @@
 package com.po771.plaemo;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,75 +7,77 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
+import android.widget.RemoteViews;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationCompat.Builder;
 
 import com.po771.plaemo.DB.BaseHelper;
-import com.po771.plaemo.item.Item_alarm;
 
 public class AlarmService extends Service {
+
     BaseHelper baseHelper;
-    WindowManager.LayoutParams params;
-    private WindowManager windowManager;
-    protected View rootView;
-
-    private View mView;
-
-    private WindowManager.LayoutParams mParams;
-    private WindowManager mWindowManager;
-
+    String Channel_id = "default_channel_id";
+    String Channel_name = "default_channel_name";
+    Builder builder;
+    RemoteViews remoteViews;
+    NotificationManager mNotificationManager;
     @Override
     public void onCreate() {
         super.onCreate();
-
+        startForegroundService();
         Log.d("AlarmService", "oncreate");
-
-        mView = new MyLoadView(this);
-
-        mParams = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT, 150, 10, 10,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                        | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT);
-
-        mParams.gravity = Gravity.CENTER;
-        mParams.setTitle("Window test");
-
-        mWindowManager = (WindowManager)getSystemService(WINDOW_SERVICE);
-        mWindowManager.addView(mView, mParams);
     }
-//
-//    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//        int alarm_id = intent.getExtras().getInt("alarm_id",-1);
-//        Log.d("AlarmService", "onstartcommand alarmid "+alarm_id);
-//        return START_NOT_STICKY;
-//    }
+
+
+
+    void startForegroundService() {
+        Intent notificationIntent = new Intent(this, PlaemoMainDocActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        remoteViews = new RemoteViews(getPackageName(), R.layout.notification_foreground);
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationChannel channel = new NotificationChannel(Channel_id,
+                    Channel_name,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+
+//            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE))
+//                    .createNotificationChannel(channel);
+
+            mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.createNotificationChannel(channel);
+
+            builder = new Builder(this, Channel_id);
+        } else {
+            builder = new Builder(this);
+        }
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+                .setContent(remoteViews)
+                .setContentIntent(pendingIntent);
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        int alarm_id = intent.getExtras().getInt("alarm_id",-1);
+        remoteViews.setTextViewText(R.id.popup_alarmname,"alarm id : "+alarm_id);
+
+        builder.setContent(remoteViews);
+
+        startForeground(alarm_id, builder.build());
+
+        return START_NOT_STICKY;
+    }
 
     @Override
     public void onDestroy() {
         Log.d("onDestory() 실행", "서비스 파괴");
 
         super.onDestroy();
-        ((WindowManager)getSystemService(WINDOW_SERVICE)).removeView(mView);
-        mView = null;
 
     }
 
@@ -86,36 +87,6 @@ public class AlarmService extends Service {
         return null;
     }
 
-    public class MyLoadView extends View {
 
-        private Paint mPaint;
 
-        public MyLoadView(Context context) {
-            super(context);
-            mPaint = new Paint();
-            mPaint.setTextSize(50);
-            mPaint.setARGB(200, 200, 200, 200);
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            canvas.drawText("test test test", 0, 100, mPaint);
-        }
-
-        @Override
-        protected void onAttachedToWindow() {
-            super.onAttachedToWindow();
-        }
-
-        @Override
-        protected void onDetachedFromWindow() {
-            super.onDetachedFromWindow();
-        }
-
-        @Override
-        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        }
-    }
 }

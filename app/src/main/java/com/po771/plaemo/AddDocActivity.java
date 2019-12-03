@@ -7,6 +7,7 @@ import androidx.loader.content.CursorLoader;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
@@ -17,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -329,17 +331,25 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private String saveToInternalStorage(Bitmap bitmapImage,int fileName){
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int layoutwidth = displaymetrics.widthPixels / 3;
+
+        Bitmap resized = resizeBitmapImage(bitmapImage,layoutwidth);
+
+
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath=new File(directory,fileName+".jpg");
+        File mypath = new File(directory, fileName + ".jpg");
 
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 0, fos);
+            resized.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -352,6 +362,35 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         return directory.getAbsolutePath();
     }
 
+    public Bitmap resizeBitmapImage(Bitmap source, int maxResolution)
+    {
+        int width = source.getWidth();
+        int height = source.getHeight();
+        int newWidth = width;
+        int newHeight = height;
+        float rate = 0.0f;
+
+        if(width > height)
+        {
+            if(maxResolution < width)
+            {
+                rate = maxResolution / (float) width;
+                newHeight = (int) (height * rate);
+                newWidth = maxResolution;
+            }
+        }
+        else
+        {
+            if(maxResolution < height)
+            {
+                rate = maxResolution / (float) height;
+                newWidth = (int) (width * rate);
+                newHeight = maxResolution;
+            }
+        }
+
+        return Bitmap.createScaledBitmap(source, newWidth, newHeight, true);
+    }
 
     private String uri2filename(Uri uri) {
         Cursor returnCursor = getContentResolver().query(uri, null, null, null, null);

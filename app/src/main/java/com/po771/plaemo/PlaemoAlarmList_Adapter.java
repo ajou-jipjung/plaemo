@@ -79,8 +79,8 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
 
 
 
-//        Bitmap bitmap = loadImageFromInternalStorage(item_alarm.getBook_id());
-//        holder.imageView.setImageBitmap(bitmap);
+        Bitmap bitmap = loadImageFromInternalStorage(item_alarm.getBook_id());
+        holder.imageView.setImageBitmap(bitmap);
         holder.alarm_name.setText(item_alarm.getAlarm_name());
         holder.alarm_time.setText(alarm_time);
         holder.alarm_day.setText(item_alarm.getDaysoftheweek());
