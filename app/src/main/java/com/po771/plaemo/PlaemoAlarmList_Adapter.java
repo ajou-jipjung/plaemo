@@ -28,7 +28,7 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
 
     Context context;
     BaseHelper baseHelper;
-
+    AlarmLoader alarmLoader;
     private List<Item_alarm> alarmList;
 //    private Context context;
 
@@ -48,6 +48,7 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
     public PlaemoAlarmList_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 //        context = parent.getContext();
         context=parent.getContext();
+        this.alarmLoader = AlarmLoader.getInstance(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.plaemoalarmlist_item,parent, false);
 
@@ -58,7 +59,6 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
 
     @Override
     public void onBindViewHolder(@NonNull final PlaemoAlarmList_Adapter.ViewHolder holder, final int position) {
-
         Item_alarm item_alarm  = alarmList.get(position);
         String alarm_time;
         if(item_alarm.getHour()>12){

@@ -22,13 +22,14 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
     BaseHelper baseHelper;
     PlaemoAlarmList_Adapter adapter;
     List<Item_alarm> alarmList;
-
+    AlarmLoader alarmLoader;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_list);
 
         baseHelper = BaseHelper.getInstance(this);
+        alarmLoader = AlarmLoader.getInstance(this);
         alarmList= baseHelper.getAllalarm();
 
         RecyclerView recyclerView = findViewById(R.id.plaemoalarm_recylcerview);
@@ -76,8 +77,8 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
         if(requestCode==200){
 //            Toast.makeText(this,"check!",Toast.LENGTH_SHORT).show();
             alarmList= baseHelper.getAllalarm();
+            alarmLoader.initAlarm(alarmList);
             adapter.update(alarmList);
         }
     }
-
 }
