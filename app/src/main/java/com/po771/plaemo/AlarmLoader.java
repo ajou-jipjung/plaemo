@@ -8,11 +8,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.po771.plaemo.item.Item_alarm;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -25,7 +29,6 @@ public class AlarmLoader {
         if(alarmLoader == null){
             context=context2;
             alarmLoader = new AlarmLoader(context.getApplicationContext());
-            alarmLoader.initAlarm();
         }
 
         return alarmLoader;
@@ -34,38 +37,68 @@ public class AlarmLoader {
     public AlarmLoader(Context context) {
     }
 
-    public void initAlarm(){
+    public void initAlarm(List<Item_alarm> alarmList){
+
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
+        for(int i=0;i<alarmList.size();i++){
+            calendar = Calendar.getInstance();
+            Item_alarm item_alarm = alarmList.get(i);
+            calendar.set(Calendar.HOUR_OF_DAY, item_alarm.getHour());
+            calendar.set(Calendar.MINUTE, item_alarm.getMinute());
+            calendar.set(Calendar.SECOND, 0);
+            int startIndex =getToday();
+            int count = 0;
+            int daysnum = item_alarm.getDaysnum();
+            Log.d("settingalarm",item_alarm.getDaysoftheweek());
+            Log.d("settingalarm",String.valueOf(daysnum));
 
-        int hour=14;
-        int minute=24;
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
-
-        // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정
-        if (calendar.before(Calendar.getInstance())) {
-            calendar.add(Calendar.DATE, 1);
+            do{
+                int index = (startIndex + count) % 7;
+                if(item_alarm.checkday(index)){
+                    Log.d("settingalarm","setting day"+index);
+                    if (!calendar.before(Calendar.getInstance())) {
+                        diaryNotification(calendar,item_alarm,index);
+                        daysnum--;
+                    }
+                }
+                calendar.add(Calendar.DATE, 1);
+                count++;
+            }while(daysnum!=0);
         }
-
-
-        diaryNotification(calendar);
-
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute+3);
-        calendar.set(Calendar.SECOND, 0);
-
-        // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정
-        if (calendar.before(Calendar.getInstance())) {
-            calendar.add(Calendar.DATE, 1);
-        }
-
-
-        diaryNotification(calendar);
     }
 
-    void diaryNotification(Calendar calendar)
+    private int getToday(){
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int startIndex = 0;
+        switch (dayOfWeek) {
+            case Calendar.MONDAY:
+                startIndex = 0;
+                break;
+            case Calendar.TUESDAY:
+                startIndex = 1;
+                break;
+            case Calendar.WEDNESDAY:
+                startIndex = 2;
+                break;
+            case Calendar.THURSDAY:
+                startIndex = 3;
+                break;
+            case Calendar.FRIDAY:
+                startIndex = 4;
+                break;
+            case Calendar.SATURDAY:
+                startIndex = 5;
+                break;
+            case Calendar.SUNDAY:
+                startIndex = 6;
+                break;
+        }
+
+        return startIndex;
+    }
+
+    void diaryNotification(Calendar calendar,Item_alarm item_alarm,int index)
     {
 //        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 //        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -75,8 +108,9 @@ public class AlarmLoader {
         PackageManager pm = context.getPackageManager();
         ComponentName receiver = new ComponentName(context, DeviceBootReceiver.class);
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-        final int _id = (int) System.currentTimeMillis();
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, _id, alarmIntent, 0);
+        final int _id = item_alarm.getCase_id()+index;
+        Log.d("settingalarm","case_id "+_id);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, _id, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
 
@@ -85,7 +119,9 @@ public class AlarmLoader {
 
 
             if (alarmManager != null) {
-
+                Date currentDateTime = calendar.getTime();
+                String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
+                Log.d("settingalarm","calendar_time "+date_text);
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         AlarmManager.INTERVAL_DAY, pendingIntent);
 

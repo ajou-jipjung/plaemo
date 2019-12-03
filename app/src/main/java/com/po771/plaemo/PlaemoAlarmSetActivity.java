@@ -118,6 +118,7 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity implements View.On
                              days+="토/";
                          }
                          new_alarm.setDaysoftheweek(days);
+                         new_alarm.setCase_id((int)System.currentTimeMillis());
 
                          baseHelper.insertAlarm(new_alarm);
 

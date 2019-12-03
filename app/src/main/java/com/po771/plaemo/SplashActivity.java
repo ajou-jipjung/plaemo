@@ -93,9 +93,6 @@ public class SplashActivity extends AppCompatActivity {
 
     private void initThing(){
 
-        AlarmLoader alarmLoader = AlarmLoader.getInstance(this);
-
-
         BaseHelper baseHelper = BaseHelper.getInstance(this);
 
         if(baseHelper.initDB()){
@@ -197,6 +194,8 @@ public class SplashActivity extends AppCompatActivity {
             saveToInternalStorage(bitmap,"4");
             baseHelper.insertBook(item_book);
         }
+        AlarmLoader alarmLoader = AlarmLoader.getInstance(this);
+        alarmLoader.initAlarm(baseHelper.getAllalarm());
         ///////////아직 사용 보류
         dataManager=DataManager.getInstance();
         dataManager.setBookList(baseHelper.getAllBook());

@@ -14,8 +14,26 @@ public class Item_alarm {
     private int snooze;
     private int vibrate;
     private int ampm;
+    private int case_id;
+    private boolean[] days;
+
+    public int getDaysnum() {
+        return daysnum;
+    }
+
+    private int daysnum;
+
+    public int getCase_id() {
+        return case_id;
+    }
+
+    public void setCase_id(int case_id) {
+        this.case_id = case_id;
+    }
 
     public Item_alarm() {
+        days = new boolean[8];
+        daysnum=0;
     }
 
     public int get_id() {
@@ -71,7 +89,9 @@ public class Item_alarm {
     }
 
     public void setDaysoftheweek(String daysoftheweek) {
+
         this.daysoftheweek = daysoftheweek;
+        this.setWeek();
     }
 
     public int getIson() {
@@ -112,5 +132,44 @@ public class Item_alarm {
 
     public void setAmpm(int ampm) {
         this.ampm = ampm;
+    }
+
+    public void setWeek(){
+        String[] weekDays = this.daysoftheweek.split("/");
+        for(int i=0;i<weekDays.length;i++){
+            if(!weekDays[i].equals("")){
+                daysnum++;
+                switch (weekDays[i]){
+                    case "월":
+                        this.days[0]=true;
+                        break;
+                    case "화":
+                        this.days[1]=true;
+                        break;
+                    case "수":
+                        this.days[2]=true;
+                        break;
+                    case "목":
+                        this.days[3]=true;
+                        break;
+                    case "금":
+                        this.days[4]=true;
+                        break;
+                    case "토":
+                        this.days[5]=true;
+                        break;
+                    case "일":
+                        this.days[6]=true;
+                        break;
+                }
+            }
+
+        }
+    }
+    public boolean checkday(int day){
+        if(days[day]){
+            return true;
+        }
+        return false;
     }
 }

@@ -54,7 +54,8 @@ public class BaseHelper extends SQLiteOpenHelper {
                 AlarmTable.Cols.ALARMTONE + ", " +
                 AlarmTable.Cols.SNOOZE + ", " +
                 AlarmTable.Cols.VIBRATE + ", " +
-                AlarmTable.Cols.AMPM +
+                AlarmTable.Cols.AMPM + ", " +
+                AlarmTable.Cols.CASTID +
                 ")"
         );
 
@@ -207,6 +208,7 @@ public class BaseHelper extends SQLiteOpenHelper {
                 item_alarm.setSnooze(1);
                 item_alarm.setVibrate(1);
                 item_alarm.setAmpm(1);
+                item_alarm.setCase_id((int)System.currentTimeMillis());
                 baseHelper.insertAlarm(item_alarm);
 
                 item_alarm.setAlarm_name("논문 읽기");
@@ -220,6 +222,7 @@ public class BaseHelper extends SQLiteOpenHelper {
                 item_alarm.setSnooze(1);
                 item_alarm.setVibrate(1);
                 item_alarm.setAmpm(0);
+                item_alarm.setCase_id((int)System.currentTimeMillis());
                 baseHelper.insertAlarm(item_alarm);
 
 
@@ -234,6 +237,7 @@ public class BaseHelper extends SQLiteOpenHelper {
                 item_alarm.setSnooze(1);
                 item_alarm.setVibrate(1);
                 item_alarm.setAmpm(1);
+                item_alarm.setCase_id((int)System.currentTimeMillis());
                 baseHelper.insertAlarm(item_alarm);
 
                 memolist.setPage_start(5);
@@ -699,6 +703,7 @@ public class BaseHelper extends SQLiteOpenHelper {
                 item.setSnooze(cursor.getInt(9));
                 item.setVibrate(cursor.getInt(10));
                 item.setAmpm(cursor.getInt(11));
+                item.setCase_id(cursor.getInt(12));
                 alarmLists.add(item);
             }while (cursor.moveToNext());
         }
@@ -729,6 +734,7 @@ public class BaseHelper extends SQLiteOpenHelper {
         values.put(AlarmTable.Cols.SNOOZE,alarmList.getSnooze());
         values.put(AlarmTable.Cols.VIBRATE,alarmList.getVibrate());
         values.put(AlarmTable.Cols.AMPM,alarmList.getAmpm());
+        values.put(AlarmTable.Cols.CASTID,alarmList.getCase_id());
         db.insert(AlarmTable.NAME,null,values);
     }
 
