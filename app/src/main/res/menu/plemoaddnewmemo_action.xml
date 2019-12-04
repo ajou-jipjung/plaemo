@@ -3,10 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/pdfedit"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_create_24px"
+        android:title="memolist"
+        />
+
+    <item
         android:id="@+id/bookaction_addmemo"
         app:showAsAction="always"
         android:icon="@drawable/ic_note_add_24px"
         android:title="memolist"
         />
+
+
 
 </menu>
