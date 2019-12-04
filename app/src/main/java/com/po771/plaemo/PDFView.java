@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -18,9 +20,12 @@ public class PDFView extends View {
 
     public boolean changed = false;
 
+    boolean pen_state = true; //pen: true, eraser: false
+
     Canvas mCanvas;
     Bitmap mBitmap;
     Paint mPaint;
+    Paint ePaint; //eraserPaint
 
     float lastX;
     float lastY;
@@ -44,6 +49,12 @@ public class PDFView extends View {
         init(context);
     }
 
+    public PDFView(Context context, @Nullable AttributeSet attrs, int defStyle)
+    {
+        super(context, attrs, defStyle);
+        init(context);
+    }
+
     private void init(Context context) {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -54,6 +65,14 @@ public class PDFView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(3.0F);
 
+        ePaint = new Paint();
+        ePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        ePaint.setStyle(Paint.Style.STROKE);
+        ePaint.setStrokeJoin(Paint.Join.ROUND);
+        ePaint.setStrokeCap(Paint.Cap.ROUND);
+        ePaint.setStrokeWidth(3.0F);
+        ePaint.setAntiAlias(true);
+
         this.lastX = -1;
         this.lastY = -1;
     }
@@ -63,7 +82,7 @@ public class PDFView extends View {
         Bitmap img = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas();
         canvas.setBitmap(img);
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.TRANSPARENT); // 배경색을 투명색으로 지정
 
         mBitmap = img;
         mCanvas = canvas;
@@ -136,8 +155,8 @@ public class PDFView extends View {
 
             lastX=x;
             lastY=y;
-
-            mCanvas.drawPath(mPath,mPaint);
+            if(pen_state == true) mCanvas.drawPath(mPath,mPaint);
+            else mCanvas.drawPath(mPath, ePaint);
 
         }
 
@@ -159,11 +178,14 @@ public class PDFView extends View {
         mCurveEndX=x;
         mCurveEndY=y;
 
-        mCanvas.drawPath(mPath,mPaint);
+        if(pen_state == true) mCanvas.drawPath(mPath,mPaint);
+        else mCanvas.drawPath(mPath, ePaint);
+
         return mInvalidateRect;
     }
     public void setStrokeWidth(int width){ // 굵기를 지정하는 함수입니다.
-        mPaint.setStrokeWidth(width);
+        if(pen_state == true) mPaint.setStrokeWidth(width);
+        else ePaint.setStrokeWidth(width);
     }
 
     private Rect touchUp(MotionEvent event, boolean b) {
@@ -184,6 +206,20 @@ public class PDFView extends View {
                 break;
             case 2:
                 mPaint.setStrokeCap(Paint.Cap.SQUARE); // 사각형 모양, 해당 좌표보다 조금 더 길게 그려짐.
+                break;
+        }
+    }
+
+    public void SetPenState(int pen){
+        switch (pen){
+            case 1: // 팬
+                pen_state = true;
+                break;
+            case 2: // 지우개
+                pen_state = false;
+                break;
+            default:
+                pen_state = true;
                 break;
         }
     }

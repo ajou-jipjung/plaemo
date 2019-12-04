@@ -58,12 +58,14 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.pdf_color:
                 Intent intent = new Intent(this, PDFColor_PopupActivity.class);
                 startActivityForResult(intent, 1);
+                view.SetPenState(1);
                 break;
             case R.id.pdf_pen_border:
                 Intent intent2 = new Intent(this, PDFBorder_PopupActivity.class);
                 startActivityForResult(intent2, 2);
                 break;
             case R.id.pdf_eraser:
+                view.SetPenState(2);
                 break;
             case R.id.pdf_back:
                 break;
