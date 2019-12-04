@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Switch;
 
 public class PDFColor_PopupActivity extends Activity {
 
@@ -22,8 +23,42 @@ public class PDFColor_PopupActivity extends Activity {
 
     public void mOnColor(View v){
         Intent intent = new Intent();
-
-        intent.putExtra("result", String.valueOf(v.getId()));
+        String value = "000000";
+        switch (v.getId()){
+            case R.id.color1:
+                value = "FF1744";
+                break;
+            case R.id.color2:
+                value = "FF6F00";
+                break;
+            case R.id.color3:
+                value = "FFEA00";
+                break;
+            case R.id.color4:
+                value = "388E3C";
+                break;
+            case R.id.color5:
+                value = "0288D1";
+                break;
+            case R.id.color6:
+                value = "3D5AFE";
+                break;
+            case R.id.color7:
+                value = "651FFF";
+                break;
+            case R.id.color8:
+                value = "FFFFFF";
+                break;
+            case R.id.color9:
+                value = "5A5A5A";
+                break;
+            case R.id.color10:
+                value = "000000";
+                break;
+            default:
+                break;
+        }
+        intent.putExtra("result", value);
         setResult(RESULT_OK, intent);
 
         finish();

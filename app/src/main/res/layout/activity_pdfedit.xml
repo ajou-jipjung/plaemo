@@ -28,6 +28,13 @@
             app:srcCompat="@drawable/ic_color_select" />
 
         <ImageButton
+            android:id="@+id/pdf_pen"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_brush" />
+
+        <ImageButton
             android:id="@+id/pdf_eraser"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -50,14 +57,15 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/viewContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/checkresult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="확인용" />
+<!--        <TextView-->
+<!--            android:id="@+id/checkresult"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="확인용" />-->
     </LinearLayout>
 </LinearLayout>

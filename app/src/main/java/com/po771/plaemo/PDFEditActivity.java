@@ -3,16 +3,21 @@ package com.po771.plaemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.content.res.Resources;
 
 public class PDFEditActivity extends AppCompatActivity implements View.OnClickListener{
+
+    PDFView view;
+    int tColor, n=0;
 
     Paint paintColor = new Paint();
     TextView txt;
@@ -22,6 +27,12 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdfedit);
+        view = new PDFView(this);
+        LinearLayout container = findViewById(R.id.viewContainer);
+        Resources res = getResources();
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        container.addView(view, params);
         //액션바 설정하기//
         //액션바 타이틀 변경하기
         String pdfFileName = getIntent().getStringExtra("pdfFileName");
@@ -30,7 +41,7 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         txt = findViewById(R.id.checkresult);
-
+        //버튼 설정
         colorButton = findViewById(R.id.pdf_color);
         eraserButton = findViewById(R.id.pdf_eraser);
         backButton = findViewById(R.id.pdf_back);
@@ -60,17 +71,21 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    //색깔 설정해주는 부분
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
                 String result = data.getStringExtra("result");
                 if(result.equals("취소")){
-                    txt.setText(result);
                     return;
                 }
                 else{
-                    txt.setText(result);
+                    int r = Integer.parseInt(result.substring(0,2), 16);
+                    int g = Integer.parseInt(result.substring(2,4), 16);
+                    int b = Integer.parseInt(result.substring(4,6), 16);;
+
+                    view.setColor(Color.rgb(r,g,b));
                 }
             }
         }
