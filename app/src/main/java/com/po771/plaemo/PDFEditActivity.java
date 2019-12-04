@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.content.res.Resources;
 
 public class PDFEditActivity extends AppCompatActivity implements View.OnClickListener{
@@ -20,8 +19,7 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
     int tColor, n=0;
 
     Paint paintColor = new Paint();
-    TextView txt;
-    ImageButton colorButton, eraserButton, backButton, fowardButton;
+    ImageButton colorButton, borderButton, eraserButton, backButton, fowardButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +38,14 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        txt = findViewById(R.id.checkresult);
         //버튼 설정
+        borderButton = findViewById(R.id.pdf_pen_border);
         colorButton = findViewById(R.id.pdf_color);
         eraserButton = findViewById(R.id.pdf_eraser);
         backButton = findViewById(R.id.pdf_back);
         fowardButton = findViewById(R.id.pdf_foward);
 
+        borderButton.setOnClickListener(this);
         colorButton.setOnClickListener(this);
         eraserButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
@@ -59,6 +58,10 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.pdf_color:
                 Intent intent = new Intent(this, PDFColor_PopupActivity.class);
                 startActivityForResult(intent, 1);
+                break;
+            case R.id.pdf_pen_border:
+                Intent intent2 = new Intent(this, PDFBorder_PopupActivity.class);
+                startActivityForResult(intent2, 2);
                 break;
             case R.id.pdf_eraser:
                 break;
@@ -86,6 +89,18 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
                     int b = Integer.parseInt(result.substring(4,6), 16);;
 
                     view.setColor(Color.rgb(r,g,b));
+                }
+            }
+        }
+        else if(requestCode == 2){
+            if(resultCode == RESULT_OK){
+                String result = data.getStringExtra("result");
+                if(result.equals("취소")){
+                    return;
+                }
+                else{
+                    int strokeWidth = Integer.parseInt(result);
+                    view.setStrokeWidth(strokeWidth);
                 }
             }
         }

@@ -28,7 +28,7 @@
             app:srcCompat="@drawable/ic_color_select" />
 
         <ImageButton
-            android:id="@+id/pdf_pen"
+            android:id="@+id/pdf_pen_border"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@android:color/transparent"

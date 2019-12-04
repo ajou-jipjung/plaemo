@@ -162,7 +162,7 @@ public class PDFView extends View {
         mCanvas.drawPath(mPath,mPaint);
         return mInvalidateRect;
     }
-    public void setStrokeWidth(int width){
+    public void setStrokeWidth(int width){ // 굵기를 지정하는 함수입니다.
         mPaint.setStrokeWidth(width);
     }
 
@@ -171,21 +171,19 @@ public class PDFView extends View {
         return rect;
     }
 
-    public void setColor(int color){
+    public void setColor(int color){ // 붓의 색깔을 결정하는 함수
         mPaint.setColor(color);
-        Log.w("color", String.valueOf(Color.BLACK));
-        Log.w("color", String.valueOf(color));
     }
-    public void setCap(int cap){
+    public void setCap(int cap){ // 선의 끝나는 지점의 장식 설정
         switch(cap){
             case 0:
-                mPaint.setStrokeCap(Paint.Cap.BUTT);
+                mPaint.setStrokeCap(Paint.Cap.BUTT); // 정해진 위치에서 끝남.
                 break;
             case 1:
-                mPaint.setStrokeCap(Paint.Cap.ROUND);
+                mPaint.setStrokeCap(Paint.Cap.ROUND); // 둥근 모양으로 끝이 장식됨.
                 break;
             case 2:
-                mPaint.setStrokeCap(Paint.Cap.SQUARE);
+                mPaint.setStrokeCap(Paint.Cap.SQUARE); // 사각형 모양, 해당 좌표보다 조금 더 길게 그려짐.
                 break;
         }
     }
