@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/colorskybule"
+    android:orientation="vertical">
+
+
+    <!-- Notice -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/book_image"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="27dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/shadow"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/book_info"
+            android:layout_width="205dp"
+            android:layout_height="66dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="19dp"
+            android:fontFamily="@font/ridibatang"
+            android:textColor="@color/progressbar_color" />
+
+        <TextView
+            android:id="@+id/book_title"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="85dp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/binggrae"
+            android:text="책 제목"
+            android:textColor="@color/colorskybuleDark"
+            android:textSize="18dp" />
+    </RelativeLayout>
+    <!-- Notice -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/darkgray" />
+
+    <!-- 닫기 버튼 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancel_alarm"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_weight="1"
+            android:background="#00ff0000"
+            android:fontFamily="@font/binggrae"
+            android:gravity="center"
+            android:onClick="mOnCloseCancle"
+            android:padding="16dp"
+            android:text="취소"
+            android:textColor="@color/colorskybuleDark"
+            android:textSize="17dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/darkgray"/>
+
+        <Button
+            android:id="@+id/move_to_book"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_weight="1"
+            android:background="#00ff0000"
+            android:fontFamily="@font/binggrae"
+            android:gravity="center"
+            android:onClick="mOnCloseDelete"
+            android:padding="16dp"
+            android:text="이어보기"
+            android:textColor="@color/colorskybuleDark"
+            android:textSize="17dp" />
+
+
+    </LinearLayout>
+    <!--// 닫기 버튼 -->
+</LinearLayout>

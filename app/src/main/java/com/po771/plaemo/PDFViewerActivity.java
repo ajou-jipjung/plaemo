@@ -1,10 +1,15 @@
 package com.po771.plaemo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -52,6 +57,34 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
 
         int bookId = getIntent().getIntExtra("bookId",1);
         String readState = getIntent().getStringExtra("readState");
+        if(getIntent().getIntExtra("alarm_id",-1)!=-1) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(22);
+            Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(it);
+        }
+//
+//            int alarm_id = getIntent().getIntExtra("alarm_id",-1);
+//            Log.d("pdfviewr_alarmid","pdf alarm id "+alarm_id);
+//            Intent serviceIntent = new Intent(this, AlarmService.class);
+//            serviceIntent.setAction("stop_action");
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+//                startForegroundService(serviceIntent);
+//            }else{
+//                startService(serviceIntent);
+//            }
+////            if (Build.VERSION.SDK_INT >= 26) {
+////                String Channel_id = "default_channel_id";
+////                String Channel_name = "default_channel_name";
+////                NotificationManager mNotificationManager;
+////                NotificationChannel channel = new NotificationChannel(Channel_id,
+////                        Channel_name,
+////                        NotificationManager.IMPORTANCE_DEFAULT);
+////                mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+////                mNotificationManager.createNotificationChannel(channel);
+////                mNotificationManager.cancel(11);
+////            }
+//        }
         baseHelper = BaseHelper.getInstance(this);
         item_book = baseHelper.getBook(bookId);
 

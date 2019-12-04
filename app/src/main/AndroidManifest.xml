@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
 
     <application
         android:allowBackup="true"
@@ -45,6 +46,7 @@
         <activity android:name=".PlaemoMemoListActivity" />
         <activity android:name=".PlaemoBookNewMemoActivity" />
         <activity android:name=".PlaemoAlarmSetActivity" />
+        <activity android:name=".PlaemoAlarmPopupActivity"/>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -35,8 +36,6 @@ public class AlarmService extends Service {
 
 
     void startForegroundService() {
-        Intent notificationIntent = new Intent(this, PlaemoMainDocActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         remoteViews = new RemoteViews(getPackageName(), R.layout.notification_foreground);
 
@@ -50,26 +49,48 @@ public class AlarmService extends Service {
 
             mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.createNotificationChannel(channel);
+            mNotificationManager.cancelAll();
 
             builder = new Builder(this, Channel_id);
         } else {
             builder = new Builder(this);
         }
-        builder.setSmallIcon(R.mipmap.ic_launcher)
-                .setContent(remoteViews)
-                .setContentIntent(pendingIntent);
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        int alarm_id = intent.getExtras().getInt("alarm_id",-1);
-        remoteViews.setTextViewText(R.id.popup_alarmname,"alarm id : "+alarm_id);
+//        if(intent.getAction().equals("start_action")){
+//            int alarm_id = intent.getExtras().getInt("alarm_id",-1);
+//            int book_id = intent.getExtras().getInt("book_id",-1);
+//            Intent notificationIntent = new Intent(this, PDFViewerActivity.class);
+//            notificationIntent.putExtra("bookId",book_id);
+//            notificationIntent.putExtra("readState","resume");
+//            notificationIntent.putExtra("alarm_id",alarm_id);
+//            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,  PendingIntent.FLAG_CANCEL_CURRENT);
+//            remoteViews.setTextViewText(R.id.popup_alarmname,"alarm id : "+alarm_id);
+//
+//            builder.setSmallIcon(R.mipmap.ic_launcher)
+//                    .setDefaults(Notification.DEFAULT_ALL) // 알림, 사운드 진동 설정
+//                    .setContentTitle("sdfsf")
+//                    .setContentText("ggg")
+//                    .setContentIntent(pendingIntent);
+//            Notification notification = builder.build();
+//            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+////            mNotificationManager.notify(11,notification);
+//            startForeground(1, notification);
+//        }
+//        else if(intent.getAction().equals("stop_action")){
+//            stopForeground(true);
+//            stopSelf();
+//        }
+        Bundle bundle = intent.getExtras();
+        Intent popupIntent = new Intent(this, PlaemoAlarmPopupActivity.class);
+        popupIntent.putExtras(bundle);
+//        Log.d("AlarmService","get alarm id "+alarm_id);
+//        Log.d("AlarmService","get book id "+book_id);
 
-        builder.setContent(remoteViews);
 
-        startForeground(alarm_id, builder.build());
-
+        startActivity(popupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         return START_NOT_STICKY;
     }
 
