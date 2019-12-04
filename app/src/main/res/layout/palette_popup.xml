@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorskybule"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+
+
+    <!-- Notice -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:orientation="vertical">
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color1"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginEnd="244dp"
+            android:layout_marginBottom="81dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette1"
+            />
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color2"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="82dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginEnd="190dp"
+            android:layout_marginBottom="81dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette2" />
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color3"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="133dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginEnd="139dp"
+            android:layout_marginBottom="81dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette3" />
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color4"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="184dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginEnd="88dp"
+            android:layout_marginBottom="81dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette4" />
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color5"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="235dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="81dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette5" />
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color6"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="82dp"
+            android:layout_marginEnd="244dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette6" />
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color7"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="82dp"
+            android:layout_marginTop="81dp"
+            android:layout_marginEnd="190dp"
+            android:layout_marginBottom="31dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette7" />
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color8"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="133dp"
+            android:layout_marginTop="82dp"
+            android:layout_marginEnd="139dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette8" />
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color9"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="184dp"
+            android:layout_marginTop="81dp"
+            android:layout_marginEnd="88dp"
+            android:layout_marginBottom="31dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette9" />
+
+        <Button
+            android:onClick="mOnColor"
+            android:id="@+id/color10"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="235dp"
+            android:layout_marginTop="82dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/paltette10" />
+
+    </RelativeLayout>
+    <!-- Notice -->
+
+    <View
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/darkgray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+
+    <!-- 닫기 버튼 -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:fontFamily="@font/binggrae"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="mOnClose"
+            android:padding="16dp"
+            android:text="취소"
+            android:background="#00ff0000"
+            android:textColor="@color/colorskybuleDark"
+            android:textSize="17dp" />
+
+    </LinearLayout>
+    <!--// 닫기 버튼 -->
+</LinearLayout>

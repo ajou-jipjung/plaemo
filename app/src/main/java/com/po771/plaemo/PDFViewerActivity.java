@@ -44,6 +44,7 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
     PDFView pdfView;
     Integer pageNumber = 0;
     String pdfFileName;
+    String pdfNowName;
 
     LinearLayout linearLayout;
     SeekBar sb;
@@ -158,6 +159,13 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
                 settingIntent.putExtra("book_id",(item_book.get_id()));
                 settingIntent.putExtra("current_page",(pageNumber+1));
                 startActivityForResult(settingIntent,400);
+                return true;
+            case R.id.pdfedit:
+                Intent Intent = new Intent(this, PDFEditActivity.class);
+                Intent.putExtra("pdfFileName",pdfNowName);
+                startActivity(Intent);
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -168,7 +176,8 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
     @Override
     public void onPageChanged(int page, int pageCount) {
         pageNumber = page;
-        setTitle(String.format("%s %s / %s", pdfFileName, page + 1, pageCount));
+        pdfNowName = String.format("%s %s / %s", pdfFileName, page + 1, pageCount);
+        setTitle(pdfNowName);
         baseHelper.changePage(item_book.get_id(),page+1);
         seekbar_tv.setText(String.valueOf(page+1)+"/"+item_book.getTotal_page());
         sb.setProgress(page+1);

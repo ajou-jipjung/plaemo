@@ -14,4 +14,17 @@
     <color name="lightgray">#b4b4ad</color>
     <color name="darkgray">#727272</color>
     <color name="white">#ffffff</color>
+    <!-- palette-->
+    <color name="paltette1">#FF1744</color>
+    <color name="paltette2">#FF6F00</color>
+    <color name="paltette3">#FFEA00</color>
+    <color name="paltette4">#388E3C</color>
+    <color name="paltette5">#0288D1</color>
+    <color name="paltette6">#3D5AFE</color>
+    <color name="paltette7">#651FFF</color>
+    <color name="paltette8">#FFFFFF</color>
+    <color name="paltette9">#5A5A5A</color>
+    <color name="paltette10">#000000</color>
+
+
 </resources>
