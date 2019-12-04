@@ -88,10 +88,10 @@ public class PlaemoAlarmPopupActivity extends Activity implements View.OnClickLi
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.move_to_book:
-                Intent pdfintent = new Intent (this, PDFViewerActivity.class);
-                pdfintent.putExtra("bookId",item_book.get_id());
-                pdfintent.putExtra("readState","resume");
-                startActivityForResult(pdfintent,200);
+                Intent pdfIntent = new Intent (this, PDFViewerActivity.class);
+                pdfIntent.putExtra("bookId",item_book.get_id());
+                pdfIntent.putExtra("readState","resume");
+                startActivityForResult(pdfIntent,200);
                 finish();
                 break;
             case R.id.cancel_alarm:
