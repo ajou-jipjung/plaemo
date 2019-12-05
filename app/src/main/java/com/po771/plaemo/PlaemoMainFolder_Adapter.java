@@ -58,6 +58,7 @@ public class PlaemoMainFolder_Adapter extends RecyclerView.Adapter<PlaemoMainFol
                 Intent intent = new Intent(context, PlaemoMainDocActivity.class);
                 intent.putExtra("folder_name",text);
                 ((Activity) context).startActivityForResult(intent,200);
+                ((Activity) context).overridePendingTransition(0, 0);
             }
         });
     }

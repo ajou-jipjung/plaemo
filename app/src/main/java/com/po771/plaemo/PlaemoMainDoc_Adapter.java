@@ -98,6 +98,7 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
                 intent.putExtra("book_id",(item_book.get_id()));
                 intent.putExtra("book_name",(item_book.getBook_name()));
                 ((Activity) context).startActivityForResult(intent,200);
+                ((Activity) context).overridePendingTransition(0, 0);
             }
         });
         holder.textView_percent.setText(String.valueOf(Math.round(percent))+"%");

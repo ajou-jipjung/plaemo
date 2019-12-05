@@ -40,14 +40,17 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
             case R.id.mainfolderaction_book:
                 Intent addDoc_intent = new Intent(this, AddDocActivity.class);
                 startActivityForResult(addDoc_intent,200);
+                overridePendingTransition(0, 0);
                 return true;
             case R.id.mainfolderaction_alarm:
                 Intent alarmList_intent = new Intent(this, PlaemoAlarmListActivity.class);
                 startActivity(alarmList_intent);
+                overridePendingTransition(0, 0);
                 return true;
             case R.id.mainfolderaction_setting:
                 Intent setting_intent = new Intent(this, PlaemoMainSettingActivity.class);
                 startActivity(setting_intent);
+                overridePendingTransition(0, 0);
                 return true;
                 default:
                     return super.onOptionsItemSelected(item);

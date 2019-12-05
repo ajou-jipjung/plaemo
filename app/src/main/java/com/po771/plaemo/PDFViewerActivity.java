@@ -163,11 +163,12 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
                 startActivityForResult(settingIntent,400);
                 return true;
             case R.id.pdfedit:
-                Intent Intent = new Intent(this, PDFEditActivity.class);
-                Intent.putExtra("book_id",(item_book.get_id()));
-                Intent.putExtra("current_page",(pageNumber));
-                Intent.putExtra("pdfFileName",pdfNowName);
-                startActivity(Intent);
+                Intent intent = new Intent(this, PDFEditActivity.class);
+                intent.putExtra("book_id",(item_book.get_id()));
+                intent.putExtra("current_page",(pageNumber));
+                intent.putExtra("pdfFileName",pdfNowName);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

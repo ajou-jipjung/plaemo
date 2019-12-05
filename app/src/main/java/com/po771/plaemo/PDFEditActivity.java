@@ -168,9 +168,11 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
             case android.R.id.home:
                 // 취소됨
                 finish();
+                overridePendingTransition(0, 0);
                 return true;
             case R.id.pdf_edit_finish:
                 finish();
+                overridePendingTransition(0, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
