@@ -70,7 +70,7 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
       
         colorButton.setBackgroundResource(R.drawable.round_button2);
 
-        int bookId = getIntent().getIntExtra("bookId",1);
+        int bookId = getIntent().getIntExtra("book_id",1);
         int current_page = getIntent().getIntExtra("current_page",1);
         baseHelper = BaseHelper.getInstance(this);
         Item_book item_book = baseHelper.getBook(bookId);
