@@ -59,18 +59,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.github.barteksc.pdfviewer.PDFView
-            android:id="@+id/pdfeditView"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/pdfimage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
         <!-- github pdfView 대신에 불러올 palette item을 추가해주세요-->
 
         <LinearLayout
