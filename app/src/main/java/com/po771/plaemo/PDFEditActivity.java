@@ -33,9 +33,7 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
 
     BaseHelper baseHelper;
     PDFEidtView view;
-    int tColor, n=0;
 
-    Paint paintColor = new Paint();
     ImageButton colorButton, borderButton, eraserButton, backButton, fowardButton;
     ImageView pdfimage;
     @Override
