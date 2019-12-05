@@ -68,7 +68,7 @@ public class PlaemoAlarmSetFolder_Adapter extends RecyclerView.Adapter<PlaemoAla
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.folder_image);
-            imageView.setImageResource(R.drawable.blue_download_alt_folder_12391);
+            imageView.setImageResource(R.drawable.folderyellow_92963);
             textView = itemView.findViewById(R.id.folder_name);
         }
     }
