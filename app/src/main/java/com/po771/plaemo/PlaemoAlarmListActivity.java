@@ -42,9 +42,11 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
 
 
         //액션바 타이틀 변경
-        getSupportActionBar().setTitle("알람리스트");
+        getSupportActionBar().setTitle("알람");
         Button button = (Button)findViewById(R.id.btn_back);
 
+        //홈버튼 표시
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Item 터치이벤트
 
@@ -61,6 +63,9 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.mainalarmaction_alarm_add:
                 Intent intent = new Intent(getApplicationContext(), PlaemoAlarmSetActivity.class);
 //                intent.putExtra("alarm_id",(item_alarmList.get_id()));
