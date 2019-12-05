@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,6 +38,9 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     String search_text; //검색어
     int now_spin = 0; //현재 위치
     boolean search_now = false; //검색 여부
+
+    ProgressBar doc_progress;
+    TextView doc_percent;
 
     Item_book item_book;
     Button btn_star;
@@ -115,6 +120,9 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         info_bookinfo = (TextView)findViewById(R.id.info_bookinfo);
         ImageView imageView = (ImageView)findViewById(R.id.info_bookimage);
 
+        doc_percent = findViewById(R.id.doc_percent);
+        doc_progress = findViewById(R.id.doc_progress);
+
         btn_star = (Button)findViewById(R.id.info_star);
         btn_star.setOnClickListener(this);
         if(item_book.getBook_star()==1){
@@ -130,6 +138,13 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         info_bookinfo.setText(item_book.getBook_info());
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
 
+        float percent = ((float)item_book.getCurrent_page() / (float)item_book.getTotal_page()) * 100f;
+        int p = (int)percent;
+        Log.w("퍼센트", String.valueOf(p));
+        String per = String.valueOf(p);
+        per = per + "%";
+        doc_percent.setText(per);
+        doc_progress.setProgress(p);
 
         Spinner memo_spinner = (Spinner)findViewById(R.id.book_memo_spinner);
         memo_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
