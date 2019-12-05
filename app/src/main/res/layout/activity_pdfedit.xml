@@ -3,58 +3,11 @@
     android:id="@+id/pdfedit_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".PlaemoAlarmSetFolderActivity">
-
-    <LinearLayout
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <ImageButton
-            android:id="@+id/pdf_color"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_color_select" />
-
-        <ImageButton
-            android:id="@+id/pdf_pen_border"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_brush" />
-
-        <ImageButton
-            android:id="@+id/pdf_eraser"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_eraser" />
-
-        <ImageButton
-            android:id="@+id/pdf_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_back" />
-
-        <ImageButton
-            android:id="@+id/pdf_foward"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_foward" />
-    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -80,6 +33,54 @@
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
             android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ImageButton
+                android:id="@+id/pdf_color"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_color_select" />
+
+            <ImageButton
+                android:id="@+id/pdf_pen_border"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_brush" />
+
+            <ImageButton
+                android:id="@+id/pdf_eraser"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_eraser" />
+
+            <ImageButton
+                android:id="@+id/pdf_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_back" />
+
+            <ImageButton
+                android:id="@+id/pdf_foward"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_foward" />
+        </LinearLayout>
 
     </RelativeLayout>
 

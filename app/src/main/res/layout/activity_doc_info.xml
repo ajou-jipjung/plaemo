@@ -133,7 +133,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/colorskybuleDark"
+            android:textColor="@color/colormainskybule"
+            android:textStyle="bold"
             android:text="처음부터"
             android:textSize="20dp"
             />
@@ -143,6 +144,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/colormainskybule"
+            android:textStyle="bold"
             android:text="이어보기"
             android:textSize="20dp"
             />
