@@ -77,6 +77,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         remoteViews.setTextViewText(R.id.popup_alarmtext,alarmtext);
 
         int percent = (int)((item_book.getCurrent_page() * 100) / item_book.getTotal_page());
+        remoteViews.setTextViewText(R.id.popup_percent,percent+"%");
         remoteViews.setInt(R.id.popup_progressBar,"setProgress",percent);
 
         remoteViews.setOnClickPendingIntent(R.id.popup_alarmbutton2,pendingIntent);

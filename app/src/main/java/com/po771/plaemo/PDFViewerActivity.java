@@ -65,6 +65,8 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
             notificationManager.cancel(22);
             Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(it);
+
+
         }
 //
 //            int alarm_id = getIntent().getIntExtra("alarm_id",-1);

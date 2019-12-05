@@ -16,8 +16,9 @@
         android:layout_marginBottom="5dp">
 
         <ImageView
+            android:background="@drawable/shadow"
             android:id="@+id/bookimg"
-            android:layout_width="48dp"
+            android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"

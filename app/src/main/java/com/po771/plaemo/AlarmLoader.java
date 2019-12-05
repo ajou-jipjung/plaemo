@@ -115,6 +115,7 @@ public class AlarmLoader {
         alarmIntent.putExtra("alarm_id",item_alarm.get_id());
         alarmIntent.putExtra("book_id",item_alarm.getBook_id());
         final int _id = item_alarm.getCase_id()+index;
+
         Log.d("settingalarm","case_id "+_id);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, _id, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
