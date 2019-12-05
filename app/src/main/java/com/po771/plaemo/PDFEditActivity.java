@@ -3,26 +3,41 @@ package com.po771.plaemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.content.res.Resources;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.po771.plaemo.DB.BaseHelper;
+import com.po771.plaemo.item.Item_book;
+import com.shockwave.pdfium.PdfDocument;
+import com.shockwave.pdfium.PdfiumCore;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import static android.os.ParcelFileDescriptor.MODE_READ_ONLY;
 
 public class PDFEditActivity extends AppCompatActivity implements View.OnClickListener{
 
+    BaseHelper baseHelper;
     PDFEidtView view;
     int tColor, n=0;
 
     Paint paintColor = new Paint();
     ImageButton colorButton, borderButton, eraserButton, backButton, fowardButton;
-
+    ImageView pdfimage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +61,40 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
         eraserButton = findViewById(R.id.pdf_eraser);
         backButton = findViewById(R.id.pdf_back);
         fowardButton = findViewById(R.id.pdf_foward);
-
+        pdfimage = findViewById(R.id.pdfimage);
         borderButton.setOnClickListener(this);
         colorButton.setOnClickListener(this);
         eraserButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
         fowardButton.setOnClickListener(this);
-
+      
         colorButton.setBackgroundResource(R.drawable.round_button2);
+
+        int bookId = getIntent().getIntExtra("bookId",1);
+        int current_page = getIntent().getIntExtra("current_page",1);
+        baseHelper = BaseHelper.getInstance(this);
+        Item_book item_book = baseHelper.getBook(bookId);
+        int readcount=0;
+
+        File pdffile = new File(item_book.getBook_uri());
+        Bitmap bitmap;
+        try {
+            ParcelFileDescriptor fd = ParcelFileDescriptor.open(pdffile,MODE_READ_ONLY);
+            PdfiumCore pdfiumCore = new PdfiumCore(this);
+            PdfDocument pdfDocument = pdfiumCore.newDocument(fd);
+            pdfiumCore.openPage(pdfDocument, current_page);
+            int width = pdfiumCore.getPageWidthPoint(pdfDocument, current_page);
+            int height = pdfiumCore.getPageHeightPoint(pdfDocument, current_page);
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            pdfiumCore.renderPageBitmap(pdfDocument, bitmap, current_page, 0, 0, width, height);
+            ImageView imageView = (ImageView)findViewById(R.id.pdfimage);
+            imageView.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -162,9 +164,10 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
                 return true;
             case R.id.pdfedit:
                 Intent Intent = new Intent(this, PDFEditActivity.class);
+                Intent.putExtra("book_id",(item_book.get_id()));
+                Intent.putExtra("current_page",(pageNumber+1));
                 Intent.putExtra("pdfFileName",pdfNowName);
                 startActivity(Intent);
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

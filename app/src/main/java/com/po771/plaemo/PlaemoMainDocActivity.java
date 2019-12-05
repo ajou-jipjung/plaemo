@@ -63,6 +63,7 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setResult(RESULT_OK);
                 finish();
                 return true;
             case R.id.folderaction_memolist:
@@ -72,6 +73,13 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
                 default:
                     return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
