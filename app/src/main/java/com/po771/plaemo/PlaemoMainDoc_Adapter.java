@@ -70,10 +70,10 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
             percent = (float) (item_book.getCurrent_page()*100) / item_book.getTotal_page();
         }
         String doc_name = item_book.getBook_name();
-        if(doc_name.length()>8){
-            doc_name = doc_name.substring(0,6);
-            doc_name=doc_name+"...";
-        }
+//        if(doc_name.length()>8){
+//            doc_name = doc_name.substring(0,6);
+//            doc_name=doc_name+"...";
+//        }
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -105,20 +105,20 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
 //        holder.circularProgressBar.getLayoutParams().width=bitwidth;
 //        holder.circularProgressBar.getLayoutParams().height=bitwidth;
 
-        int circularsize = layoutwidth-100;
-        holder.circularProgressBar.getLayoutParams().width=circularsize;
-        holder.circularProgressBar.getLayoutParams().height=circularsize;
-        holder.circularProgressBar.setProgress(percent);
+//        int circularsize = layoutwidth-100;
+//        holder.circularProgressBar.getLayoutParams().width=circularsize;
+//        holder.circularProgressBar.getLayoutParams().height=circularsize;
+//        holder.circularProgressBar.setProgress(percent);
 
         if(!visibleState){
             holder.imageView.getDrawable().setAlpha(255);
             holder.textView_percent.setVisibility(View.INVISIBLE);
-            holder.circularProgressBar.setVisibility(View.INVISIBLE);
+//            holder.circularProgressBar.setVisibility(View.INVISIBLE);
         }
         else{
             holder.imageView.getDrawable().setAlpha(70);
             holder.textView_percent.setVisibility(View.VISIBLE);
-            holder.circularProgressBar.setVisibility(View.VISIBLE);
+//            holder.circularProgressBar.setVisibility(View.VISIBLE);
         }
 
     }
@@ -131,7 +131,7 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView_percent;
         TextView textView_title;
-        CircularProgressBar circularProgressBar;
+//        CircularProgressBar circularProgressBar;
         ImageView imageView;
         RelativeLayout relativeLayout;
         LinearLayout linearLayout;
@@ -142,7 +142,7 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
             relativeLayout = itemView.findViewById(R.id.doc_relativelayout);
             textView_percent=itemView.findViewById(R.id.doc_textView_percent);
             textView_title=itemView.findViewById(R.id.doc_textView_title);
-            circularProgressBar = itemView.findViewById(R.id.doc_circularProgressBar);
+//            circularProgressBar = itemView.findViewById(R.id.doc_circularProgressBar);
             imageView = itemView.findViewById(R.id.doc_image);
         }
     }

@@ -165,7 +165,7 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
             case R.id.pdfedit:
                 Intent Intent = new Intent(this, PDFEditActivity.class);
                 Intent.putExtra("book_id",(item_book.get_id()));
-                Intent.putExtra("current_page",(pageNumber+1));
+                Intent.putExtra("current_page",(pageNumber));
                 Intent.putExtra("pdfFileName",pdfNowName);
                 startActivity(Intent);
                 return true;

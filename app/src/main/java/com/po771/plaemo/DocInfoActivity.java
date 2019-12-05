@@ -133,12 +133,18 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.info_readresume).setOnClickListener(this);
 
         info_bookname.setText(item_book.getBook_name());
-        String pageState=""+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
+        String pageState="page : "+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
         info_bookpage.setText(pageState);
         info_bookinfo.setText(item_book.getBook_info());
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
 
-        float percent = ((float)item_book.getCurrent_page() / (float)item_book.getTotal_page()) * 100f;
+        float percent;
+        if(item_book.getCurrent_page()==1){
+            percent = (float) ((item_book.getCurrent_page()-1)*100) / item_book.getTotal_page();
+        }
+        else{
+            percent = (float) (item_book.getCurrent_page()*100) / item_book.getTotal_page();
+        }
         int p = (int)percent;
         Log.w("퍼센트", String.valueOf(p));
         String per = String.valueOf(p);
@@ -263,8 +269,22 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             case 200: //책 상태 변경 + 아래 메모 변경
                 item_book = baseHelper.getBook(book_id);
 
-                String pageState=""+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
+                String pageState="page : "+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
                 info_bookpage.setText(pageState);
+
+                float percent;
+                if(item_book.getCurrent_page()==1){
+                    percent = (float) ((item_book.getCurrent_page()-1)*100) / item_book.getTotal_page();
+                }
+                else{
+                    percent = (float) (item_book.getCurrent_page()*100) / item_book.getTotal_page();
+                }
+                int p = (int)percent;
+                Log.w("퍼센트", String.valueOf(p));
+                String per = String.valueOf(p);
+                per = per + "%";
+                doc_percent.setText(per);
+                doc_progress.setProgress(p);
 
             case 400://메모 변경
                 memolistList= baseHelper.getBookMemo(book_id, now_spin);
