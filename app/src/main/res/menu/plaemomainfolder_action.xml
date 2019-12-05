@@ -17,6 +17,6 @@
     <item
         android:id="@+id/mainfolderaction_setting"
         app:showAsAction="always"
-        android:icon="@drawable/ic_settings_applications_24px"
+        android:icon="@drawable/ic_black_setting"
         android:title="alarm" />
 </menu>
