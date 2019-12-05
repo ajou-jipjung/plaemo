@@ -65,11 +65,13 @@ public class PlaemoMainDocActivity extends AppCompatActivity {
             case android.R.id.home:
                 setResult(RESULT_OK);
                 finish();
+                overridePendingTransition(0, 0);
                 return true;
             case R.id.folderaction_memolist:
                 Intent settingIntent = new Intent(this, PlaemoMemoListActivity.class);
                 settingIntent.putExtra("folder_name",folder_name);
                 startActivity(settingIntent);
+                overridePendingTransition(0, 0);
                 default:
                     return super.onOptionsItemSelected(item);
         }
