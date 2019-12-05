@@ -15,13 +15,6 @@
 
         >
 
-        <com.mikhaellopez.circularprogressbar.CircularProgressBar
-            android:id="@+id/doc_circularProgressBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            app:cpb_background_progressbar_width="10dp" />
-
         <androidx.appcompat.widget.AppCompatImageView
             android:background="@drawable/shadow"
             android:id="@+id/doc_image"
@@ -47,10 +40,10 @@
     <TextView
         android:id="@+id/doc_textView_title"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="TextView"
         android:gravity="center"
-        android:autoSizeTextType="uniform"
+        android:textSize="15dp"
         />
 
 </LinearLayout>

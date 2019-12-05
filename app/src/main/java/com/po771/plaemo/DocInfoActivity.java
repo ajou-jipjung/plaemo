@@ -125,7 +125,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.info_readresume).setOnClickListener(this);
 
         info_bookname.setText(item_book.getBook_name());
-        String pageState=""+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
+        String pageState="page : "+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
         info_bookpage.setText(pageState);
         info_bookinfo.setText(item_book.getBook_info());
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
@@ -248,7 +248,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             case 200: //책 상태 변경 + 아래 메모 변경
                 item_book = baseHelper.getBook(book_id);
 
-                String pageState=""+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
+                String pageState="page : "+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
                 info_bookpage.setText(pageState);
 
             case 400://메모 변경
