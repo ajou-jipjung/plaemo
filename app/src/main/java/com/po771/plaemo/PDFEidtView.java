@@ -16,7 +16,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-public class PDFView extends View {
+public class PDFEidtView extends View {
 
     public boolean changed = false;
 
@@ -39,17 +39,17 @@ public class PDFView extends View {
 
     static final float TOUCH_TOLERANCE = 8;
 
-    public PDFView(Context context) {
+    public PDFEidtView(Context context) {
         super(context);
         init(context);
     }
 
-    public PDFView(Context context, @Nullable AttributeSet attrs) {
+    public PDFEidtView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public PDFView(Context context, @Nullable AttributeSet attrs, int defStyle)
+    public PDFEidtView(Context context, @Nullable AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         init(context);
