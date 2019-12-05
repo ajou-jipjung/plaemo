@@ -77,11 +77,10 @@ public class PlaemoMainDoc_Adapter extends RecyclerView.Adapter<PlaemoMainDoc_Ad
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int layoutwidth = displaymetrics.widthPixels/3;
-        int layoutheight = displaymetrics.heightPixels/3;
-        holder.linearLayout.getLayoutParams().width=layoutwidth;
-        holder.linearLayout.getLayoutParams().height=layoutheight-40;
-        holder.relativeLayout.getLayoutParams().height=layoutheight-30;
+        int linearLayoutwidth = displaymetrics.widthPixels/3;
+        int linearLayoutheight = (int)(linearLayoutwidth*1.5);
+        holder.linearLayout.getLayoutParams().width=linearLayoutwidth;
+        holder.relativeLayout.getLayoutParams().height=linearLayoutheight;
 
         Bitmap bitmap = loadImageFromInternalStorage(item_book.get_id());
         holder.imageView.setImageBitmap(bitmap);

@@ -135,7 +135,16 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         info_bookname.setText(item_book.getBook_name());
         String pageState="page : "+item_book.getCurrent_page() + " / "+item_book.getTotal_page();
         info_bookpage.setText(pageState);
-        info_bookinfo.setText(item_book.getBook_info());
+
+        String info = item_book.getBook_info();
+        info_bookinfo.setText("정보"+"\n"+info);
+        if(info.equals("")){
+            info_bookinfo.setVisibility(View.GONE);
+        }
+        else{
+            info_bookinfo.setVisibility(View.VISIBLE);
+        }
+
         imageView.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()));
 
         float percent;
@@ -293,7 +302,14 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             case 600:
                 item_book = baseHelper.getBook(book_id);
                 info_bookname.setText(item_book.getBook_name());
-                info_bookinfo.setText(item_book.getBook_info());
+                String info = item_book.getBook_info();
+                info_bookinfo.setText("정보"+"\n"+info);
+                if(info.equals("")){
+                    info_bookinfo.setVisibility(View.GONE);
+                }
+                else{
+                    info_bookinfo.setVisibility(View.VISIBLE);
+                }
                 chipGroup.removeAllViews();
                 String[] folders = item_book.getFolder().split("/");
                 for(int i=0;i<folders.length;i++){

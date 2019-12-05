@@ -62,7 +62,9 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/pdfimage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_centerVertical="true"/>
         <!-- github pdfView 대신에 불러올 palette item을 추가해주세요-->
 
         <LinearLayout

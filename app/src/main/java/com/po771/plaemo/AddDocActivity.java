@@ -153,8 +153,13 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.adddoc_register:
                 if(bitmap!=null){
-                    item_book.setBook_name(et_bookname.getText().toString());
-                    item_book.setBook_info(et_bookinfo.getText().toString());
+                    String bookname =et_bookname.getText().toString();
+                    bookname = bookname.replace(" ", "\u00A0");
+                    item_book.setBook_name(bookname);
+
+                    String bookinfo =et_bookinfo.getText().toString();
+                    bookinfo = bookinfo.replace(" ", "\u00A0");
+                    item_book.setBook_info(bookinfo);
                     String folder="";
                     for(int i=1;i<folderChecklist.size();i++){
                         if(folderChecklist.get(i)){
