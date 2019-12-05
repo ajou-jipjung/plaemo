@@ -38,16 +38,28 @@
 
 
         </LinearLayout>
-        <ProgressBar
-            android:max="100"
-            android:progress="90"
-            android:id="@+id/popup_progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:progressDrawable="@drawable/circular_progress_bar"
-            android:background="@drawable/circle_shape"
+        <RelativeLayout
             android:layout_width="100dp"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="100dp">
+            <ProgressBar
+                android:max="100"
+                android:progress="90"
+                android:id="@+id/popup_progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:background="@drawable/circle_shape"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                />
+
+            <TextView
+                android:id="@+id/popup_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="20dp"
+                />
+        </RelativeLayout>
 
     </LinearLayout>
     <LinearLayout
