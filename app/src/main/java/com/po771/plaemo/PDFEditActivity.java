@@ -13,9 +13,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.content.res.Resources;
 
+import com.github.barteksc.pdfviewer.PDFView;
+
 public class PDFEditActivity extends AppCompatActivity implements View.OnClickListener{
 
-    PDFView view;
+    PDFEidtView view;
     int tColor, n=0;
 
     Paint paintColor = new Paint();
@@ -25,7 +27,7 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdfedit);
-        view = new PDFView(this);
+        view = new PDFEidtView(this);
         LinearLayout container = findViewById(R.id.viewContainer);
         Resources res = getResources();
 
@@ -50,6 +52,8 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
         eraserButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
         fowardButton.setOnClickListener(this);
+
+        colorButton.setBackgroundResource(R.drawable.round_button2);
     }
 
     @Override
@@ -58,6 +62,8 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.pdf_color:
                 Intent intent = new Intent(this, PDFColor_PopupActivity.class);
                 startActivityForResult(intent, 1);
+                colorButton.setBackgroundResource(R.drawable.round_button2);
+                eraserButton.setBackgroundResource(R.color.blank);
                 view.SetPenState(1);
                 break;
             case R.id.pdf_pen_border:
@@ -66,6 +72,8 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.pdf_eraser:
                 view.SetPenState(2);
+                colorButton.setBackgroundResource(R.color.blank);
+                eraserButton.setBackgroundResource(R.drawable.round_button2);
                 break;
             case R.id.pdf_back:
                 break;
