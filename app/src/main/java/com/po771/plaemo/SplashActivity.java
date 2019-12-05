@@ -32,17 +32,18 @@ import java.io.IOException;
 public class SplashActivity extends AppCompatActivity {
 
     DataManager dataManager;
-
+    long startTime;
+    long endTime;
     private final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        long startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
 
         if(request()){
             initThing();
-            long endTime = System.currentTimeMillis();
+            endTime = System.currentTimeMillis();
 
             long delayMax = 2000;
             long delayTime = endTime - startTime;
@@ -59,11 +60,7 @@ public class SplashActivity extends AppCompatActivity {
 
             finish();
         }
-        else{
-            finish();
-        }
     }
-
     private boolean request(){
         int permssionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
         if (permssionCheck != PackageManager.PERMISSION_GRANTED) {
@@ -71,8 +68,11 @@ public class SplashActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            return false;
         }
-        return true;
+        else{
+            return true;
+        }
     }
 
     @Override
@@ -81,8 +81,22 @@ public class SplashActivity extends AppCompatActivity {
             case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    initThing();
+                    endTime = System.currentTimeMillis();
+
+                    long delayMax = 2000;
+                    long delayTime = endTime - startTime;
+                    if (delayMax > delayTime) {
+                        try {
+                            Thread.sleep(delayMax - delayTime);
+                        } catch (InterruptedException e) {
+                        }
+
+
+                    }
                     Intent intent = new Intent(this, PlaemoMainFolderActivity.class);
                     startActivity(intent);
+
                     finish();
                 } else {
                     finish();

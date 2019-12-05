@@ -1,5 +1,6 @@
 package com.po771.plaemo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -56,7 +57,7 @@ public class PlaemoMainFolder_Adapter extends RecyclerView.Adapter<PlaemoMainFol
             public void onClick(View view) {
                 Intent intent = new Intent(context, PlaemoMainDocActivity.class);
                 intent.putExtra("folder_name",text);
-                context.startActivity(intent);
+                ((Activity) context).startActivityForResult(intent,200);
             }
         });
     }
