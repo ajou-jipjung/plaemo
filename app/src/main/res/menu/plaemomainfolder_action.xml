@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_library_add_24px"
         android:title="alarm" />
 
-    <item
+    <itemzz
         android:id="@+id/mainfolderaction_setting"
         app:showAsAction="always"
         android:icon="@drawable/ic_black_setting"

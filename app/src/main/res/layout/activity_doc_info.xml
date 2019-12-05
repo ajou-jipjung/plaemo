@@ -44,9 +44,11 @@
                     android:layout_toLeftOf="@+id/info_setting"/>
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:layout_margin="5dp"
+                    android:gravity="center"
                     android:id="@+id/info_setting"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/ic_gray_setting"/>
             </RelativeLayout>
