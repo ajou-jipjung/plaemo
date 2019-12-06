@@ -253,6 +253,7 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity implements View.On
                     bookImage.setScaleType(ImageButton.ScaleType.FIT_CENTER);
                     bookImage.setImageBitmap(bitmap);
                     tvBookname.setText(item_book.getBook_name());
+                    name.setText(item_book.getBook_name());
                     tvBookpage.setText(item_book.getTotal_page() + " page");
                     break;
             }

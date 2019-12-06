@@ -142,7 +142,7 @@
             android:layout_marginTop="30dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="알람 이름" />
+            android:hint="알람 이름을 입력하세요!" />
 
         <Switch
             android:id="@+id/vibrate_switch"
