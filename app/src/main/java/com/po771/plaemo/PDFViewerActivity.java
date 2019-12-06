@@ -220,10 +220,10 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
             File f=new File(getDataDir().getAbsolutePath()+"/app_pdfImageDir", fileName+".png");
             if(f.exists() == true) {
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-                Log.w("책 이미지 불러와짐", "YES");
+                Log.w("책 이미지 불러오기", "YES");
                 return b;
             }else {
-                Log.w("책 이미지 불러와짐", "NO");
+                Log.w("책 이미지 불러오기", "NO");
                 return null;
             }
         }

@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -96,8 +97,9 @@ public class PDFEidtView extends View {
             File f = new File(directory, fileName+".png");
             if(f.exists()==true) {
             //파일이 있을시
-                img = BitmapFactory.decodeStream(new FileInputStream(f));
-                canvas.drawBitmap(img, 0,0,null);
+                img = BitmapFactory.decodeStream(new FileInputStream(f)).copy(Bitmap.Config.ARGB_8888, true);
+                canvas.setBitmap(img);
+                canvas.drawColor(Color.TRANSPARENT); // 배경색을 투명색으로 지정
             } else {
             //파일이 없을시
                 img = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
