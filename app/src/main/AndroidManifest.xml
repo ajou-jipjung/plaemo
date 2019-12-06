@@ -45,7 +45,6 @@
             android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".PDFViewerActivity"
             android:parentActivityName=".DocInfoActivity"/>
-        <activity android:name=".PlaemoMainSettingActivity" />
         <activity android:name=".PlaemoAlarmListActivity" />
         <activity android:name=".AddDocActivity" />
         <activity android:name=".DocInfoActivity"

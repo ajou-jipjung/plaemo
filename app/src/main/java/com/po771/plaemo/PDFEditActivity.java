@@ -39,7 +39,7 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
     BaseHelper baseHelper;
     PDFEidtView view;
 
-    ImageButton colorButton, borderButton, eraserButton, backButton, fowardButton;
+    ImageButton colorButton, borderButton, eraserButton;
     ImageView pdfimage;
 
     int bookId;
@@ -65,14 +65,10 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
         borderButton = findViewById(R.id.pdf_pen_border);
         colorButton = findViewById(R.id.pdf_color);
         eraserButton = findViewById(R.id.pdf_eraser);
-        backButton = findViewById(R.id.pdf_back);
-        fowardButton = findViewById(R.id.pdf_foward);
         pdfimage = findViewById(R.id.pdfimage);
         borderButton.setOnClickListener(this);
         colorButton.setOnClickListener(this);
         eraserButton.setOnClickListener(this);
-        backButton.setOnClickListener(this);
-        fowardButton.setOnClickListener(this);
       
         colorButton.setBackgroundResource(R.drawable.round_button2);
 
@@ -122,10 +118,6 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
                 view.SetPenState(2);
                 colorButton.setBackgroundResource(R.color.blank);
                 eraserButton.setBackgroundResource(R.drawable.round_button2);
-                break;
-            case R.id.pdf_back:
-                break;
-            case R.id.pdf_foward:
                 break;
             default:
                 break;

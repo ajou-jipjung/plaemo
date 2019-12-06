@@ -79,7 +79,7 @@ public class PDFEidtView extends View {
         ePaint.setStyle(Paint.Style.STROKE);
         ePaint.setStrokeJoin(Paint.Join.ROUND);
         ePaint.setStrokeCap(Paint.Cap.ROUND);
-        ePaint.setStrokeWidth(20.0F);
+        ePaint.setStrokeWidth(50.0F);
         ePaint.setAntiAlias(true);
 
         this.lastX = -1;

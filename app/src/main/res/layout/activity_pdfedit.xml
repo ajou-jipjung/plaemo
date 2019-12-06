@@ -66,19 +66,19 @@
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/ic_eraser" />
 
-            <ImageButton
-                android:id="@+id/pdf_back"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_back" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/pdf_back"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                app:srcCompat="@drawable/ic_back" />-->
 
-            <ImageButton
-                android:id="@+id/pdf_foward"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_foward" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/pdf_foward"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                app:srcCompat="@drawable/ic_foward" />-->
         </LinearLayout>
 
     </RelativeLayout>
