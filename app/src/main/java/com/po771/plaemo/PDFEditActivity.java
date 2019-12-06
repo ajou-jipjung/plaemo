@@ -100,7 +100,8 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        view.set_Directory(getDataDir().getAbsolutePath()+"/app_pdfImageDir");
+        view.set_FileName(bookId +"_"+current_page);
     }
 
     @Override

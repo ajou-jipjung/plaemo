@@ -2,6 +2,7 @@ package com.po771.plaemo;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,11 +17,18 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class PDFEidtView extends View {
 
     public boolean changed = false;
 
     boolean pen_state = true; //pen: true, eraser: false
+
+    String FileName;
+    String directory;
 
     Canvas mCanvas;
     Bitmap mBitmap;
@@ -79,11 +87,33 @@ public class PDFEidtView extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        Bitmap img = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas();
-        canvas.setBitmap(img);
-        canvas.drawColor(Color.TRANSPARENT); // 배경색을 투명색으로 지정
+        Bitmap img = null;
+        try
+        {
+            String fileName = get_FileName();
+            directory = get_Directory();
+            File f = new File(directory, fileName+".png");
+            if(f.exists()==true) {
+            //파일이 있을시
+                img = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                canvas.setBitmap(img);
+                canvas.drawColor(Color.TRANSPARENT); // 배경색을 투명색으로 지정
+                img = BitmapFactory.decodeStream(new FileInputStream(f));
+                canvas.drawBitmap(img, 0,0,null);
+            } else {
+            //파일이 없을시
+                img = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                canvas.setBitmap(img);
+                canvas.drawColor(Color.TRANSPARENT); // 배경색을 투명색으로 지정
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }finally {
 
+        }
         mBitmap = img;
         mCanvas = canvas;
     }
@@ -223,5 +253,22 @@ public class PDFEidtView extends View {
                 break;
         }
     }
+
+    public String get_FileName() {
+        return FileName;
+    }
+
+    public void set_FileName(String FileName) {
+        this.FileName = FileName;
+    }
+
+    public String get_Directory() {
+        return directory;
+    }
+
+    public void set_Directory( String directory) {
+        this.directory = directory;
+    }
+
 }
 
