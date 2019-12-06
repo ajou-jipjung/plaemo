@@ -97,13 +97,12 @@ public class DocInfoSettingActivity extends AppCompatActivity implements View.On
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String book_name = getIntent().getStringExtra("book_name");
         book_id = getIntent().getIntExtra("book_id",1);
 
-        setTitle(book_name+ " - 설정");
 
         baseHelper = BaseHelper.getInstance(this);
         item_book = baseHelper.getBook(book_id);
+        setTitle(item_book.getBook_name()+ " - 설정");
 
         findViewById(R.id.infosetting_cancle).setOnClickListener(this);
         findViewById(R.id.infosetting_register).setOnClickListener(this);

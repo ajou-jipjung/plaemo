@@ -42,6 +42,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
     ProgressBar doc_progress;
     TextView doc_percent;
 
+    ImageView imageView;
     Item_book item_book;
     Button btn_star;
     BaseHelper baseHelper;
@@ -107,19 +108,18 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String book_name = getIntent().getStringExtra("book_name");
         book_id = getIntent().getIntExtra("book_id",1);
 
-        setTitle(book_name+ " - 정보");
+
 
         baseHelper = BaseHelper.getInstance(this);
         item_book = baseHelper.getBook(book_id);
-
+        setTitle(item_book.getBook_name()+ " - 정보");
         info_bookname = (TextView)findViewById(R.id.info_bookname);
         info_bookpage = (TextView)findViewById(R.id.info_bookpage);
         info_bookinfo = (TextView)findViewById(R.id.info_bookinfo);
-        ImageView imageView = (ImageView)findViewById(R.id.info_bookimage);
-
+        imageView = (ImageView)findViewById(R.id.info_bookimage);
+        imageView.setOnClickListener(this);
         doc_percent = findViewById(R.id.doc_percent);
         doc_progress = findViewById(R.id.doc_progress);
 
@@ -195,6 +195,12 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
 
     protected void MemoListSort(int now_spin){
         memolistList= baseHelper.getBookMemo(book_id, now_spin);
+        if(memolistList.size()>0){
+            findViewById(R.id.info_bookmemolist_state).setVisibility(View.INVISIBLE);
+        }
+        else{
+            findViewById(R.id.info_bookmemolist_state).setVisibility(View.VISIBLE);
+        }
         RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
@@ -206,7 +212,6 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
 
     protected void MeMoFind(String keyword, int now_spin){
         memolistList= baseHelper.getBookMemoFind(keyword, book_id, now_spin);
-
         RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
@@ -253,6 +258,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
                     baseHelper.changeStar(item_book.get_id(),1);
                 }
                 break;
+            case R.id.info_bookimage:
             case R.id.info_readresume:
                 Intent pdfintent = new Intent(this, PDFViewerActivity.class);
 //                pdfintent.setAction(Intent.)
@@ -297,6 +303,12 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
 
             case 400://메모 변경
                 memolistList= baseHelper.getBookMemo(book_id, now_spin);
+                if(memolistList.size()>0){
+                    findViewById(R.id.info_bookmemolist_state).setVisibility(View.INVISIBLE);
+                }
+                else{
+                    findViewById(R.id.info_bookmemolist_state).setVisibility(View.VISIBLE);
+                }
                 adapter.update(memolistList);
                 break;
             case 600:

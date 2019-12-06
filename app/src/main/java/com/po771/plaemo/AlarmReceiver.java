@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -60,12 +61,25 @@ public class AlarmReceiver extends BroadcastReceiver {
         channel.setShowBadge(false);
         notificationManager.createNotificationChannel(channel);
 
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        Intent mainfolder = new Intent(context.getApplicationContext(),PlaemoMainFolderActivity.class);
+        Intent maindoc = new Intent(context.getApplicationContext(),PlaemoMainDocActivity.class);
+        maindoc.putExtra("folder_name","전체");
+        Intent docinfo = new Intent(context.getApplicationContext(),DocInfoActivity.class);
+        docinfo.putExtra("book_id",(item_book.get_id()));
         Intent notificationIntent = new Intent(context.getApplicationContext(), PDFViewerActivity.class);
         notificationIntent.putExtra("alarm_id",alarm_id);
         notificationIntent.putExtra("bookId",book_id);
         notificationIntent.putExtra("readState","resume");
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        stackBuilder.addParentStack(PlaemoMainFolderActivity.class);
+        stackBuilder.addNextIntent(mainfolder);
+        stackBuilder.addNextIntent(maindoc);
+        stackBuilder.addNextIntent(docinfo);
+        stackBuilder.addNextIntent(notificationIntent);
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        //PendingIntent pendingIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_foreground);
 
         Bitmap bitmap = loadImageFromInternalStorage(item_alarm.getBook_id());

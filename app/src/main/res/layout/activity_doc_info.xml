@@ -67,7 +67,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="1dp"
                 android:background="@android:color/black" />
 
             <TextView
@@ -185,11 +185,21 @@
 
 
         </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/info_bookmemolist_recylcerview"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/info_bookmemolist_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="메모를 추가해주세요!"
+                android:textSize="30dp"
+                android:layout_centerInParent="true"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/info_bookmemolist_recylcerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

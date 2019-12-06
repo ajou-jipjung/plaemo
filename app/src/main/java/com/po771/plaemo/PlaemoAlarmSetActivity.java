@@ -162,7 +162,7 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity implements View.On
 //        switch_repeat = (Switch) findViewById(R.id.repeat_switch);
 
         alarm_id = getIntent().getIntExtra("alarm_id", 1);
-
+        defaultdaycheck();
         DisplayMetrics metrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(metrics);
@@ -181,7 +181,34 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity implements View.On
 //        }) ;
 
     }
+    private void defaultdaycheck(){
+        Calendar calendar = Calendar.getInstance();
+        int dayNum = calendar.get(calendar.DAY_OF_WEEK);
+        switch(dayNum){
+            case 1:
+                toggleButton_sun.setChecked(true);
+                break ;
+            case 2:
+                toggleButton_mon.setChecked(true);
+                break ;
+            case 3:
+                toggleButton_tue.setChecked(true);
+                break ;
+            case 4:
+                toggleButton_wed.setChecked(true);
+                break ;
+            case 5:
+                toggleButton_thu.setChecked(true);
+                break ;
+            case 6:
+                toggleButton_fri.setChecked(true);
+                break ;
+            case 7:
+                toggleButton_sat.setChecked(true);
+                break ;
 
+        }
+    }
     @Override
     public void onBackPressed() {
         setResult(RESULT_OK);
