@@ -96,9 +96,6 @@ public class PDFEidtView extends View {
             File f = new File(directory, fileName+".png");
             if(f.exists()==true) {
             //파일이 있을시
-                img = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-                canvas.setBitmap(img);
-                canvas.drawColor(Color.TRANSPARENT); // 배경색을 투명색으로 지정
                 img = BitmapFactory.decodeStream(new FileInputStream(f));
                 canvas.drawBitmap(img, 0,0,null);
             } else {

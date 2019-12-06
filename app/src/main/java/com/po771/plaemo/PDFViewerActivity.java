@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.po771.plaemo.DB.BaseHelper;
 import com.po771.plaemo.item.Item_book;
 import com.shockwave.pdfium.PdfDocument;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -42,6 +44,7 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
     private static final String TAG = PDFViewerActivity.class.getSimpleName();
     BaseHelper baseHelper;
     Item_book item_book;
+    ImageView pdfEditImg;
 
     PDFView pdfView;
     Integer pageNumber = 0;
@@ -68,30 +71,10 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
 
 
         }
-//
-//            int alarm_id = getIntent().getIntExtra("alarm_id",-1);
-//            Log.d("pdfviewr_alarmid","pdf alarm id "+alarm_id);
-//            Intent serviceIntent = new Intent(this, AlarmService.class);
-//            serviceIntent.setAction("stop_action");
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-//                startForegroundService(serviceIntent);
-//            }else{
-//                startService(serviceIntent);
-//            }
-////            if (Build.VERSION.SDK_INT >= 26) {
-////                String Channel_id = "default_channel_id";
-////                String Channel_name = "default_channel_name";
-////                NotificationManager mNotificationManager;
-////                NotificationChannel channel = new NotificationChannel(Channel_id,
-////                        Channel_name,
-////                        NotificationManager.IMPORTANCE_DEFAULT);
-////                mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-////                mNotificationManager.createNotificationChannel(channel);
-////                mNotificationManager.cancel(11);
-////            }
-//        }
+
         baseHelper = BaseHelper.getInstance(this);
         item_book = baseHelper.getBook(bookId);
+        pdfEditImg = (ImageView)findViewById(R.id.pdf_edit_img);
 
         linearLayout = (LinearLayout)findViewById(R.id.pdfView_linearlayout);
         linearLayout.setVisibility(View.INVISIBLE);
@@ -149,8 +132,6 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
         return true;
     }
 
-
-
     //액션버튼을 클릭했을때의 동작
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -187,6 +168,7 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
         baseHelper.changePage(item_book.get_id(),page+1);
         seekbar_tv.setText(String.valueOf(page+1)+"/"+item_book.getTotal_page());
         sb.setProgress(page+1);
+        pdfEditImg.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()+"_"+pageNumber));
     }
 
     @Override
@@ -229,5 +211,26 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
             linearLayout.setVisibility(View.VISIBLE);
         }
         return false;
+    }
+
+    private Bitmap loadImageFromInternalStorage(String fileName)
+    {
+
+        try {
+            File f=new File(getDataDir().getAbsolutePath()+"/app_pdfImageDir", fileName+".png");
+            if(f.exists() == true) {
+                Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+                Log.w("책 이미지 불러와짐", "YES");
+                return b;
+            }else {
+                Log.w("책 이미지 불러와짐", "NO");
+                return null;
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
