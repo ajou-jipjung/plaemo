@@ -47,11 +47,6 @@ public class PlaemoMainFolderActivity extends AppCompatActivity {
                 startActivity(alarmList_intent);
                 overridePendingTransition(0, 0);
                 return true;
-            case R.id.mainfolderaction_setting:
-                Intent setting_intent = new Intent(this, PlaemoMainSettingActivity.class);
-                startActivity(setting_intent);
-                overridePendingTransition(0, 0);
-                return true;
                 default:
                     return super.onOptionsItemSelected(item);
         }

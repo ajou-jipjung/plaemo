@@ -14,9 +14,9 @@
         android:icon="@drawable/ic_library_add_24px"
         android:title="alarm" />
 
-    <item
-        android:id="@+id/mainfolderaction_setting"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_black_setting"
-        android:title="alarm" />
+<!--    <item-->
+<!--        android:id="@+id/mainfolderaction_setting"-->
+<!--        app:showAsAction="always"-->
+<!--        android:icon="@drawable/ic_black_setting"-->
+<!--        android:title="alarm" />-->
 </menu>
