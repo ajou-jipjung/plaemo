@@ -2,12 +2,15 @@ package com.po771.plaemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +28,9 @@ import com.shockwave.pdfium.PdfiumCore;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import static android.os.ParcelFileDescriptor.MODE_READ_ONLY;
 
@@ -36,6 +41,9 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
 
     ImageButton colorButton, borderButton, eraserButton, backButton, fowardButton;
     ImageView pdfimage;
+
+    int bookId;
+    int current_page;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +76,8 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
       
         colorButton.setBackgroundResource(R.drawable.round_button2);
 
-        int bookId = getIntent().getIntExtra("book_id",1);
-        int current_page = getIntent().getIntExtra("current_page",1);
+        bookId = getIntent().getIntExtra("book_id",1);
+        current_page = getIntent().getIntExtra("current_page",1);
         baseHelper = BaseHelper.getInstance(this);
         Item_book item_book = baseHelper.getBook(bookId);
         int readcount=0;
@@ -92,7 +100,8 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        view.set_Directory(getDataDir().getAbsolutePath()+"/app_pdfImageDir");
+        view.set_FileName(bookId +"_"+current_page);
     }
 
     @Override
@@ -171,11 +180,41 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
                 overridePendingTransition(0, 0);
                 return true;
             case R.id.pdf_edit_finish:
+                // 저장
+                String fileName = bookId +"_"+current_page;
+                savePicture(fileName);
                 finish();
                 overridePendingTransition(0, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void savePicture(String fileName) {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("pdfImageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File file = new File(directory, fileName + ".png"); //임의로 sdcard에 test.png로 저장
+        FileOutputStream outputStream = null;
+
+        try {
+            file.createNewFile(); // 파일이 있는 경우에만 파일을 생성
+            outputStream = new FileOutputStream(file);
+
+            view.buildDrawingCache();
+            Bitmap bitmap = view.getDrawingCache();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        } catch (Exception e) {
+            Log.w("이미지 저장", "저장 오류");
+            e.printStackTrace();
+        } finally {
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
