@@ -83,7 +83,11 @@ public class PlaemoAlarmList_Adapter extends RecyclerView.Adapter<PlaemoAlarmLis
         holder.imageView.setImageBitmap(bitmap);
         holder.alarm_name.setText(item_alarm.getAlarm_name());
         holder.alarm_time.setText(alarm_time);
-        holder.alarm_day.setText(item_alarm.getDaysoftheweek());
+        String days = item_alarm.getDaysoftheweek();
+        if(days.length()>1){
+            days=days.substring(0,days.length()-1);
+        }
+        holder.alarm_day.setText(days);
         if (alarmList.get(position).getIson() == 1){
             holder.ison.setChecked(true);
         }

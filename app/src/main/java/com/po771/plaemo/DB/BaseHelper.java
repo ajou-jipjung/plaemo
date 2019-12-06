@@ -771,7 +771,7 @@ public class BaseHelper extends SQLiteOpenHelper {
 //                AlarmTable.Cols.ALARMNAME+"SET "+AlarmTable.Cols.ON+" = "+ alarmList.getIson()+
 //                " WHERE _id = "+alarmList.get_id());
         // 알람 DB 삭제
-
+        db.execSQL("DELETE FROM "+ AlarmTable.NAME+" WHERE book_id = "+book_id);
         // 폴더 DB 삭제
         db.execSQL("DELETE FROM "+ Folder.NAME+" WHERE book_id = "+book_id);
         // 메모 DB 삭제

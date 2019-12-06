@@ -71,13 +71,13 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="check1"/>
+            android:text="다시 울림"/>
         <Button
             android:id="@+id/popup_alarmbutton2"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="check2"/>
+            android:text="이어보기"/>
     </LinearLayout>
 </LinearLayout>

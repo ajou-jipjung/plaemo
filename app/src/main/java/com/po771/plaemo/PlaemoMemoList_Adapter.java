@@ -1,6 +1,8 @@
 package com.po771.plaemo;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -83,9 +85,21 @@ public class PlaemoMemoList_Adapter extends RecyclerView.Adapter<PlaemoMemoList_
 
     @Override
     public void onBindViewHolder(@NonNull PlaemoMemoList_Adapter.ViewHolder viewHolder, int position) {
-        Item_memo item = items.get(position);
+        final Item_memo item = items.get(position);
 //        viewHolder.imageView.setImageResource(R.drawable.book1);
         viewHolder.imageView.setImageBitmap(loadImageFromInternalStorage(item.getBoook_id()));
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,PDFViewerActivity.class);
+                intent.putExtra("bookId",item.getBoook_id());
+                intent.putExtra("readState","memo");
+                intent.putExtra("bookstart",item.getPage_start());
+                ((Activity) context).startActivityForResult(intent,200);
+                ((Activity) context).overridePendingTransition(0, 0);
+            }
+        });
         viewHolder.page_start.setText("p."+String.valueOf(item.getPage_start())+" ~ p."+String.valueOf(item.getPage_end()));
         viewHolder.content.setText(item.getContent());
         viewHolder.date.setText(item.getDate());

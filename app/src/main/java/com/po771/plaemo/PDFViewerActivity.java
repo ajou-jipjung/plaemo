@@ -65,31 +65,8 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
             notificationManager.cancel(22);
             Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(it);
-
-
         }
-//
-//            int alarm_id = getIntent().getIntExtra("alarm_id",-1);
-//            Log.d("pdfviewr_alarmid","pdf alarm id "+alarm_id);
-//            Intent serviceIntent = new Intent(this, AlarmService.class);
-//            serviceIntent.setAction("stop_action");
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-//                startForegroundService(serviceIntent);
-//            }else{
-//                startService(serviceIntent);
-//            }
-////            if (Build.VERSION.SDK_INT >= 26) {
-////                String Channel_id = "default_channel_id";
-////                String Channel_name = "default_channel_name";
-////                NotificationManager mNotificationManager;
-////                NotificationChannel channel = new NotificationChannel(Channel_id,
-////                        Channel_name,
-////                        NotificationManager.IMPORTANCE_DEFAULT);
-////                mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-////                mNotificationManager.createNotificationChannel(channel);
-////                mNotificationManager.cancel(11);
-////            }
-//        }
+
         baseHelper = BaseHelper.getInstance(this);
         item_book = baseHelper.getBook(bookId);
 
@@ -124,6 +101,11 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
         else if(readState.equals("first")){
             baseHelper.changePage(item_book.get_id(),1);
             pageNumber=1;
+        }
+        else if(readState.equals("memo")){
+            int bookstart = getIntent().getIntExtra("bookstart",1);
+            baseHelper.changePage(item_book.get_id(),bookstart);
+            pageNumber=bookstart;
         }
         pdfView = findViewById(R.id.pdfView);
         try {

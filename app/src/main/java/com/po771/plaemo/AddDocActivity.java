@@ -123,6 +123,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             case android.R.id.home:
                 setResult(RESULT_OK);
                 finish();
+                overridePendingTransition(0, 0);
                 return true;
         }
 
@@ -150,6 +151,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.adddoc_cancle:
                 setResult(RESULT_OK);
                 finish();
+                overridePendingTransition(0, 0);
                 break;
             case R.id.adddoc_register:
                 if(bitmap!=null){
@@ -181,6 +183,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
                     saveToInternalStorage(bitmap,id);
                     setResult(RESULT_OK);
                     finish();
+                    overridePendingTransition(0, 0);
                 }
                 break;
             case R.id.adddoc_folderlist:
@@ -445,5 +448,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
     public void onBackPressed() {
         setResult(RESULT_OK);
         super.onBackPressed();
+        finish();
+        overridePendingTransition(0, 0);
     }
 }

@@ -76,7 +76,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         String alarmtext = ""+item_book.getCurrent_page() + " 페이지부터 읽을 차례에요!";
         remoteViews.setTextViewText(R.id.popup_alarmtext,alarmtext);
 
-        int percent = (int)((item_book.getCurrent_page() * 100) / item_book.getTotal_page());
+        int percent;
+        if(item_book.getCurrent_page()==1){
+            percent = (int) ((item_book.getCurrent_page()-1)*100) / item_book.getTotal_page();
+        }
+        else{
+            percent = (int) (item_book.getCurrent_page()*100) / item_book.getTotal_page();
+        }
+
         remoteViews.setTextViewText(R.id.popup_percent,percent+"%");
         remoteViews.setInt(R.id.popup_progressBar,"setProgress",percent);
 
@@ -91,6 +98,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
         builder.setAutoCancel(true);
+        builder.setVibrate(new long[]{500,500,500,500});
         builder.setSmallIcon(R.mipmap.ic_launcher);
 
 

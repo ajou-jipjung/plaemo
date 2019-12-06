@@ -59,12 +59,20 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(0, 0);
+    }
+
     //알람 버튼 활성화
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                overridePendingTransition(0, 0);
                 return true;
             case R.id.mainalarmaction_alarm_add:
                 Intent intent = new Intent(getApplicationContext(), PlaemoAlarmSetActivity.class);
