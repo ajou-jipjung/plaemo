@@ -1,5 +1,6 @@
 package com.po771.plaemo;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -116,7 +117,7 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
             FileInputStream fis = new FileInputStream(item_book.getBook_uri());
             pdfView.fromStream(fis)
                     .defaultPage(pageNumber-1)
-                    .pageSnap(true)
+                    .pageSnap(false)
                     .swipeHorizontal(true) //옆으로 슬라이드
                     .autoSpacing(true)
                     .pageFling(true) // 자동으로 한페이지에 들어오도록
@@ -153,7 +154,7 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
                 intent.putExtra("book_id",(item_book.get_id()));
                 intent.putExtra("current_page",(pageNumber));
                 intent.putExtra("pdfFileName",pdfNowName);
-                startActivity(intent);
+                startActivityForResult(intent,200);
                 overridePendingTransition(0, 0);
                 return true;
             default:
@@ -162,6 +163,16 @@ public class PDFViewerActivity extends AppCompatActivity implements OnPageChange
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case 200:
+                    pdfEditImg.setImageBitmap(loadImageFromInternalStorage(item_book.get_id()+"_"+pageNumber));
+            }
+        }
+    }
 
     @Override
     public void onPageChanged(int page, int pageCount) {

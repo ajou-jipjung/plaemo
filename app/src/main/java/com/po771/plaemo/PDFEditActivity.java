@@ -183,6 +183,7 @@ public class PDFEditActivity extends AppCompatActivity implements View.OnClickLi
                 // 저장
                 String fileName = bookId +"_"+current_page;
                 savePicture(fileName);
+                setResult(RESULT_OK);
                 finish();
                 overridePendingTransition(0, 0);
                 return true;
