@@ -195,6 +195,7 @@ public class PlaemoAlarmSetActivity extends AppCompatActivity implements View.On
             case android.R.id.home:
                 setResult(RESULT_OK);
                 finish();
+//                overridePendingTransition(0, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

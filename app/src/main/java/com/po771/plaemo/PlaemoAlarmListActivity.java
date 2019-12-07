@@ -43,7 +43,7 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
 
         //액션바 타이틀 변경
         getSupportActionBar().setTitle("알람");
-        Button button = (Button)findViewById(R.id.btn_back);
+//        Button button = (Button)findViewById(R.id.btn_back);
 
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,6 +78,11 @@ public class PlaemoAlarmListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), PlaemoAlarmSetActivity.class);
 //                intent.putExtra("alarm_id",(item_alarmList.get_id()));
                 startActivityForResult(intent,200);
+                return true;
+            case R.id.mainalarmaction_alarm_delete:
+                Intent deleteintent = new Intent(getApplicationContext(), PlaemoAlarmDeleteActivity.class);
+                startActivityForResult(deleteintent,200);
+                overridePendingTransition(0, 0);
             default:
                 return super.onOptionsItemSelected(item);
         }
