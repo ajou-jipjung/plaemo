@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.po771.plaemo.AlarmLoader;
+import com.po771.plaemo.AlarmService;
 import com.po771.plaemo.DB.DbSchema.*;
 import com.po771.plaemo.item.Item_alarm;
 import com.po771.plaemo.item.Item_book;
@@ -799,4 +800,9 @@ public class BaseHelper extends SQLiteOpenHelper {
         // 책 DB 삭제
         db.execSQL("DELETE FROM "+ BookList.NAME+" WHERE _id = "+book_id);
     }
+
+    public void deleteAlarm(int alarm_id){
+        db.execSQL("DELETE FROM "+ AlarmTable.NAME+ " WHERE _id = "+ alarm_id);
+    }
+
 }
