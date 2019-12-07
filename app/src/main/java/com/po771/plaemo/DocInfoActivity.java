@@ -64,6 +64,7 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public boolean onQueryTextSubmit(String s) {//검색 완료시
                 search_text = s;
+                Log.d("plaemo onQueryTextSubmit","search text "+search_text);
                 search_now = true;
                 MeMoFind(search_text, now_spin);
                 return false;
@@ -71,7 +72,12 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public boolean onQueryTextChange(String s) { //검색어 입력시
-                if(s.equals("") || s == null) MemoListSort(now_spin);
+                search_text=s;
+                Log.d("plaemo onQueryTextChange","search text "+search_text);
+
+                if(search_text==null || search_text.equals("")){
+                    MemoListSort(now_spin);
+                }
                 return false;
             }
         });
@@ -161,11 +167,25 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         doc_percent.setText(per);
         doc_progress.setProgress(p);
 
+
+        RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        memolistList= baseHelper.getBookMemo(book_id, 0);
+        adapter = new PlameoDocInfoMemo_Adapter(memolistList);
+        recyclerView.setAdapter(adapter);
+
         Spinner memo_spinner = (Spinner)findViewById(R.id.book_memo_spinner);
         memo_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 최종수정순(내림차순) 3. 시작페이지순(오름차순) 4. 종료페이지순(내림차순)
+                Log.d("plaemo onItemSelected","serch text "+search_text);
+                if(search_text==null){
+                    Log.d("plaemo onItemSelected","search_now to false");
+                    search_now=false;
+                }
                 now_spin = position;
                 if(search_now == false){
                     MemoListSort(now_spin);
@@ -201,24 +221,14 @@ public class DocInfoActivity extends AppCompatActivity implements View.OnClickLi
         else{
             findViewById(R.id.info_bookmemolist_state).setVisibility(View.VISIBLE);
         }
-        RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        adapter = new PlameoDocInfoMemo_Adapter(memolistList);
-        recyclerView.setAdapter(adapter);
+        Log.d("plaemo MemoListSort","count"+memolistList.size());
+        adapter.update(memolistList);
     }
 
     protected void MeMoFind(String keyword, int now_spin){
         memolistList= baseHelper.getBookMemoFind(keyword, book_id, now_spin);
-        RecyclerView recyclerView = findViewById(R.id.info_bookmemolist_recylcerview);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        PlameoDocInfoMemo_Adapter adapter = new PlameoDocInfoMemo_Adapter(memolistList);
-        recyclerView.setAdapter(adapter);
+        Log.d("plaemo MeMoFind","count"+memolistList.size());
+        adapter.update(memolistList);
     }
 
 
