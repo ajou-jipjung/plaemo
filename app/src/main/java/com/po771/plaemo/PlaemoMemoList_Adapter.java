@@ -47,6 +47,11 @@ public class PlaemoMemoList_Adapter extends RecyclerView.Adapter<PlaemoMemoList_
         return items.size();
     }
 
+    public void update(List<Item_memo> memolistList){
+        this.items=memolistList;
+        this.notifyDataSetChanged();
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView page_start;
         private TextView content;

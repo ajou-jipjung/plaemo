@@ -302,10 +302,30 @@ public class BaseHelper extends SQLiteOpenHelper {
     public List<Item_memo> getMemosFind (String keyword, String folder_name, int spinner_num){
         List<Item_memo> memoList = new ArrayList<Item_memo>();
         // AND memo_table.content like '%메모 리스트%'
-        String query = "SELECT "+
+        String query;
+        String query1 = "SELECT "+
+                "memo_table."+BookMemo.Cols.BOOKID+", memo_table."+BookMemo.Cols.PAGESTART+", memo_table."+BookMemo.Cols.PAGEEND+", memo_table."+BookMemo.Cols.CONTENT+", memo_table."+BookMemo.Cols.DATA+", memo_table._id"+
+                " FROM "+BookMemo.NAME +" memo_table INNER JOIN "+BookList.NAME+" book_table ON memo_table."+BookMemo.Cols.BOOKID+" = book_table._id WHERE book_table."+BookList.Cols.FOLDER
+                +" like '%"+""+"%' AND memo_table."+BookMemo.Cols.CONTENT+" like '%"+keyword+"%'";
+        String query2 = "SELECT "+
+                "memo_table."+BookMemo.Cols.BOOKID+", memo_table."+BookMemo.Cols.PAGESTART+", memo_table."+BookMemo.Cols.PAGEEND+", memo_table."+BookMemo.Cols.CONTENT+", memo_table."+BookMemo.Cols.DATA+", memo_table._id"+
+                " FROM "+BookMemo.NAME +" memo_table INNER JOIN "+BookList.NAME+" book_table ON memo_table."+BookMemo.Cols.BOOKID+" = book_table._id WHERE book_table."+BookList.Cols.STAR
+                +" like '1' AND memo_table."+BookMemo.Cols.CONTENT+" like '%"+keyword+"%'";
+        String query3 = "SELECT "+
                 "memo_table."+BookMemo.Cols.BOOKID+", memo_table."+BookMemo.Cols.PAGESTART+", memo_table."+BookMemo.Cols.PAGEEND+", memo_table."+BookMemo.Cols.CONTENT+", memo_table."+BookMemo.Cols.DATA+", memo_table._id"+
                 " FROM "+BookMemo.NAME +" memo_table INNER JOIN "+BookList.NAME+" book_table ON memo_table."+BookMemo.Cols.BOOKID+" = book_table._id WHERE book_table."+BookList.Cols.FOLDER
                 +" like '%"+folder_name+"%' AND memo_table."+BookMemo.Cols.CONTENT+" like '%"+keyword+"%'";
+
+        if(folder_name.equals("전체")){
+            query=query1;
+        }
+        else if(folder_name.equals("즐겨찾기")){
+            query=query2;
+        }
+        else{
+            query=query3;
+        }
+
         switch(spinner_num){ //0. 정렬(내림차순) 1. 등록순(오름차순) 2. 최종수정순 3. 시작페이지순 4. 종료페이지순
             case 1:
                 query = query + " ORDER BY memo_table._id ASC";
