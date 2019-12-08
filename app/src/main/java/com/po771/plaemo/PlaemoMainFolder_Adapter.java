@@ -3,10 +3,12 @@ package com.po771.plaemo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +46,12 @@ public class PlaemoMainFolder_Adapter extends RecyclerView.Adapter<PlaemoMainFol
 
     @Override
     public void onBindViewHolder(@NonNull PlaemoMainFolder_Adapter.ViewHolder holder, int position) {
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int linearLayoutheight = displaymetrics.widthPixels/5;
+        holder.imageView.getLayoutParams().height=linearLayoutheight;
+
         String folder_name = folderList.get(position);
         if(folder_name.length()>8){
             folder_name = folder_name.substring(0,5);
@@ -72,9 +80,11 @@ public class PlaemoMainFolder_Adapter extends RecyclerView.Adapter<PlaemoMainFol
 
         TextView textView;
         ImageView imageView;
+        LinearLayout linearLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            linearLayout = itemView.findViewById(R.id.folder_linearlayout);
             imageView = itemView.findViewById(R.id.folder_image);
             imageView.setImageResource(R.drawable.folderyellow_92963);
             textView = itemView.findViewById(R.id.folder_name);
