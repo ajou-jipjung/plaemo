@@ -291,14 +291,16 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
 //        Toast.makeText(getApplicationContext(),String.valueOf(resultCode), Toast.LENGTH_SHORT).show();
 //        Toast.makeText(getApplicationContext(),String.valueOf(resultCode), Toast.LENGTH_SHORT).show();
-        switch (requestCode) {
-            case 3000:
-                uri = data.getData();
-                Log.d("check_uri",uri.toString());
+        if(resultCode==RESULT_OK){
+            switch (requestCode) {
+                case 3000:
+                    uri = data.getData();
+                    Log.d("check_uri",uri.toString());
 //                test(this,uri);
-                setItem_book(uri);
-                break;
+                    setItem_book(uri);
+                    break;
 
+            }
         }
     }
 
@@ -312,7 +314,7 @@ public class AddDocActivity extends AppCompatActivity implements View.OnClickLis
 
         item_book.setCurrent_page(1);
 
-        int pageNumber = 1;
+        int pageNumber = 0;
         PdfiumCore pdfiumCore = new PdfiumCore(this);
         try {
             //http://www.programcreek.com/java-api-examples/index.php?api=android.os.ParcelFileDescriptor

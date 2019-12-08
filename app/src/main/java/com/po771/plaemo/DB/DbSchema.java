@@ -42,7 +42,7 @@ public class DbSchema {
             public static final String PAGESTART = "page_start";
             public static final String PAGEEND = "page_end";
             public static final String CONTENT = "content";
-            public static final String DATA = "date";
+            public static final String DATA = "memo_date";
         }
     }
 
